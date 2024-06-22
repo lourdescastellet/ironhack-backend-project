@@ -15,7 +15,7 @@ public class Booking extends Event{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int bookingId;
+    private Integer bookingId;
 
     @ManyToOne
     private Customer customer;

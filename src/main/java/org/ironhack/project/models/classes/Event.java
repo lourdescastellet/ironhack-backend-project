@@ -6,7 +6,7 @@ import lombok.*;
 import java.time.LocalDate;
 
 
-@MappedSuperclass
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Getter
 @Setter
 public class Event {
