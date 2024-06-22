@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.ironhack</groupId>
-    <artifactId>Project</artifactId>
+    <artifactId>ironhack-backend-project</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Project</name>
-    <description>Project</description>
+    <name>ironhack-backend-project</name>
+    <description>ironhack-backend-project</description>
     <url/>
     <licenses>
         <license/>
