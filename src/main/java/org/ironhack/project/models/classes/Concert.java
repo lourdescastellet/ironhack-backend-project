@@ -1,6 +1,7 @@
 package org.ironhack.project.models.classes;
 
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,6 +20,10 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Concert extends Event{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer concertId;
 
     private String concertName;
 

@@ -17,6 +17,10 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class Ticket extends Event{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer ticketId;
+
     private BigDecimal ticketPrice;
 
     @Enumerated(EnumType.STRING)
