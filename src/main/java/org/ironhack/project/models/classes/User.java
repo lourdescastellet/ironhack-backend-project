@@ -8,8 +8,8 @@ import java.util.Set;
 import static jakarta.persistence.FetchType.EAGER;
 
 @MappedSuperclass
-@Getter
 @Setter
+@Getter
 public class User {
 
     @Id
@@ -27,5 +27,6 @@ public class User {
     @ElementCollection(fetch = EAGER)
     @Enumerated(EnumType.STRING)
     protected Set<Role> roles;
+
 
 }

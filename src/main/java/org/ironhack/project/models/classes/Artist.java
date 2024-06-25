@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import org.ironhack.project.models.enums.Genre;
 import org.ironhack.project.models.enums.Role;
 
@@ -23,7 +22,6 @@ public class Artist extends User{
     private Genre genre;
 
     // Profit
-
     private BigDecimal profitPercentage = BigDecimal.ZERO;
 
     @ElementCollection(fetch = FetchType.EAGER)

@@ -22,7 +22,7 @@ public class TicketService {
         return ticketRepository.findById(id);
     }
 
-    public Ticket save(Ticket ticket) {
+    public Ticket create(Ticket ticket) {
         return ticketRepository.save(ticket);
     }
 

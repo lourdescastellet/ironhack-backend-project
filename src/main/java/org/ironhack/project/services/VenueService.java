@@ -22,7 +22,7 @@ public class VenueService {
         return venueRepository.findById(id);
     }
 
-    public Venue save(Venue venue) {
+    public Venue create(Venue venue) {
         return venueRepository.save(venue);
     }
 
