@@ -1,5 +1,6 @@
 package org.ironhack.project.services;
 
+import org.ironhack.project.dtos.CustomerDTO;
 import org.ironhack.project.models.classes.Customer;
 import org.ironhack.project.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,20 @@ public class CustomerService {
         return customerRepository.findById(id);
     }
 
-    public Customer save(Customer customer) {
+    public Customer create(Customer customer) {
         return customerRepository.save(customer);
+    }
+
+    public Customer update(Integer userId, CustomerDTO customerDTO) {
+        Customer existingCustomer =customerRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Customer not found with this user id."));
+
+       existingCustomer.setUserName(customerDTO.getUserName());
+       existingCustomer.setName(customerDTO.getName());
+       existingCustomer.setEmail(customerDTO.getEmail());
+       existingCustomer.setPassword(customerDTO.getPassword());
+
+        return  customerRepository.save(existingCustomer);
     }
 
     public void deleteById(Integer id) {

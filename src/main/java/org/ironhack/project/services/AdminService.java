@@ -1,5 +1,6 @@
 package org.ironhack.project.services;
 
+import org.ironhack.project.dtos.AdminDTO;
 import org.ironhack.project.models.classes.Admin;
 import org.ironhack.project.repositories.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,19 @@ public class AdminService {
         return adminRepository.findById(id);
     }
 
-    public Admin save(Admin admin) {
+    public Admin update(Integer userId, AdminDTO adminDTO) {
+        Admin existingAdmin = adminRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Admin not found with this user id."));
+
+        existingAdmin.setUserName(adminDTO.getUserName());
+        existingAdmin.setName(adminDTO.getName());
+        existingAdmin.setEmail(adminDTO.getEmail());
+        existingAdmin.setPassword(adminDTO.getPassword());
+
+        return adminRepository.save(existingAdmin);
+    }
+
+    public Admin create(Admin admin) {
         return adminRepository.save(admin);
     }
 

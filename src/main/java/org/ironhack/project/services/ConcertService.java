@@ -22,7 +22,7 @@ public class ConcertService {
         return concertRepository.findById(id);
     }
 
-    public Concert save(Concert concert) {
+    public Concert create(Concert concert) {
         return concertRepository.save(concert);
     }
 
