@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.ironhack.project.models.enums.Role;
 import java.util.Set;
 
@@ -11,7 +12,6 @@ import java.util.Set;
 @Entity
 @Data
 @AllArgsConstructor
-
 public class Admin extends User {
 
     @ElementCollection(fetch = FetchType.EAGER)
