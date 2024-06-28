@@ -13,7 +13,7 @@ public class Admin extends User {
 
     // Set a predefined role
     public Admin() {
-        this.roles = Set.of(Role.ADMIN);
+        this.setRoles(Set.of(Role.ADMIN));
     }
 
 }

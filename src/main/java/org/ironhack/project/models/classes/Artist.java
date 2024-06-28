@@ -30,7 +30,7 @@ public class Artist extends User{
 
     // Set a predefined role
     public Artist() {
-        this.roles = Set.of(Role.ARTIST);
+        this.setRoles(Set.of(Role.ARTIST));
     }
 }
 
