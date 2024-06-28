@@ -1,18 +1,13 @@
 package org.ironhack.project.dtos;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.ironhack.project.models.enums.Genre;
 
 @Getter
 @Setter
-public class ArtistDTO {
-
-    @NotEmpty(message = "Username can't be empty or null.")
-    private String userName;
+public class ArtistRequest {
 
     @NotEmpty(message = "Name can't be empty or null.")
     private String name;
@@ -28,5 +23,6 @@ public class ArtistDTO {
     @NotEmpty(message = "Artist name can't be empty or null.")
     private String artistName;
 
+    @NotNull(message = "Genre can't be null.")
     private Genre genre;
 }

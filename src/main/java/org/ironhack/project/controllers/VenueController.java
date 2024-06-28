@@ -1,6 +1,9 @@
 package org.ironhack.project.controllers;
 
 
+import jakarta.validation.Valid;
+import org.ironhack.project.dtos.VenueRequest;
+import org.ironhack.project.dtos.VenueUpdateRequest;
 import org.ironhack.project.models.classes.Venue;
 import org.ironhack.project.services.VenueService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +32,21 @@ public class VenueController {
         return venue.map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
     }
 
-// TODO PUT request
-//    @PutMapping("/{userId}/edit")
-//    public ResponseEntity<Venue> update(@PathVariable Integer userId, @RequestBody Venue updatedVenue) {
-//        Optional<Venue> venue = venueService.findById(userId);
-//    }
-
     @PostMapping("/new")
-    public ResponseEntity<Venue> create(@RequestBody Venue venue) {
-        Venue newVenue =venueService.create(venue);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newVenue);
+    public ResponseEntity<VenueRequest> create(@Valid @RequestBody VenueRequest venueRequest) {
+        venueService.create(venueRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(venueRequest);
+    }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<Void> update(@PathVariable Integer userId, @Valid @RequestBody VenueUpdateRequest venueUpdateRequest) {
+        venueService.update(userId, venueUpdateRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteById(@PathVariable Integer userId) {
+        venueService.deleteById(userId);
+        return ResponseEntity.noContent().build();
     }
 }

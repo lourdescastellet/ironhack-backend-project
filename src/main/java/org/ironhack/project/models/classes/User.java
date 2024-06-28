@@ -13,10 +13,9 @@ import static jakarta.persistence.FetchType.EAGER;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
     private Integer userId;
-
-    private String userName;
 
     private String name;
 
@@ -27,6 +26,5 @@ public class User {
     @ElementCollection(fetch = EAGER)
     @Enumerated(EnumType.STRING)
     protected Set<Role> roles;
-
 
 }

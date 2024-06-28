@@ -1,6 +1,9 @@
 package org.ironhack.project.controllers;
 
 
+import jakarta.validation.Valid;
+import org.ironhack.project.dtos.CustomerRequest;
+import org.ironhack.project.dtos.CustomerUpdateRequest;
 import org.ironhack.project.models.classes.Customer;
 import org.ironhack.project.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +33,14 @@ public class CustomerController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<Customer> create(@RequestBody Customer customer) {
-        Customer newCustomer =customerService.create(customer);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newCustomer);
+    public ResponseEntity<CustomerRequest> create(@Valid @RequestBody CustomerRequest customerRequest) {
+        customerService.create(customerRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerRequest);
+    }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<Void> update(@PathVariable Integer userId, @Valid @RequestBody CustomerUpdateRequest customerUpdateRequest) {
+        customerService.update(userId, customerUpdateRequest);
+        return ResponseEntity.ok().build();
     }
 }
