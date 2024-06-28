@@ -30,7 +30,7 @@ public class Venue extends User{
 
     // Set a predefined role
     public Venue() {
-        this.roles = Set.of(Role.VENUE);
+        this.setRoles(Set.of(Role.VENUE));
     }
 
 }

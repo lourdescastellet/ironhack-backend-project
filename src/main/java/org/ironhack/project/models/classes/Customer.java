@@ -19,6 +19,6 @@ public class Customer extends User {
 
     // Set a predefined role
     public Customer() {
-        this.roles = Set.of(Role.CUSTOMER);
+        this.setRoles(Set.of(Role.CUSTOMER));
     }
 }
