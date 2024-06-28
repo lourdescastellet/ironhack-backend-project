@@ -16,7 +16,6 @@ import java.util.Set;
 @AllArgsConstructor
 public class Venue extends User{
 
-    private Integer venueId;
     private String venueName;
     private String venueAddress;
     private String venueCity;

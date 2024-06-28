@@ -3,11 +3,17 @@ package org.ironhack.project.dtos;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-public class VenueDTO {
 
-    @NotEmpty(message = "Username can't be empty or null.")
-    private String userName;
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class CustomerRequest {
 
     @NotEmpty(message = "Name can't be empty or null.")
     private String name;
@@ -20,16 +26,7 @@ public class VenueDTO {
     @Size(min = 5, message = "Password must be at least 5 characters long.")
     private String password;
 
-    @NotEmpty(message = "Venue name can't be empty or null.")
-    private String venueName;
+    private String paymentMethod;
 
-    @NotEmpty(message = "Venue address can't be empty or null.")
-    private String venueAddress;
-
-    @NotEmpty(message = "Venue city can't be empty or null.")
-    private String venueCity;
-
-    @NotEmpty(message = "Venue capacity can't be empty or null.")
-    private int venueCapacity;
-
+    private String customerAddress;
 }

@@ -1,6 +1,7 @@
 package org.ironhack.project.controllers;
 
-import org.ironhack.project.models.classes.Admin;
+import jakarta.validation.Valid;
+import org.ironhack.project.dtos.ArtistRequest;
 import org.ironhack.project.models.classes.Artist;
 import org.ironhack.project.services.AdminService;
 import org.ironhack.project.services.ArtistService;
@@ -33,9 +34,9 @@ public class ArtistController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<Artist> create(@RequestBody Artist artist) {
-        Artist newArtist = artistService.create(artist);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newArtist);
+    public ResponseEntity<ArtistRequest> create(@Valid @RequestBody ArtistRequest artistRequest) {
+        artistService.create(artistRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(artistRequest);
     }
 
 }

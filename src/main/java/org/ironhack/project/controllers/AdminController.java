@@ -2,7 +2,7 @@ package org.ironhack.project.controllers;
 
 
 import jakarta.validation.Valid;
-import org.ironhack.project.dtos.AdminDTO;
+import org.ironhack.project.dtos.AdminRequest;
 import org.ironhack.project.models.classes.Admin;
 import org.ironhack.project.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,19 +33,19 @@ public class AdminController {
     }
 
     @PutMapping("/{userId}/edit")
-    public ResponseEntity<?> update(@PathVariable Integer userId, @Valid @RequestBody AdminDTO adminDTO, BindingResult result) {
+    public ResponseEntity<?> update(@PathVariable Integer userId, @Valid @RequestBody AdminRequest adminRequest, BindingResult result) {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body("Validation errors: " + result.getAllErrors());
         }
 
-        Admin updatedAdmin = adminService.update(userId, adminDTO);
+        Admin updatedAdmin = adminService.update(userId, adminRequest);
         return ResponseEntity.ok(updatedAdmin);
     }
 
     @PostMapping("/new")
-    public ResponseEntity<Admin> create(@RequestBody Admin admin) {
-        Admin newAdmin =adminService.create(admin);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newAdmin);
+    public ResponseEntity<AdminRequest> create(@Valid @RequestBody AdminRequest adminRequest) {
+        adminService.create(adminRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(adminRequest);
     }
 
 

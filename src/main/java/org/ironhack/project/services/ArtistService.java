@@ -1,6 +1,7 @@
 package org.ironhack.project.services;
 
-import org.ironhack.project.dtos.ArtistDTO;
+import jakarta.validation.Valid;
+import org.ironhack.project.dtos.ArtistRequest;
 import org.ironhack.project.models.classes.Artist;
 import org.ironhack.project.repositories.ArtistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,20 +24,25 @@ public class ArtistService {
         return artistRepository.findById(id);
     }
 
-    public Artist create(Artist artist) {
+    public Artist create(@Valid ArtistRequest artistRequest) {
+        Artist artist = new Artist();
+        artist.setName(artistRequest.getName());
+        artist.setEmail(artistRequest.getEmail());
+        artist.setPassword(artistRequest.getPassword());
+        artist.setGenre(artistRequest.getGenre());
+
         return artistRepository.save(artist);
     }
 
-    public Artist update(Integer userId, ArtistDTO artistDTO) {
+    public Artist update(Integer userId, ArtistRequest artistRequest) {
         Artist existingArtist = artistRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Artist not found with this user id."));
 
-       existingArtist.setUserName(artistDTO.getUserName());
-       existingArtist.setName(artistDTO.getName());
-       existingArtist.setEmail(artistDTO.getEmail());
-       existingArtist.setPassword(artistDTO.getPassword());
-       existingArtist.setArtistName(artistDTO.getArtistName());
-       existingArtist.setGenre(artistDTO.getGenre());
+       existingArtist.setName(artistRequest.getName());
+       existingArtist.setEmail(artistRequest.getEmail());
+       existingArtist.setPassword(artistRequest.getPassword());
+       existingArtist.setArtistName(artistRequest.getArtistName());
+       existingArtist.setGenre(artistRequest.getGenre());
 
         return artistRepository.save(existingArtist);
     }
