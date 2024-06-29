@@ -47,7 +47,4 @@ public class AdminController {
         adminService.create(adminRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(adminRequest);
     }
-
-
-
 }
