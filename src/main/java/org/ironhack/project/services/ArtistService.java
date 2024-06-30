@@ -2,10 +2,13 @@ package org.ironhack.project.services;
 
 import jakarta.validation.Valid;
 import org.ironhack.project.dtos.ArtistRequest;
+import org.ironhack.project.dtos.ArtistUpdateRequest;
 import org.ironhack.project.models.classes.Artist;
 import org.ironhack.project.repositories.ArtistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,17 +37,34 @@ public class ArtistService {
         return artistRepository.save(artist);
     }
 
-    public Artist update(Integer userId, ArtistRequest artistRequest) {
-        Artist existingArtist = artistRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Artist not found with this user id."));
+    public Artist update(Integer userId, @Valid ArtistUpdateRequest artistUpdateRequest) {
 
-       existingArtist.setName(artistRequest.getName());
-       existingArtist.setEmail(artistRequest.getEmail());
-       existingArtist.setPassword(artistRequest.getPassword());
-       existingArtist.setArtistName(artistRequest.getArtistName());
-       existingArtist.setGenre(artistRequest.getGenre());
+        Optional<Artist> optionalArtist = artistRepository.findById(userId);
 
-        return artistRepository.save(existingArtist);
+        if (optionalArtist.isPresent()) {
+            Artist artist = optionalArtist.get();
+
+            if (artistUpdateRequest.getName() != null) {
+                artist.setName(artistUpdateRequest.getName());
+            }
+            if (artistUpdateRequest.getEmail() != null) {
+                artist.setEmail(artistUpdateRequest.getEmail());
+            }
+            if (artistUpdateRequest.getPassword() != null) {
+                artist.setPassword(artistUpdateRequest.getPassword());
+            }
+            if (artistUpdateRequest.getArtistName() != null) {
+                artist.setArtistName(artistUpdateRequest.getArtistName());
+            }
+            if (artistUpdateRequest.getGenre() != null) {
+                artist.setGenre(artistUpdateRequest.getGenre());
+            }
+
+            artistRepository.save(artist);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Artist not found with this User Id.");
+        }
+        return null;
     }
 
     public void deleteById(Integer id) {

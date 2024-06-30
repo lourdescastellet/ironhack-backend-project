@@ -1,6 +1,5 @@
 package org.ironhack.project.controllers;
 
-
 import jakarta.validation.Valid;
 import org.ironhack.project.dtos.VenueRequest;
 import org.ironhack.project.dtos.VenueUpdateRequest;
@@ -9,6 +8,7 @@ import org.ironhack.project.services.VenueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,15 +33,21 @@ public class VenueController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<VenueRequest> create(@Valid @RequestBody VenueRequest venueRequest) {
+    public ResponseEntity<VenueRequest> createVenue(@Valid @RequestBody VenueRequest venueRequest) {
         venueService.create(venueRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(venueRequest);
     }
 
-    @PutMapping("/{userId}")
-    public ResponseEntity<Void> update(@PathVariable Integer userId, @Valid @RequestBody VenueUpdateRequest venueUpdateRequest) {
-        venueService.update(userId, venueUpdateRequest);
-        return ResponseEntity.ok().build();
+    @PutMapping("/{userId}/edit")
+    public ResponseEntity<?> updateVenue(@PathVariable Integer userId,
+                                         @Valid @RequestBody VenueUpdateRequest venueUpdateRequest,
+                                         BindingResult result) {
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body("Validation errors: " + result.getAllErrors());
+        }
+
+        Venue updatesVenue = venueService.update(userId, venueUpdateRequest);
+        return ResponseEntity.ok().body(updatesVenue);
     }
 
     @DeleteMapping("/{userId}")

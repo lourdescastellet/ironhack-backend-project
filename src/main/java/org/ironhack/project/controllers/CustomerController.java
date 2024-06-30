@@ -43,4 +43,10 @@ public class CustomerController {
         customerService.update(userId, customerUpdateRequest);
         return ResponseEntity.ok().build();
     }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteById(@PathVariable Integer userId) {
+        customerService.deleteById(userId);
+        return ResponseEntity.noContent().build();
+    }
 }

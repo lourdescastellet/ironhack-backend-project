@@ -24,6 +24,7 @@ class VenueRepositoryTest {
         venue1.setEmail("venuea@ironhack.com");
         venue1.setPassword("password");
         venue1.setVenueName("VENUE_A");
+        venue1.setVenueAddress("Address A");
         venue1.setVenueCity("City A");
         venue1.setVenueCapacity(100);
         venueRepository.save(venue1);
@@ -33,6 +34,7 @@ class VenueRepositoryTest {
         venue2.setEmail("venueb@ironhack.com");
         venue2.setPassword("password");
         venue2.setVenueName("VENUE_B");
+        venue2.setVenueAddress("Address B");
         venue2.setVenueCity("City B");
         venue2.setVenueCapacity(200);
         venueRepository.save(venue2);

@@ -20,8 +20,8 @@ public class AdminService {
         return adminRepository.findAll();
     }
 
-    public Optional<Admin> findById(Integer id) {
-        return adminRepository.findById(id);
+    public Optional<Admin> findById(Integer userId) {
+        return adminRepository.findById(userId);
     }
 
     public Admin update(Integer userId, AdminRequest adminRequest) {
@@ -44,7 +44,7 @@ public class AdminService {
         return adminRepository.save(admin);
     }
 
-    public void deleteById(Integer id) {
-        adminRepository.deleteById(id);
+    public void deleteById(Integer userId) {
+        adminRepository.deleteById(userId);
     }
 }
