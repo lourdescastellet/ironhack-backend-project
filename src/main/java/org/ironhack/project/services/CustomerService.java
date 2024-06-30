@@ -38,7 +38,7 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-    public void update(Integer customerId, @Valid CustomerUpdateRequest customerUpdateRequest) {
+    public Customer update(Integer customerId, @Valid CustomerUpdateRequest customerUpdateRequest) {
         Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
         if (optionalCustomer.isPresent()) {
             Customer customer = optionalCustomer.get();
@@ -63,6 +63,8 @@ public class CustomerService {
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found with this User Id.");
         }
+
+        return null;
     }
 
     public void deleteById(Integer id) {

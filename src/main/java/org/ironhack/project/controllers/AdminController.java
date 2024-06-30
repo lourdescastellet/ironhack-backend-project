@@ -33,7 +33,9 @@ public class AdminController {
     }
 
     @PutMapping("/{userId}/edit")
-    public ResponseEntity<?> update(@PathVariable Integer userId, @Valid @RequestBody AdminRequest adminRequest, BindingResult result) {
+    public ResponseEntity<?> update(@PathVariable Integer userId,
+                                    @Valid @RequestBody AdminRequest adminRequest,
+                                    BindingResult result) {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body("Validation errors: " + result.getAllErrors());
         }
@@ -47,4 +49,12 @@ public class AdminController {
         adminService.create(adminRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(adminRequest);
     }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteById(@PathVariable Integer userId) {
+        adminService.deleteById(userId);
+        return ResponseEntity.noContent().build();
+    }
+
+
 }

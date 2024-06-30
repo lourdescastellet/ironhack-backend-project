@@ -40,8 +40,10 @@ public class VenueService {
         return venueRepository.save(venue);
     }
 
-    public void update(Integer userId, @Valid VenueUpdateRequest venueUpdateRequest) {
+    public Venue update(Integer userId, @Valid VenueUpdateRequest venueUpdateRequest) {
+
         Optional<Venue> optionalVenue = venueRepository.findById(userId);
+
         if (optionalVenue.isPresent()) {
             Venue venue = optionalVenue.get();
 
@@ -68,9 +70,11 @@ public class VenueService {
             }
 
             venueRepository.save(venue);
+
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Venue not found with this User Id.");
         }
+        return null;
     }
 
 
