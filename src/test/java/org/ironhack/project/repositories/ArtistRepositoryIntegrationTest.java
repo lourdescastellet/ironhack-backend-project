@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class ArtistRepositoryTest {
+class ArtistRepositoryIntegrationTest {
 
     @Autowired
     private ArtistRepository artistRepository;
