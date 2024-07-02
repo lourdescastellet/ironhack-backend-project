@@ -60,14 +60,20 @@ public class ArtistService {
                 artist.setGenre(artistUpdateRequest.getGenre());
             }
 
-            artistRepository.save(artist);
+            Artist updatedArtist = artistRepository.save(artist);
+            return updatedArtist;
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Artist not found with this User Id.");
         }
-        return null;
     }
 
-    public void deleteById(Integer id) {
-        artistRepository.deleteById(id);
+    public void deleteById(Integer userId) {
+        Optional<Artist> optionalArtist = artistRepository.findById(userId);
+        optionalArtist.ifPresentOrElse(
+                artist -> artistRepository.delete(artist),
+                () -> {
+                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Artist not found with this User Id.");
+                }
+        );
     }
 }

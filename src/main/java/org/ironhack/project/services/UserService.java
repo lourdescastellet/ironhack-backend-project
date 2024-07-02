@@ -59,14 +59,4 @@ public class UserService implements UserDetailsService {
                         .collect(Collectors.toList()))
                 .build();
     }
-
-    // Example method to find user based on email
-    private User findUserByEmail(String email) {
-        // Replace with your logic to find user based on email
-        // Example: Check Admin, Customer, etc. tables or repositories
-        // Return appropriate subclass instance
-        return null; // Replace with actual implementation
-    }
-
-
 }

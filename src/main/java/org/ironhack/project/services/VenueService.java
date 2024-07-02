@@ -40,7 +40,8 @@ public class VenueService {
         return venueRepository.save(venue);
     }
 
-    public Venue update(Integer userId, @Valid VenueUpdateRequest venueUpdateRequest) {
+    public Venue update(Integer userId,
+                        @Valid VenueUpdateRequest venueUpdateRequest) {
 
         Optional<Venue> optionalVenue = venueRepository.findById(userId);
 
@@ -69,16 +70,22 @@ public class VenueService {
                 venue.setVenueCapacity(venueUpdateRequest.getVenueCapacity());
             }
 
-            venueRepository.save(venue);
+            Venue updatedVenue = venueRepository.save(venue);
+            return updatedVenue;
 
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Venue not found with this User Id.");
         }
-        return null;
     }
-
 
     public void deleteById(Integer userId) {
-        venueRepository.deleteById(userId);
+        Optional<Venue> optionalVenue = venueRepository.findById(userId);
+        optionalVenue.ifPresentOrElse(
+                venue -> venueRepository.delete(venue),
+                () -> {
+                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Venue not found with this User Id.");
+                }
+        );
     }
+
 }
