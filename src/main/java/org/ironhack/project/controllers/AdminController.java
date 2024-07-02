@@ -41,7 +41,7 @@ public class AdminController {
         }
 
         Admin updatedAdmin = adminService.update(userId, adminRequest);
-        return ResponseEntity.ok(updatedAdmin);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/new")
@@ -55,6 +55,4 @@ public class AdminController {
         adminService.deleteById(userId);
         return ResponseEntity.noContent().build();
     }
-
-
 }

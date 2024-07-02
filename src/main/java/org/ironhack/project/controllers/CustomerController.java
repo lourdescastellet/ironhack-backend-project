@@ -9,6 +9,7 @@ import org.ironhack.project.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,10 +39,15 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(customerRequest);
     }
 
-    @PutMapping("/{userId}")
-    public ResponseEntity<Void> update(@PathVariable Integer userId, @Valid @RequestBody CustomerUpdateRequest customerUpdateRequest) {
-        customerService.update(userId, customerUpdateRequest);
-        return ResponseEntity.ok().build();
+    @PutMapping("/{userId}/edit")
+    public ResponseEntity<?> update(@PathVariable Integer userId,
+                                       @Valid @RequestBody CustomerUpdateRequest customerUpdateRequest,
+                                       BindingResult result) {
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body("Validation errors: " + result.getAllErrors());
+        }
+        Customer updatedCustomer = customerService.update(userId, customerUpdateRequest);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{userId}")

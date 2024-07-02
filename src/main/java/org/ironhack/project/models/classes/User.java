@@ -1,6 +1,7 @@
 package org.ironhack.project.models.classes;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.ironhack.project.models.enums.Role;
 import java.util.Set;
@@ -17,6 +18,8 @@ public class User {
     @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
     private Integer userId;
 
+//    TODO validations
+//    @NotNull
     private String name;
 
     private String email;

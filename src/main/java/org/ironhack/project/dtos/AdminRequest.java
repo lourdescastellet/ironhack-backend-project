@@ -11,14 +11,14 @@ import lombok.Setter;
 @Setter
 public class AdminRequest {
 
-    @NotEmpty(message = "Name can't be empty or null.")
+//    @NotEmpty(message = "Name can't be empty or null.")
     private String name;
 
-    @NotEmpty(message = "Email can't be empty or null.")
+//    @NotEmpty(message = "Email can't be empty or null.")
     @Email(message = "Email should be valid")
     private String email;
 
-    @NotEmpty(message = "Password can't be empty or null.")
+//    @NotEmpty(message = "Password can't be empty or null.")
     @Size(min = 5, message = "Password must be at least 5 characters long.")
     private String password;
 

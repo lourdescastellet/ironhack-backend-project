@@ -143,8 +143,7 @@ class VenueControllerUnitTest {
         mockMvc.perform(put("/api/venue/{venueId}/edit", 1)
                         .content(objectMapper.writeValueAsString(venueUpdateRequest))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Updated Venue"));
+                .andExpect(status().isNoContent());
     }
 
     @Test
