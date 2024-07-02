@@ -32,6 +32,7 @@ public class ArtistService {
         artist.setName(artistRequest.getName());
         artist.setEmail(artistRequest.getEmail());
         artist.setPassword(artistRequest.getPassword());
+        artist.setArtistName(artistRequest.getArtistName());
         artist.setGenre(artistRequest.getGenre());
 
         return artistRepository.save(artist);

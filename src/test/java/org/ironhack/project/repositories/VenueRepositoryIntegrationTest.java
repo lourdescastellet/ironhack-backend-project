@@ -12,7 +12,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class VenueRepositoryTest {
+class VenueRepositoryIntegrationTest {
 
     @Autowired
     private VenueRepository venueRepository;
