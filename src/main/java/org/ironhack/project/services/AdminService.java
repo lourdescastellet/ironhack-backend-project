@@ -5,7 +5,9 @@ import org.ironhack.project.dtos.AdminRequest;
 import org.ironhack.project.models.classes.Admin;
 import org.ironhack.project.repositories.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,16 +26,30 @@ public class AdminService {
         return adminRepository.findById(userId);
     }
 
-    public Admin update(Integer userId, AdminRequest adminRequest) {
-        Admin existingAdmin = adminRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("Admin not found with this user id."));
+    public Admin update(Integer userId,
+                        @Valid AdminRequest adminRequest) {
 
-        existingAdmin.setName(adminRequest.getName());
-        existingAdmin.setEmail(adminRequest.getEmail());
-        existingAdmin.setPassword(adminRequest.getPassword());
+        Optional<Admin> optionalAdmin = adminRepository.findById(userId);
 
-        return adminRepository.save(existingAdmin);
+        if (optionalAdmin.isPresent()) {
+            Admin admin = optionalAdmin.get();
+
+            if (adminRequest.getName() != null) {
+                admin.setName(adminRequest.getName());
+            }
+            if (adminRequest.getEmail() != null) {
+                admin.setEmail(adminRequest.getEmail());
+            }
+            if (adminRequest.getPassword() != null) {
+                admin.setPassword(adminRequest.getPassword());
+            }
+            Admin updatedAdmin = adminRepository.save(admin);
+            return updatedAdmin;
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Admin not found with this User Id.");
+        }
     }
+
 
     public Admin create(@Valid AdminRequest adminRequest) {
         Admin admin = new Admin();
@@ -45,6 +61,12 @@ public class AdminService {
     }
 
     public void deleteById(Integer userId) {
-        adminRepository.deleteById(userId);
+        Optional<Admin> optionalAdmin = adminRepository.findById(userId);
+        optionalAdmin.ifPresentOrElse(
+                admin -> adminRepository.delete(admin),
+                () -> {
+                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Admin not found with this User Id.");
+                }
+        );
     }
 }

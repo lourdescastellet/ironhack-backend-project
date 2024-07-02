@@ -10,5 +10,5 @@ import java.util.List;
 public interface AdminRepository extends JpaRepository<Admin, Integer> {
 
     Admin findByEmail(String email);
-    List<Admin> findAll();
+
 }

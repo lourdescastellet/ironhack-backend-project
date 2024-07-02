@@ -38,8 +38,11 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-    public Customer update(Integer customerId, @Valid CustomerUpdateRequest customerUpdateRequest) {
+    public Customer update(Integer customerId,
+                           @Valid CustomerUpdateRequest customerUpdateRequest) {
+
         Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
+
         if (optionalCustomer.isPresent()) {
             Customer customer = optionalCustomer.get();
 
@@ -59,15 +62,20 @@ public class CustomerService {
                 customer.setCustomerAddress(customerUpdateRequest.getCustomerAddress());
             }
 
-            customerRepository.save(customer);
+            Customer updatedCustomer = customerRepository.save(customer);
+            return updatedCustomer;
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found with this User Id.");
         }
-
-        return null;
     }
 
-    public void deleteById(Integer id) {
-        customerRepository.deleteById(id);
+    public void deleteById(Integer userId) {
+        Optional<Customer> optionalCustomer = customerRepository.findById(userId);
+        optionalCustomer.ifPresentOrElse(
+                customer -> customerRepository.delete(customer),
+                () -> {
+                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found with this User Id.");
+                }
+        );
     }
 }
