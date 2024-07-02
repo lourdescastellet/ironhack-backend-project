@@ -91,21 +91,19 @@ class AdminControllerUnitTest {
         AdminRequest adminRequest = new AdminRequest();
         adminRequest.setName("Updated Admin");
         adminRequest.setEmail("updated@ironhack.com");
-        adminRequest.setPassword("newpassword");
 
-        Admin admin = new Admin();
-        admin.setUserId(1);
-        admin.setName(adminRequest.getName());
-        admin.setEmail(adminRequest.getEmail());
-        admin.setPassword(adminRequest.getPassword());
+        Admin updatedAdmin = new Admin();
+        updatedAdmin.setUserId(1);
+        updatedAdmin.setName(adminRequest.getName());
+        updatedAdmin.setEmail(adminRequest.getEmail());
+        updatedAdmin.setPassword(adminRequest.getPassword());
 
-        when(adminService.update(anyInt(), any(AdminRequest.class))).thenReturn(admin);
+        when(adminService.update(anyInt(), any(AdminRequest.class))).thenReturn(updatedAdmin);
 
         mockMvc.perform(put("/api/admin/{userId}/edit", 1)
                         .content(objectMapper.writeValueAsString(adminRequest))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Updated Admin"));
+                .andExpect(status().isNoContent());
     }
 
     @Test

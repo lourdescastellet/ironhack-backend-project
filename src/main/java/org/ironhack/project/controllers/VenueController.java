@@ -47,7 +47,7 @@ public class VenueController {
         }
 
         Venue updatesVenue = venueService.update(userId, venueUpdateRequest);
-        return ResponseEntity.ok().body(updatesVenue);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{userId}")

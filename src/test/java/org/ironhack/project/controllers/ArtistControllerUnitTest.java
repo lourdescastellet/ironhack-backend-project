@@ -108,8 +108,7 @@ class ArtistControllerUnitTest {
         mockMvc.perform(put("/api/artist/{userId}/edit", 1)
                         .content(objectMapper.writeValueAsString(artistUpdateRequest))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Updated Artist"));
+                .andExpect(status().isNoContent());
     }
 
     @Test

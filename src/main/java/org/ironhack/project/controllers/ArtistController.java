@@ -47,7 +47,7 @@ public class ArtistController {
         }
 
         Artist updatedArtist = artistService.update(userId, artistUpdateRequest);
-        return ResponseEntity.ok().body(updatedArtist);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{userId}")

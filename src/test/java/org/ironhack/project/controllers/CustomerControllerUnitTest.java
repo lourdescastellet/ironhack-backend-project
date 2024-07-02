@@ -117,10 +117,10 @@ class CustomerControllerUnitTest {
 
         when(customerService.update(anyInt(), any(CustomerUpdateRequest.class))).thenReturn(customer);
 
-        mockMvc.perform(put("/api/customer/{userId}", 1)
+        mockMvc.perform(put("/api/customer/{userId}/edit", 1)
                         .content(objectMapper.writeValueAsString(customerUpdateRequest))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test
@@ -128,8 +128,4 @@ class CustomerControllerUnitTest {
         mockMvc.perform(delete("/api/customer/{userId}", 1))
                 .andExpect(status().isNoContent());
     }
-
-
-
-
 }
