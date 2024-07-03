@@ -1,7 +1,7 @@
 package org.ironhack.project.services;
 
 import jakarta.validation.Valid;
-import org.ironhack.project.dtos.AdminRequest;
+import org.ironhack.project.dtos.AdminCreationRequest;
 import org.ironhack.project.models.classes.Admin;
 import org.ironhack.project.repositories.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,21 +27,21 @@ public class AdminService {
     }
 
     public Admin update(Integer userId,
-                        @Valid AdminRequest adminRequest) {
+                        @Valid AdminCreationRequest adminCreationRequest) {
 
         Optional<Admin> optionalAdmin = adminRepository.findById(userId);
 
         if (optionalAdmin.isPresent()) {
             Admin admin = optionalAdmin.get();
 
-            if (adminRequest.getName() != null) {
-                admin.setName(adminRequest.getName());
+            if (adminCreationRequest.getName() != null) {
+                admin.setName(adminCreationRequest.getName());
             }
-            if (adminRequest.getEmail() != null) {
-                admin.setEmail(adminRequest.getEmail());
+            if (adminCreationRequest.getEmail() != null) {
+                admin.setEmail(adminCreationRequest.getEmail());
             }
-            if (adminRequest.getPassword() != null) {
-                admin.setPassword(adminRequest.getPassword());
+            if (adminCreationRequest.getPassword() != null) {
+                admin.setPassword(adminCreationRequest.getPassword());
             }
             Admin updatedAdmin = adminRepository.save(admin);
             return updatedAdmin;
@@ -51,11 +51,11 @@ public class AdminService {
     }
 
 
-    public Admin create(@Valid AdminRequest adminRequest) {
+    public Admin create(@Valid AdminCreationRequest adminCreationRequest) {
         Admin admin = new Admin();
-        admin.setName(adminRequest.getName());
-        admin.setEmail(adminRequest.getEmail());
-        admin.setPassword(adminRequest.getPassword());
+        admin.setName(adminCreationRequest.getName());
+        admin.setEmail(adminCreationRequest.getEmail());
+        admin.setPassword(adminCreationRequest.getPassword());
 
         return adminRepository.save(admin);
     }

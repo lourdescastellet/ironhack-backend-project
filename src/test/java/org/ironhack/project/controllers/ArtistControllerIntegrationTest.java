@@ -1,7 +1,7 @@
 package org.ironhack.project.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.ironhack.project.dtos.ArtistRequest;
+import org.ironhack.project.dtos.ArtistCreationRequest;
 import org.ironhack.project.dtos.ArtistUpdateRequest;
 import org.ironhack.project.models.classes.Artist;
 import org.ironhack.project.models.enums.Genre;
@@ -56,7 +56,7 @@ public class ArtistControllerIntegrationTest {
 
     @Test
     void createArtist_createsArtist() throws Exception {
-        ArtistRequest newArtist = new ArtistRequest();
+        ArtistCreationRequest newArtist = new ArtistCreationRequest();
         newArtist.setName("New Artist");
         newArtist.setEmail("newartist@ironhack.com");
         newArtist.setPassword("password");

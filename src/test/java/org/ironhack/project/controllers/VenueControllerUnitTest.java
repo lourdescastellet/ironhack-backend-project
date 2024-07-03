@@ -1,7 +1,7 @@
 package org.ironhack.project.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.ironhack.project.dtos.VenueRequest;
+import org.ironhack.project.dtos.VenueCreationRequest;
 import org.ironhack.project.dtos.VenueUpdateRequest;
 import org.ironhack.project.models.classes.Venue;
 import org.ironhack.project.services.VenueService;
@@ -89,29 +89,29 @@ class VenueControllerUnitTest {
 
     @Test
     void create_Venue_validVenue_venueCreated() throws Exception {
-        VenueRequest venueRequest = new VenueRequest();
-        venueRequest.setName("Venue A");
-        venueRequest.setEmail("venuea@example.com");
-        venueRequest.setPassword("password");
-        venueRequest.setVenueName("Venue Name A");
-        venueRequest.setVenueAddress("Address A");
-        venueRequest.setVenueCity("City A");
-        venueRequest.setVenueCapacity(100);
+        VenueCreationRequest venueCreationRequest = new VenueCreationRequest();
+        venueCreationRequest.setName("Venue A");
+        venueCreationRequest.setEmail("venuea@example.com");
+        venueCreationRequest.setPassword("password");
+        venueCreationRequest.setVenueName("Venue Name A");
+        venueCreationRequest.setVenueAddress("Address A");
+        venueCreationRequest.setVenueCity("City A");
+        venueCreationRequest.setVenueCapacity(100);
 
         Venue venue = new Venue();
         venue.setUserId(1);
-        venue.setName(venueRequest.getName());
-        venue.setEmail(venueRequest.getEmail());
-        venue.setPassword(venueRequest.getPassword());
-        venue.setVenueName(venueRequest.getVenueName());
-        venue.setVenueAddress(venueRequest.getVenueAddress());
-        venue.setVenueCity(venueRequest.getVenueCity());
-        venue.setVenueCapacity(venueRequest.getVenueCapacity());
+        venue.setName(venueCreationRequest.getName());
+        venue.setEmail(venueCreationRequest.getEmail());
+        venue.setPassword(venueCreationRequest.getPassword());
+        venue.setVenueName(venueCreationRequest.getVenueName());
+        venue.setVenueAddress(venueCreationRequest.getVenueAddress());
+        venue.setVenueCity(venueCreationRequest.getVenueCity());
+        venue.setVenueCapacity(venueCreationRequest.getVenueCapacity());
 
-        when(venueService.create(any(VenueRequest.class))).thenReturn(venue);
+        when(venueService.create(any(VenueCreationRequest.class))).thenReturn(venue);
 
         mockMvc.perform(post("/api/venue/new")
-                        .content(objectMapper.writeValueAsString(venueRequest))
+                        .content(objectMapper.writeValueAsString(venueCreationRequest))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value("Venue A"));

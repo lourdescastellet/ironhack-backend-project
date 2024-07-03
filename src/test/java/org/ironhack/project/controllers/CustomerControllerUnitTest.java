@@ -1,17 +1,15 @@
 package org.ironhack.project.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.ironhack.project.dtos.CustomerRequest;
+import org.ironhack.project.dtos.CustomerCreationRequest;
 import org.ironhack.project.dtos.CustomerUpdateRequest;
 import org.ironhack.project.models.classes.Customer;
 import org.ironhack.project.services.CustomerService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -83,20 +81,20 @@ class CustomerControllerUnitTest {
 
     @Test
     void create_validCustomer_customerCreated() throws Exception {
-        CustomerRequest customerRequest = new CustomerRequest();
-        customerRequest.setName("Customer A");
-        customerRequest.setEmail("customera@ironhack.com");
-        customerRequest.setPassword("password");
+        CustomerCreationRequest customerCreationRequest = new CustomerCreationRequest();
+        customerCreationRequest.setName("Customer A");
+        customerCreationRequest.setEmail("customera@ironhack.com");
+        customerCreationRequest.setPassword("password");
 
         Customer customer = new Customer();
-        customer.setName(customerRequest.getName());
-        customer.setEmail(customerRequest.getEmail());
-        customer.setPassword(customerRequest.getPassword());
+        customer.setName(customerCreationRequest.getName());
+        customer.setEmail(customerCreationRequest.getEmail());
+        customer.setPassword(customerCreationRequest.getPassword());
 
-        when(customerService.create(any(CustomerRequest.class))).thenReturn(customer);
+        when(customerService.create(any(CustomerCreationRequest.class))).thenReturn(customer);
 
         mockMvc.perform(post("/api/customer/new")
-                        .content(objectMapper.writeValueAsString(customerRequest))
+                        .content(objectMapper.writeValueAsString(customerCreationRequest))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value("Customer A"));

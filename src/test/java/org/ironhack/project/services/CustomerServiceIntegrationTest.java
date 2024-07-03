@@ -1,6 +1,6 @@
 package org.ironhack.project.services;
 
-import org.ironhack.project.dtos.CustomerRequest;
+import org.ironhack.project.dtos.CustomerCreationRequest;
 import org.ironhack.project.dtos.CustomerUpdateRequest;
 import org.ironhack.project.models.classes.Customer;
 import org.ironhack.project.repositories.CustomerRepository;
@@ -81,14 +81,14 @@ public class CustomerServiceIntegrationTest {
 
     @Test
     void create_validCustomerRequest_customerCreated() {
-        CustomerRequest customerRequest = new CustomerRequest();
-        customerRequest.setName("Customer C");
-        customerRequest.setEmail("customerc@ironhack.com");
-        customerRequest.setPassword("password");
-        customerRequest.setPaymentMethod("Credit Card");
-        customerRequest.setCustomerAddress("Address C");
+        CustomerCreationRequest customerCreationRequest = new CustomerCreationRequest();
+        customerCreationRequest.setName("Customer C");
+        customerCreationRequest.setEmail("customerc@ironhack.com");
+        customerCreationRequest.setPassword("password");
+        customerCreationRequest.setPaymentMethod("Credit Card");
+        customerCreationRequest.setCustomerAddress("Address C");
 
-        Customer savedCustomer = customerService.create(customerRequest);
+        Customer savedCustomer = customerService.create(customerCreationRequest);
 
         assertNotNull(savedCustomer);
         assertEquals("Customer C", savedCustomer.getName());

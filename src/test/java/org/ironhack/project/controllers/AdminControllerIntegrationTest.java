@@ -1,7 +1,7 @@
 package org.ironhack.project.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.ironhack.project.dtos.AdminRequest;
+import org.ironhack.project.dtos.AdminCreationRequest;
 import org.ironhack.project.models.classes.Admin;
 import org.ironhack.project.repositories.AdminRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -75,10 +75,10 @@ public class AdminControllerIntegrationTest {
 
     @Test
     void update_existingAdminId_adminUpdated() throws Exception {
-        AdminRequest adminRequest = new AdminRequest();
-        adminRequest.setName("Updated Admin");
+        AdminCreationRequest adminCreationRequest = new AdminCreationRequest();
+        adminCreationRequest.setName("Updated Admin");
 
-        String body = objectMapper.writeValueAsString(adminRequest);
+        String body = objectMapper.writeValueAsString(adminCreationRequest);
 
         mockMvc.perform(put("/api/admin/{userId}/edit", admin.getUserId())
                         .content(body)

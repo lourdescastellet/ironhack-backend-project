@@ -31,6 +31,9 @@ public class Concert extends Event{
     @ManyToOne
     private Venue venue;
 
+    @ManyToOne
+    private Admin admin;
+
     @OneToMany
     private Set<Ticket> tickets = new HashSet<>();
 

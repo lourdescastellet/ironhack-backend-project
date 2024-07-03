@@ -1,6 +1,6 @@
 package org.ironhack.project.services;
 
-import org.ironhack.project.dtos.VenueRequest;
+import org.ironhack.project.dtos.VenueCreationRequest;
 import org.ironhack.project.dtos.VenueUpdateRequest;
 import org.ironhack.project.models.classes.Venue;
 import org.ironhack.project.repositories.VenueRepository;
@@ -62,27 +62,27 @@ class VenueServiceUnitTest {
 
     @Test
     void create_validVenueRequest_venueCreated() {
-        VenueRequest venueRequest = new VenueRequest();
-        venueRequest.setName("Venue A");
-        venueRequest.setEmail("venuea@ironhack.com");
-        venueRequest.setPassword("password");
-        venueRequest.setVenueName("VENUE_A");
-        venueRequest.setVenueAddress("Address A");
-        venueRequest.setVenueCity("City A");
-        venueRequest.setVenueCapacity(100);
+        VenueCreationRequest venueCreationRequest = new VenueCreationRequest();
+        venueCreationRequest.setName("Venue A");
+        venueCreationRequest.setEmail("venuea@ironhack.com");
+        venueCreationRequest.setPassword("password");
+        venueCreationRequest.setVenueName("VENUE_A");
+        venueCreationRequest.setVenueAddress("Address A");
+        venueCreationRequest.setVenueCity("City A");
+        venueCreationRequest.setVenueCapacity(100);
 
         Venue venueToSave = new Venue();
-        venueToSave.setName(venueRequest.getName());
-        venueToSave.setEmail(venueRequest.getEmail());
-        venueToSave.setPassword(venueRequest.getPassword());
-        venueToSave.setVenueName(venueRequest.getVenueName());
-        venueToSave.setVenueAddress(venueRequest.getVenueAddress());
-        venueToSave.setVenueCity(venueRequest.getVenueCity());
-        venueToSave.setVenueCapacity(venueRequest.getVenueCapacity());
+        venueToSave.setName(venueCreationRequest.getName());
+        venueToSave.setEmail(venueCreationRequest.getEmail());
+        venueToSave.setPassword(venueCreationRequest.getPassword());
+        venueToSave.setVenueName(venueCreationRequest.getVenueName());
+        venueToSave.setVenueAddress(venueCreationRequest.getVenueAddress());
+        venueToSave.setVenueCity(venueCreationRequest.getVenueCity());
+        venueToSave.setVenueCapacity(venueCreationRequest.getVenueCapacity());
 
         when(venueRepository.save(any(Venue.class))).thenReturn(venueToSave);
 
-        Venue savedVenue = venueService.create(venueRequest);
+        Venue savedVenue = venueService.create(venueCreationRequest);
 
         assertNotNull(savedVenue);
         assertEquals("Venue A", savedVenue.getName());

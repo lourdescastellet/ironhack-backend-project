@@ -7,8 +7,7 @@ import java.time.LocalDate;
 
 
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@Getter
-@Setter
+@Data
 public class Event {
 
     @Id

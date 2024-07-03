@@ -22,7 +22,7 @@ public class Venue extends User{
     private int venueCapacity;
 
     // Profit
-    private BigDecimal profitPercentage = BigDecimal.ZERO;
+    private BigDecimal profit = BigDecimal.ZERO;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)

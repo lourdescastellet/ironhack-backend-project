@@ -1,6 +1,6 @@
 package org.ironhack.project.services;
 
-import org.ironhack.project.dtos.AdminRequest;
+import org.ironhack.project.dtos.AdminCreationRequest;
 import org.ironhack.project.models.classes.Admin;
 import org.ironhack.project.repositories.AdminRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -83,19 +83,19 @@ class AdminServiceUnitTest {
 
     @Test
     void create_validAdminRequest_adminCreated() {
-        AdminRequest adminRequest = new AdminRequest();
-        adminRequest.setName("Admin A");
-        adminRequest.setEmail("admina@ironhack.com");
-        adminRequest.setPassword("password");
+        AdminCreationRequest adminCreationRequest = new AdminCreationRequest();
+        adminCreationRequest.setName("Admin A");
+        adminCreationRequest.setEmail("admina@ironhack.com");
+        adminCreationRequest.setPassword("password");
 
         Admin adminToSave = new Admin();
-        adminToSave.setName(adminRequest.getName());
-        adminToSave.setEmail(adminRequest.getEmail());
-        adminToSave.setPassword(adminRequest.getPassword());
+        adminToSave.setName(adminCreationRequest.getName());
+        adminToSave.setEmail(adminCreationRequest.getEmail());
+        adminToSave.setPassword(adminCreationRequest.getPassword());
 
         when(adminRepository.save(any(Admin.class))).thenReturn(adminToSave);
 
-        Admin savedAdmin = adminService.create(adminRequest);
+        Admin savedAdmin = adminService.create(adminCreationRequest);
 
         assertNotNull(savedAdmin);
         assertEquals("Admin A", savedAdmin.getName());
@@ -105,9 +105,9 @@ class AdminServiceUnitTest {
     @Test
     void update_existingAdminId_adminUpdated() {
         Integer userId = 1;
-        AdminRequest adminRequest = new AdminRequest();
-        adminRequest.setName("Updated Admin");
-        adminRequest.setEmail("updated@ironhack.com");
+        AdminCreationRequest adminCreationRequest = new AdminCreationRequest();
+        adminCreationRequest.setName("Updated Admin");
+        adminCreationRequest.setEmail("updated@ironhack.com");
 
         Admin existingAdmin = new Admin();
         existingAdmin.setName("Original Admin");
@@ -120,7 +120,7 @@ class AdminServiceUnitTest {
         when(adminRepository.findById(userId)).thenReturn(Optional.of(existingAdmin));
         when(adminRepository.save(any(Admin.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        Admin updatedAdmin = adminService.update(userId, adminRequest);
+        Admin updatedAdmin = adminService.update(userId, adminCreationRequest);
 
         assertNotNull(updatedAdmin);
         assertEquals("Updated Admin", updatedAdmin.getName());
