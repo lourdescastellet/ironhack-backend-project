@@ -2,7 +2,10 @@ package org.ironhack.project.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.ironhack.project.dtos.ConcertCreationRequest;
+import org.ironhack.project.models.classes.Artist;
 import org.ironhack.project.models.classes.Concert;
+import org.ironhack.project.models.classes.Venue;
+import org.ironhack.project.models.enums.Genre;
 import org.ironhack.project.services.ConcertService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,8 +25,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @SpringBootTest
@@ -46,23 +48,57 @@ class ConcertControllerUnitTest {
 
     @Test
     void findAll_concertsFound() throws Exception {
+        Artist artist1 = new Artist();
+        artist1.setUserId(1);
+        artist1.setArtistName("Artist A");
+        artist1.setGenre(Genre.ROCK);
+
+        Venue venue1 = new Venue();
+        venue1.setUserId(4);
+        venue1.setVenueName("Venue X");
+        venue1.setVenueCapacity(500);
+
         Concert concert1 = new Concert();
         concert1.setConcertId(1);
         concert1.setConcertName("Concert 1");
+        concert1.setArtist(artist1);
+        concert1.setVenue(venue1);
+
+        Artist artist2 = new Artist();
+        artist2.setUserId(2);
+        artist2.setArtistName("Artist B");
+        artist2.setGenre(Genre.POP);
+
+        Venue venue2 = new Venue();
+        venue2.setUserId(5);
+        venue2.setVenueName("Venue Y");
+        venue2.setVenueCapacity(1500);
 
         Concert concert2 = new Concert();
         concert2.setConcertId(2);
         concert2.setConcertName("Concert 2");
+        concert2.setArtist(artist2);
+        concert2.setVenue(venue2);
 
         when(concertService.findAllConcerts()).thenReturn(List.of(concert1, concert2));
 
         mockMvc.perform(get("/api/concerts"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2))
+
+                // Verify Concert 1
                 .andExpect(jsonPath("$[0].concertId").value(1))
                 .andExpect(jsonPath("$[0].concertName").value("Concert 1"))
+                .andExpect(jsonPath("$[0].artist.artistName").value("Artist A"))
+                .andExpect(jsonPath("$[0].artist.genre").value("ROCK"))
+                .andExpect(jsonPath("$[0].venue.venueName").value("Venue X"))
+
+                // Verify Concert 2
                 .andExpect(jsonPath("$[1].concertId").value(2))
-                .andExpect(jsonPath("$[1].concertName").value("Concert 2"));
+                .andExpect(jsonPath("$[1].concertName").value("Concert 2"))
+                .andExpect(jsonPath("$[1].artist.artistName").value("Artist B"))
+                .andExpect(jsonPath("$[1].artist.genre").value("POP"))
+                .andExpect(jsonPath("$[1].venue.venueName").value("Venue Y"));
     }
 
     @Test
