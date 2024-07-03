@@ -1,7 +1,7 @@
 package org.ironhack.project.services;
 
 import jakarta.validation.Valid;
-import org.ironhack.project.dtos.CustomerRequest;
+import org.ironhack.project.dtos.CustomerCreationRequest;
 import org.ironhack.project.dtos.CustomerUpdateRequest;
 import org.ironhack.project.models.classes.Customer;
 import org.ironhack.project.repositories.CustomerRepository;
@@ -27,13 +27,13 @@ public class CustomerService {
         return customerRepository.findById(id);
     }
 
-    public Customer create(@Valid CustomerRequest customerRequest) {
+    public Customer create(@Valid CustomerCreationRequest customerCreationRequest) {
         Customer customer = new Customer();
-        customer.setName(customerRequest.getName());
-        customer.setEmail(customerRequest.getEmail());
-        customer.setPassword(customerRequest.getPassword());
-        customer.setPaymentMethod(customerRequest.getPaymentMethod());
-        customer.setCustomerAddress(customerRequest.getCustomerAddress());
+        customer.setName(customerCreationRequest.getName());
+        customer.setEmail(customerCreationRequest.getEmail());
+        customer.setPassword(customerCreationRequest.getPassword());
+        customer.setPaymentMethod(customerCreationRequest.getPaymentMethod());
+        customer.setCustomerAddress(customerCreationRequest.getCustomerAddress());
 
         return customerRepository.save(customer);
     }

@@ -1,7 +1,7 @@
 package org.ironhack.project.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.ironhack.project.dtos.ArtistRequest;
+import org.ironhack.project.dtos.ArtistCreationRequest;
 import org.ironhack.project.dtos.ArtistUpdateRequest;
 import org.ironhack.project.models.classes.Artist;
 import org.ironhack.project.models.enums.Genre;
@@ -67,24 +67,24 @@ class ArtistControllerUnitTest {
 
     @Test
     void create_Artist_validArtist_artistCreated() throws Exception {
-        ArtistRequest artistRequest = new ArtistRequest();
-        artistRequest.setName("Artist A");
-        artistRequest.setEmail("artista@ironhack.com");
-        artistRequest.setPassword("password");
-        artistRequest.setArtistName("Art-A");
-        artistRequest.setGenre(Genre.JAZZ);
+        ArtistCreationRequest artistCreationRequest = new ArtistCreationRequest();
+        artistCreationRequest.setName("Artist A");
+        artistCreationRequest.setEmail("artista@ironhack.com");
+        artistCreationRequest.setPassword("password");
+        artistCreationRequest.setArtistName("Art-A");
+        artistCreationRequest.setGenre(Genre.JAZZ);
 
         Artist artist = new Artist();
-        artist.setName(artistRequest.getName());
-        artist.setEmail(artistRequest.getEmail());
-        artist.setPassword(artistRequest.getPassword());
-        artist.setArtistName(artistRequest.getArtistName());
-        artist.setGenre(artistRequest.getGenre());
+        artist.setName(artistCreationRequest.getName());
+        artist.setEmail(artistCreationRequest.getEmail());
+        artist.setPassword(artistCreationRequest.getPassword());
+        artist.setArtistName(artistCreationRequest.getArtistName());
+        artist.setGenre(artistCreationRequest.getGenre());
 
-        when(artistService.create(any(ArtistRequest.class))).thenReturn(artist);
+        when(artistService.create(any(ArtistCreationRequest.class))).thenReturn(artist);
 
         mockMvc.perform(post("/api/artist/new")
-                        .content(objectMapper.writeValueAsString(artistRequest))
+                        .content(objectMapper.writeValueAsString(artistCreationRequest))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value("Artist A"));

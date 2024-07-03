@@ -1,32 +1,28 @@
 package org.ironhack.project.dtos;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import org.ironhack.project.models.enums.Genre;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class CustomerRequest {
+public class ArtistCreationRequest {
 
     @NotEmpty(message = "Name can't be empty or null.")
     private String name;
 
     @NotEmpty(message = "Email can't be empty or null.")
-    @Email(message = "Email should be valid.")
+    @Email(message = "Email should be valid")
     private String email;
 
     @NotEmpty(message = "Password can't be empty or null.")
     @Size(min = 5, message = "Password must be at least 5 characters long.")
     private String password;
 
-    private String paymentMethod;
+    @NotEmpty(message = "Artist name can't be empty or null.")
+    private String artistName;
 
-    private String customerAddress;
+    @NotNull(message = "Genre can't be null.")
+    private Genre genre;
 }

@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
@@ -20,8 +23,8 @@ public class Booking extends Event{
     @ManyToOne
     private Customer customer;
 
-    @OneToOne
-    private Ticket ticket;
+    @OneToMany
+    private List<Ticket> tickets = new ArrayList<>();
 
     @OneToOne
     private Concert concert;

@@ -1,7 +1,7 @@
 package org.ironhack.project.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.ironhack.project.dtos.CustomerRequest;
+import org.ironhack.project.dtos.CustomerCreationRequest;
 import org.ironhack.project.dtos.CustomerUpdateRequest;
 import org.ironhack.project.models.classes.Customer;
 import org.ironhack.project.repositories.CustomerRepository;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -54,14 +53,14 @@ public class CustomerControllerIntegrationTest {
 
     @Test
     void createCustomer_createsCustomer() throws Exception {
-        CustomerRequest customerRequest = new CustomerRequest();
-        customerRequest.setName("New Customer");
-        customerRequest.setEmail("new.customer@ironhack.com");
-        customerRequest.setPassword("password");
-        customerRequest.setCustomerAddress("New Address");
-        customerRequest.setPaymentMethod("Visa");
+        CustomerCreationRequest customerCreationRequest = new CustomerCreationRequest();
+        customerCreationRequest.setName("New Customer");
+        customerCreationRequest.setEmail("new.customer@ironhack.com");
+        customerCreationRequest.setPassword("password");
+        customerCreationRequest.setCustomerAddress("New Address");
+        customerCreationRequest.setPaymentMethod("Visa");
 
-        String body = new ObjectMapper().writeValueAsString(customerRequest);
+        String body = new ObjectMapper().writeValueAsString(customerCreationRequest);
 
         mockMvc.perform(post("/api/customer/new")
                         .content(body)

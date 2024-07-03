@@ -1,6 +1,6 @@
 package org.ironhack.project.services;
 
-import org.ironhack.project.dtos.ArtistRequest;
+import org.ironhack.project.dtos.ArtistCreationRequest;
 import org.ironhack.project.dtos.ArtistUpdateRequest;
 import org.ironhack.project.models.classes.Artist;
 import org.ironhack.project.models.enums.Genre;
@@ -83,14 +83,14 @@ public class ArtistServiceIntegrationTest {
 
     @Test
     void create_validArtistRequest_artistCreated() {
-        ArtistRequest artistRequest = new ArtistRequest();
-        artistRequest.setName("Artist C");
-        artistRequest.setEmail("artistc@ironhack.com");
-        artistRequest.setPassword("password");
-        artistRequest.setArtistName("ArtistC");
-        artistRequest.setGenre(Genre.HIPHOP);
+        ArtistCreationRequest artistCreationRequest = new ArtistCreationRequest();
+        artistCreationRequest.setName("Artist C");
+        artistCreationRequest.setEmail("artistc@ironhack.com");
+        artistCreationRequest.setPassword("password");
+        artistCreationRequest.setArtistName("ArtistC");
+        artistCreationRequest.setGenre(Genre.HIPHOP);
 
-        Artist savedArtist = artistService.create(artistRequest);
+        Artist savedArtist = artistService.create(artistCreationRequest);
 
         assertNotNull(savedArtist);
         assertNotNull(savedArtist.getGenre());

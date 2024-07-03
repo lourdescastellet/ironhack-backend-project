@@ -1,4 +1,4 @@
 package org.ironhack.project.dtos;
 
-public class BookingRequest {
+public class ConcertUpdateRequest {
 }

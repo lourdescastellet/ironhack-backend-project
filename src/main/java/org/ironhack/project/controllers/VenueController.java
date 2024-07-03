@@ -1,7 +1,7 @@
 package org.ironhack.project.controllers;
 
 import jakarta.validation.Valid;
-import org.ironhack.project.dtos.VenueRequest;
+import org.ironhack.project.dtos.VenueCreationRequest;
 import org.ironhack.project.dtos.VenueUpdateRequest;
 import org.ironhack.project.models.classes.Venue;
 import org.ironhack.project.services.VenueService;
@@ -33,9 +33,9 @@ public class VenueController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<VenueRequest> createVenue(@Valid @RequestBody VenueRequest venueRequest) {
-        venueService.create(venueRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(venueRequest);
+    public ResponseEntity<VenueCreationRequest> createVenue(@Valid @RequestBody VenueCreationRequest venueCreationRequest) {
+        venueService.create(venueCreationRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(venueCreationRequest);
     }
 
     @PutMapping("/{userId}/edit")

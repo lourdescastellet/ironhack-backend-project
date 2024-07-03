@@ -1,7 +1,7 @@
 package org.ironhack.project.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.ironhack.project.dtos.VenueRequest;
+import org.ironhack.project.dtos.VenueCreationRequest;
 import org.ironhack.project.dtos.VenueUpdateRequest;
 import org.ironhack.project.models.classes.Venue;
 import org.ironhack.project.repositories.VenueRepository;
@@ -56,16 +56,16 @@ public class VenueControllerIntegrationTest {
 
     @Test
     void createVenue_createsVenue() throws Exception {
-        VenueRequest venueRequest = new VenueRequest();
-        venueRequest.setName("New Venue");
-        venueRequest.setEmail("newvenue@ironhack.com");
-        venueRequest.setPassword("password");
-        venueRequest.setVenueName("New Venue 1");
-        venueRequest.setVenueCity("New Location");
-        venueRequest.setVenueAddress("New Address 1");
-        venueRequest.setVenueCapacity(2000);
+        VenueCreationRequest venueCreationRequest = new VenueCreationRequest();
+        venueCreationRequest.setName("New Venue");
+        venueCreationRequest.setEmail("newvenue@ironhack.com");
+        venueCreationRequest.setPassword("password");
+        venueCreationRequest.setVenueName("New Venue 1");
+        venueCreationRequest.setVenueCity("New Location");
+        venueCreationRequest.setVenueAddress("New Address 1");
+        venueCreationRequest.setVenueCapacity(2000);
 
-        String body = new ObjectMapper().writeValueAsString(venueRequest);
+        String body = new ObjectMapper().writeValueAsString(venueCreationRequest);
 
         mockMvc.perform(post("/api/venue/new")
                         .content(body)

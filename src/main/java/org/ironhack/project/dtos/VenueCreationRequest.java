@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class VenueRequest {
+public class VenueCreationRequest {
 
     @NotEmpty(message = "Name can't be empty or null.")
     private String name;

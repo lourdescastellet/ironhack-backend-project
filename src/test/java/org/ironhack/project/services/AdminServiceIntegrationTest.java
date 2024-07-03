@@ -1,6 +1,6 @@
 package org.ironhack.project.services;
 
-import org.ironhack.project.dtos.AdminRequest;
+import org.ironhack.project.dtos.AdminCreationRequest;
 import org.ironhack.project.models.classes.Admin;
 import org.ironhack.project.repositories.AdminRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -31,12 +31,12 @@ public class AdminServiceIntegrationTest {
 
     @Test
     void create_validAdminRequest_adminCreated() {
-        AdminRequest adminRequest = new AdminRequest();
-        adminRequest.setName("Admin A");
-        adminRequest.setEmail("admina@ironhack.com");
-        adminRequest.setPassword("password");
+        AdminCreationRequest adminCreationRequest = new AdminCreationRequest();
+        adminCreationRequest.setName("Admin A");
+        adminCreationRequest.setEmail("admina@ironhack.com");
+        adminCreationRequest.setPassword("password");
 
-        Admin savedAdmin = adminService.create(adminRequest);
+        Admin savedAdmin = adminService.create(adminCreationRequest);
 
         assertNotNull(savedAdmin);
         assertNotNull(savedAdmin.getUserId());
@@ -68,11 +68,11 @@ public class AdminServiceIntegrationTest {
         adminToSave.setPassword("password");
         Admin savedAdmin = adminRepository.save(adminToSave);
 
-        AdminRequest adminRequest = new AdminRequest();
-        adminRequest.setName("Updated Admin");
-        adminRequest.setEmail("updated@ironhack.com");
+        AdminCreationRequest adminCreationRequest = new AdminCreationRequest();
+        adminCreationRequest.setName("Updated Admin");
+        adminCreationRequest.setEmail("updated@ironhack.com");
 
-        Admin updatedAdmin = adminService.update(savedAdmin.getUserId(), adminRequest);
+        Admin updatedAdmin = adminService.update(savedAdmin.getUserId(), adminCreationRequest);
 
         assertNotNull(updatedAdmin);
         assertEquals("Updated Admin", updatedAdmin.getName());

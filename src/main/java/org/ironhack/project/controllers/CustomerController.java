@@ -2,7 +2,7 @@ package org.ironhack.project.controllers;
 
 
 import jakarta.validation.Valid;
-import org.ironhack.project.dtos.CustomerRequest;
+import org.ironhack.project.dtos.CustomerCreationRequest;
 import org.ironhack.project.dtos.CustomerUpdateRequest;
 import org.ironhack.project.models.classes.Customer;
 import org.ironhack.project.services.CustomerService;
@@ -34,9 +34,9 @@ public class CustomerController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<CustomerRequest> create(@Valid @RequestBody CustomerRequest customerRequest) {
-        customerService.create(customerRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(customerRequest);
+    public ResponseEntity<CustomerCreationRequest> create(@Valid @RequestBody CustomerCreationRequest customerCreationRequest) {
+        customerService.create(customerCreationRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerCreationRequest);
     }
 
     @PutMapping("/{userId}/edit")
