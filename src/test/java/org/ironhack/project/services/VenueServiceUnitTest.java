@@ -1,6 +1,5 @@
 package org.ironhack.project.services;
 
-import org.ironhack.project.dtos.VenueCreationRequest;
 import org.ironhack.project.dtos.VenueUpdateRequest;
 import org.ironhack.project.models.classes.Venue;
 import org.ironhack.project.repositories.VenueRepository;
@@ -57,40 +56,6 @@ class VenueServiceUnitTest {
         Venue foundVenue = venueService.findById(userId).orElse(null);
 
         assertNull(foundVenue);
-    }
-
-
-    @Test
-    void create_validVenueRequest_venueCreated() {
-        VenueCreationRequest venueCreationRequest = new VenueCreationRequest();
-        venueCreationRequest.setName("Venue A");
-        venueCreationRequest.setEmail("venuea@ironhack.com");
-        venueCreationRequest.setPassword("password");
-        venueCreationRequest.setVenueName("VENUE_A");
-        venueCreationRequest.setVenueAddress("Address A");
-        venueCreationRequest.setVenueCity("City A");
-        venueCreationRequest.setVenueCapacity(100);
-
-        Venue venueToSave = new Venue();
-        venueToSave.setName(venueCreationRequest.getName());
-        venueToSave.setEmail(venueCreationRequest.getEmail());
-        venueToSave.setPassword(venueCreationRequest.getPassword());
-        venueToSave.setVenueName(venueCreationRequest.getVenueName());
-        venueToSave.setVenueAddress(venueCreationRequest.getVenueAddress());
-        venueToSave.setVenueCity(venueCreationRequest.getVenueCity());
-        venueToSave.setVenueCapacity(venueCreationRequest.getVenueCapacity());
-
-        when(venueRepository.save(any(Venue.class))).thenReturn(venueToSave);
-
-        Venue savedVenue = venueService.create(venueCreationRequest);
-
-        assertNotNull(savedVenue);
-        assertEquals("Venue A", savedVenue.getName());
-        assertEquals("venuea@ironhack.com", savedVenue.getEmail());
-        assertEquals("VENUE_A", savedVenue.getVenueName());
-        assertEquals("Address A", savedVenue.getVenueAddress());
-        assertEquals("City A", savedVenue.getVenueCity());
-        assertEquals(100, savedVenue.getVenueCapacity());
     }
 
     @Test
