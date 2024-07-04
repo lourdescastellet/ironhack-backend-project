@@ -1,6 +1,5 @@
 package org.ironhack.project.services;
 
-import org.ironhack.project.dtos.CustomerCreationRequest;
 import org.ironhack.project.dtos.CustomerUpdateRequest;
 import org.ironhack.project.models.classes.Customer;
 import org.ironhack.project.repositories.CustomerRepository;
@@ -80,27 +79,6 @@ class CustomerServiceUnitTest {
         Customer foundCustomer = customerService.findById(userId).orElse(null);
 
         assertNull(foundCustomer);
-    }
-
-    @Test
-    void create_validCustomerRequest_customerCreated() {
-        CustomerCreationRequest customerCreationRequest = new CustomerCreationRequest();
-        customerCreationRequest.setName("Customer A");
-        customerCreationRequest.setEmail("customera@ironhack.com");
-        customerCreationRequest.setPassword("password");
-
-        Customer customerToSave = new Customer();
-        customerToSave.setName(customerCreationRequest.getName());
-        customerToSave.setEmail(customerCreationRequest.getEmail());
-        customerToSave.setPassword(customerCreationRequest.getPassword());
-
-        when(customerRepository.save(any(Customer.class))).thenReturn(customerToSave);
-
-        Customer savedCustomer = customerService.create(customerCreationRequest);
-
-        assertNotNull(savedCustomer);
-        assertEquals("Customer A", savedCustomer.getName());
-        assertEquals("customera@ironhack.com", savedCustomer.getEmail());
     }
 
     @Test
