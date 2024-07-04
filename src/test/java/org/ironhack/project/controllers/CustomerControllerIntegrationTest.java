@@ -52,25 +52,6 @@ public class CustomerControllerIntegrationTest {
     }
 
     @Test
-    void createCustomer_createsCustomer() throws Exception {
-        CustomerCreationRequest customerCreationRequest = new CustomerCreationRequest();
-        customerCreationRequest.setName("New Customer");
-        customerCreationRequest.setEmail("new.customer@ironhack.com");
-        customerCreationRequest.setPassword("password");
-        customerCreationRequest.setCustomerAddress("New Address");
-        customerCreationRequest.setPaymentMethod("Visa");
-
-        String body = new ObjectMapper().writeValueAsString(customerCreationRequest);
-
-        mockMvc.perform(post("/api/customer/new")
-                        .content(body)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name").value("New Customer"))
-                .andExpect(jsonPath("$.email").value("new.customer@ironhack.com"));
-    }
-
-    @Test
     void findAll_returnsListOfCustomers() throws Exception {
         Customer customer1 = new Customer();
         customer1.setName("Customer 2");

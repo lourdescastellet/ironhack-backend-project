@@ -1,7 +1,6 @@
 package org.ironhack.project.services;
 
 import jakarta.validation.Valid;
-import org.ironhack.project.dtos.AdminCreationRequest;
 import org.ironhack.project.dtos.AdminUpdateRequest;
 import org.ironhack.project.models.classes.Admin;
 import org.ironhack.project.repositories.AdminRepository;
@@ -49,16 +48,6 @@ public class AdminService {
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Admin not found with this User Id.");
         }
-    }
-
-
-    public Admin create(@Valid AdminCreationRequest adminCreationRequest) {
-        Admin admin = new Admin();
-        admin.setName(adminCreationRequest.getName());
-        admin.setEmail(adminCreationRequest.getEmail());
-        admin.setPassword(adminCreationRequest.getPassword());
-
-        return adminRepository.save(admin);
     }
 
     public void deleteById(Integer userId) {

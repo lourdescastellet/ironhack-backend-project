@@ -1,7 +1,6 @@
 package org.ironhack.project.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.ironhack.project.dtos.ArtistCreationRequest;
 import org.ironhack.project.dtos.ArtistUpdateRequest;
 import org.ironhack.project.models.classes.Artist;
 import org.ironhack.project.models.enums.Genre;
@@ -52,24 +51,6 @@ public class ArtistControllerIntegrationTest {
     @AfterEach
     public void tearDown() {
         artistRepository.deleteAll();
-    }
-
-    @Test
-    void createArtist_createsArtist() throws Exception {
-        ArtistCreationRequest newArtist = new ArtistCreationRequest();
-        newArtist.setName("New Artist");
-        newArtist.setEmail("newartist@ironhack.com");
-        newArtist.setPassword("password");
-        newArtist.setArtistName("NewArtist");
-        newArtist.setGenre(Genre.JAZZ);
-
-        String body = new ObjectMapper().writeValueAsString(newArtist);
-
-        mockMvc.perform(post("/api/artist/new")
-                        .content(body)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name").value("New Artist"));
     }
 
     @Test

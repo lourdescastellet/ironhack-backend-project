@@ -1,6 +1,5 @@
 package org.ironhack.project.services;
 
-import org.ironhack.project.dtos.ArtistCreationRequest;
 import org.ironhack.project.dtos.ArtistUpdateRequest;
 import org.ironhack.project.models.classes.Artist;
 import org.ironhack.project.models.enums.Genre;
@@ -79,26 +78,6 @@ public class ArtistServiceIntegrationTest {
         Optional<Artist> foundArtist = artistService.findById(0); // Assuming ID 0 does not exist
 
         assertFalse(foundArtist.isPresent());
-    }
-
-    @Test
-    void create_validArtistRequest_artistCreated() {
-        ArtistCreationRequest artistCreationRequest = new ArtistCreationRequest();
-        artistCreationRequest.setName("Artist C");
-        artistCreationRequest.setEmail("artistc@ironhack.com");
-        artistCreationRequest.setPassword("password");
-        artistCreationRequest.setArtistName("ArtistC");
-        artistCreationRequest.setGenre(Genre.HIPHOP);
-
-        Artist savedArtist = artistService.create(artistCreationRequest);
-
-        assertNotNull(savedArtist);
-        assertNotNull(savedArtist.getGenre());
-        assertEquals("Artist C", savedArtist.getName());
-        assertEquals("artistc@ironhack.com", savedArtist.getEmail());
-        assertEquals("password", savedArtist.getPassword());
-        assertEquals("ArtistC", savedArtist.getArtistName());
-        assertEquals(Genre.HIPHOP, savedArtist.getGenre());
     }
 
     @Test

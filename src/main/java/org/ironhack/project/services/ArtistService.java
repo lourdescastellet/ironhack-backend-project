@@ -1,7 +1,6 @@
 package org.ironhack.project.services;
 
 import jakarta.validation.Valid;
-import org.ironhack.project.dtos.ArtistCreationRequest;
 import org.ironhack.project.dtos.ArtistUpdateRequest;
 import org.ironhack.project.models.classes.Artist;
 import org.ironhack.project.repositories.ArtistRepository;
@@ -25,17 +24,6 @@ public class ArtistService {
 
     public Optional<Artist> findById(Integer id) {
         return artistRepository.findById(id);
-    }
-
-    public Artist create(@Valid ArtistCreationRequest artistCreationRequest) {
-        Artist artist = new Artist();
-        artist.setName(artistCreationRequest.getName());
-        artist.setEmail(artistCreationRequest.getEmail());
-        artist.setPassword(artistCreationRequest.getPassword());
-        artist.setArtistName(artistCreationRequest.getArtistName());
-        artist.setGenre(artistCreationRequest.getGenre());
-
-        return artistRepository.save(artist);
     }
 
     public Artist update(Integer userId, @Valid ArtistUpdateRequest artistUpdateRequest) {

@@ -59,6 +59,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests((requests) -> requests
                         // Public access to Concert endpoints
                         .requestMatchers(HttpMethod.GET, "/api/concerts/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/register/**").permitAll()
 
                         // Admin endpoints restricted to ADMIN role
                         .requestMatchers(HttpMethod.POST, "/api/admin/**").hasAuthority("ADMIN")

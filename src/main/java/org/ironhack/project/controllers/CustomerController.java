@@ -33,12 +33,6 @@ public class CustomerController {
         return customer.map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/new")
-    public ResponseEntity<CustomerCreationRequest> create(@Valid @RequestBody CustomerCreationRequest customerCreationRequest) {
-        customerService.create(customerCreationRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(customerCreationRequest);
-    }
-
     @PutMapping("/{userId}/edit")
     public ResponseEntity<?> update(@PathVariable Integer userId,
                                        @Valid @RequestBody CustomerUpdateRequest customerUpdateRequest,

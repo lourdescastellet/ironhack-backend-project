@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.ironhack.project.dtos.AdminUpdateRequest;
 import org.ironhack.project.models.classes.Admin;
 import org.ironhack.project.services.AdminService;
-import org.ironhack.project.dtos.AdminCreationRequest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -64,27 +63,6 @@ class AdminControllerUnitTest {
 
         mockMvc.perform(get("/api/admin/{userId}", 0))
                 .andExpect(status().isNotFound());
-    }
-
-    @Test
-    void create_validAdmin_adminCreated() throws Exception {
-        AdminCreationRequest adminCreationRequest = new AdminCreationRequest();
-        adminCreationRequest.setName("Admin A");
-        adminCreationRequest.setEmail("admina@ironhack.com");
-        adminCreationRequest.setPassword("password");
-
-        Admin admin = new Admin();
-        admin.setName(adminCreationRequest.getName());
-        admin.setEmail(adminCreationRequest.getEmail());
-        admin.setPassword(adminCreationRequest.getPassword());
-
-        when(adminService.create(any(AdminCreationRequest.class))).thenReturn(admin);
-
-        mockMvc.perform(post("/api/admin/new")
-                        .content(objectMapper.writeValueAsString(adminCreationRequest))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name").value("Admin A"));
     }
 
     @Test

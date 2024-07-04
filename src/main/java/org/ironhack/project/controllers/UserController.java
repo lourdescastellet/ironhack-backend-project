@@ -34,6 +34,8 @@ public class UserController {
         customer.setName(request.getName());
         customer.setEmail(request.getEmail());
         customer.setPassword(hashedPassword);
+        customer.setCustomerAddress(request.getCustomerAddress());
+        customer.setPaymentMethod(request.getPaymentMethod());
         customerRepository.save(customer);
         return "Customer registered successfully";
     }
@@ -56,6 +58,8 @@ public class UserController {
         artist.setName(request.getName());
         artist.setEmail(request.getEmail());
         artist.setPassword(hashedPassword);
+        artist.setArtistName(request.getArtistName());
+        artist.setGenre(request.getGenre());
         artistRepository.save(artist);
         return "Artist registered successfully";
     }
@@ -67,6 +71,10 @@ public class UserController {
         venue.setName(request.getName());
         venue.setEmail(request.getEmail());
         venue.setPassword(hashedPassword);
+        venue.setVenueName(request.getVenueName());
+        venue.setVenueAddress(request.getVenueAddress());
+        venue.setVenueCity(request.getVenueCity());
+        venue.setVenueCapacity(request.getVenueCapacity());
         venueRepository.save(venue);
         return "Venue registered successfully";
     }

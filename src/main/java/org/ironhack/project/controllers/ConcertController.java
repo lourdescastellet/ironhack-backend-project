@@ -61,10 +61,19 @@ public class ConcertController {
     }
 
     @GetMapping("/{concertId}")
-    public ResponseEntity<Concert> findById(@PathVariable Integer concertId) {
-        Optional<Concert> concert = concertService.findConcertById(concertId);
-        return concert.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<ConcertResponseDTO> findById(@PathVariable Integer concertId) {
+        Optional<Concert> concertOptional = concertService.findConcertById(concertId);
+
+        if (concertOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Concert concert = concertOptional.get();
+        ConcertResponseDTO dto = mapToDTO(concert);
+
+        return ResponseEntity.ok(dto);
     }
+
 
     @PostMapping("/new")
     public ResponseEntity<Concert> create(@Valid @RequestBody ConcertCreationRequest concertCreationRequest) {

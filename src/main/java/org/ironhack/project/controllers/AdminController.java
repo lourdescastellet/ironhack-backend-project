@@ -2,12 +2,10 @@ package org.ironhack.project.controllers;
 
 
 import jakarta.validation.Valid;
-import org.ironhack.project.dtos.AdminCreationRequest;
 import org.ironhack.project.dtos.AdminUpdateRequest;
 import org.ironhack.project.models.classes.Admin;
 import org.ironhack.project.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -43,12 +41,6 @@ public class AdminController {
 
         Admin updatedAdmin = adminService.update(userId, adminUpdateRequest);
         return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/new")
-    public ResponseEntity<AdminCreationRequest> create(@Valid @RequestBody AdminCreationRequest adminCreationRequest) {
-        adminService.create(adminCreationRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(adminCreationRequest);
     }
 
     @DeleteMapping("/{userId}")

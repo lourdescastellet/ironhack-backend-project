@@ -1,12 +1,10 @@
 package org.ironhack.project.controllers;
 
 import jakarta.validation.Valid;
-import org.ironhack.project.dtos.ArtistCreationRequest;
 import org.ironhack.project.dtos.ArtistUpdateRequest;
 import org.ironhack.project.models.classes.Artist;
 import org.ironhack.project.services.ArtistService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -30,12 +28,6 @@ public class ArtistController {
     public ResponseEntity<Artist> findById(@PathVariable Integer userId) {
         Optional<Artist> artist =artistService.findById(userId);
         return artist.map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
-    }
-
-    @PostMapping("/new")
-    public ResponseEntity<ArtistCreationRequest> createArtist(@Valid @RequestBody ArtistCreationRequest artistCreationRequest) {
-        artistService.create(artistCreationRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(artistCreationRequest);
     }
 
     @PutMapping("/{userId}/edit")

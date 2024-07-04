@@ -7,6 +7,7 @@ import org.ironhack.project.models.classes.Concert;
 import org.ironhack.project.models.classes.Venue;
 import org.ironhack.project.models.enums.Genre;
 import org.ironhack.project.services.ConcertService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -39,47 +40,57 @@ class ConcertControllerUnitTest {
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper = new ObjectMapper();
+    private Artist artist1;
+    private Artist artist2;
+    private Venue venue1;
+    private Venue venue2;
+    private Concert concert1;
+    private Concert concert2;
+
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(concertController).build();
-    }
 
-    @Test
-    void findAll_concertsFound() throws Exception {
-        Artist artist1 = new Artist();
+        // Initialize artists
+        artist1 = new Artist();
         artist1.setUserId(1);
         artist1.setArtistName("Artist A");
         artist1.setGenre(Genre.ROCK);
 
-        Venue venue1 = new Venue();
+        artist2 = new Artist();
+        artist2.setUserId(2);
+        artist2.setArtistName("Artist B");
+        artist2.setGenre(Genre.POP);
+
+        // Initialize venues
+        venue1 = new Venue();
         venue1.setUserId(4);
         venue1.setVenueName("Venue X");
         venue1.setVenueCapacity(500);
 
-        Concert concert1 = new Concert();
+        venue2 = new Venue();
+        venue2.setUserId(5);
+        venue2.setVenueName("Venue Y");
+        venue2.setVenueCapacity(1500);
+
+        // Initialize concerts
+        concert1 = new Concert();
         concert1.setConcertId(1);
         concert1.setConcertName("Concert 1");
         concert1.setArtist(artist1);
         concert1.setVenue(venue1);
 
-        Artist artist2 = new Artist();
-        artist2.setUserId(2);
-        artist2.setArtistName("Artist B");
-        artist2.setGenre(Genre.POP);
-
-        Venue venue2 = new Venue();
-        venue2.setUserId(5);
-        venue2.setVenueName("Venue Y");
-        venue2.setVenueCapacity(1500);
-
-        Concert concert2 = new Concert();
+        concert2 = new Concert();
         concert2.setConcertId(2);
         concert2.setConcertName("Concert 2");
         concert2.setArtist(artist2);
         concert2.setVenue(venue2);
+    }
 
+    @Test
+    void findAll_concertsFound() throws Exception {
         when(concertService.findAllConcerts()).thenReturn(List.of(concert1, concert2));
 
         mockMvc.perform(get("/api/concerts"))
@@ -103,17 +114,17 @@ class ConcertControllerUnitTest {
 
     @Test
     void findById_existingId_concertReturned() throws Exception {
-        Concert concert = new Concert();
-        concert.setConcertId(1);
-        concert.setConcertName("Concert A");
-
-        when(concertService.findConcertById(1)).thenReturn(Optional.of(concert));
+        when(concertService.findConcertById(1)).thenReturn(Optional.of(concert1));
 
         mockMvc.perform(get("/api/concerts/{concertId}", 1))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.concertId").value(1))
-                .andExpect(jsonPath("$.concertName").value("Concert A"));
+                .andExpect(jsonPath("$.concertName").value("Concert 1"))
+                .andExpect(jsonPath("$.artist.artistName").value("Artist A"))
+                .andExpect(jsonPath("$.artist.genre").value("ROCK"))
+                .andExpect(jsonPath("$.venue.venueName").value("Venue X"));
     }
+
 
     @Test
     void findById_nonExistingId_throwsNotFound() throws Exception {
