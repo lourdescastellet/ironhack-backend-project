@@ -1,6 +1,7 @@
 package org.ironhack.project.services;
 
 import org.ironhack.project.dtos.AdminCreationRequest;
+import org.ironhack.project.dtos.AdminUpdateRequest;
 import org.ironhack.project.models.classes.Admin;
 import org.ironhack.project.repositories.AdminRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -105,9 +106,9 @@ class AdminServiceUnitTest {
     @Test
     void update_existingAdminId_adminUpdated() {
         Integer userId = 1;
-        AdminCreationRequest adminCreationRequest = new AdminCreationRequest();
-        adminCreationRequest.setName("Updated Admin");
-        adminCreationRequest.setEmail("updated@ironhack.com");
+        AdminUpdateRequest adminUpdateRequest = new AdminUpdateRequest();
+        adminUpdateRequest.setName("Updated Admin");
+        adminUpdateRequest.setEmail("updated@ironhack.com");
 
         Admin existingAdmin = new Admin();
         existingAdmin.setName("Original Admin");
@@ -120,7 +121,7 @@ class AdminServiceUnitTest {
         when(adminRepository.findById(userId)).thenReturn(Optional.of(existingAdmin));
         when(adminRepository.save(any(Admin.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        Admin updatedAdmin = adminService.update(userId, adminCreationRequest);
+        Admin updatedAdmin = adminService.update(userId, adminUpdateRequest);
 
         assertNotNull(updatedAdmin);
         assertEquals("Updated Admin", updatedAdmin.getName());

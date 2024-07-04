@@ -2,6 +2,7 @@ package org.ironhack.project.services;
 
 import jakarta.validation.Valid;
 import org.ironhack.project.dtos.AdminCreationRequest;
+import org.ironhack.project.dtos.AdminUpdateRequest;
 import org.ironhack.project.models.classes.Admin;
 import org.ironhack.project.repositories.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,21 +28,21 @@ public class AdminService {
     }
 
     public Admin update(Integer userId,
-                        @Valid AdminCreationRequest adminCreationRequest) {
+                        @Valid AdminUpdateRequest adminUpdateRequest) {
 
         Optional<Admin> optionalAdmin = adminRepository.findById(userId);
 
         if (optionalAdmin.isPresent()) {
             Admin admin = optionalAdmin.get();
 
-            if (adminCreationRequest.getName() != null) {
-                admin.setName(adminCreationRequest.getName());
+            if (adminUpdateRequest.getName() != null) {
+                admin.setName(adminUpdateRequest.getName());
             }
-            if (adminCreationRequest.getEmail() != null) {
-                admin.setEmail(adminCreationRequest.getEmail());
+            if (adminUpdateRequest.getEmail() != null) {
+                admin.setEmail(adminUpdateRequest.getEmail());
             }
-            if (adminCreationRequest.getPassword() != null) {
-                admin.setPassword(adminCreationRequest.getPassword());
+            if (adminUpdateRequest.getPassword() != null) {
+                admin.setPassword(adminUpdateRequest.getPassword());
             }
             Admin updatedAdmin = adminRepository.save(admin);
             return updatedAdmin;

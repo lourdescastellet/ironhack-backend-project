@@ -26,13 +26,6 @@ public class ConcertController {
     @Autowired
     private ConcertService concertService;
 
-//    // For Admin only
-//    @GetMapping("/all")
-//    public List<Concert> findAll() {
-//        return concertService.findAllConcerts();
-//    }
-
-    // Public
     @GetMapping
     public List<ConcertResponseDTO> findAll() {
         List<Concert> concerts = concertService.findAllConcerts();
@@ -78,13 +71,6 @@ public class ConcertController {
         Concert createdConcert = concertService.createConcert(concertCreationRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdConcert);
     }
-
-    // TODO update tests
-//    @PutMapping("/{concertId}/edit")
-//    public ResponseEntity<?> update(@PathVariable Integer concertId,
-//                                    @Valid @RequestBody ConcertUpdateRequest concertUpdateRequest,
-//                                    BindingResult result) {
-//    }
 
     @DeleteMapping("/{concertId}")
     public ResponseEntity<Void> deleteById(@PathVariable Integer concertId) {
