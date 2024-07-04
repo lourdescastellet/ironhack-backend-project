@@ -1,7 +1,8 @@
 package org.ironhack.project.controllers;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.ironhack.project.dtos.RegistrationRequest;
+import org.ironhack.project.dtos.*;
 import org.ironhack.project.models.classes.Admin;
 import org.ironhack.project.models.classes.Artist;
 import org.ironhack.project.models.classes.Customer;
@@ -10,11 +11,16 @@ import org.ironhack.project.repositories.AdminRepository;
 import org.ironhack.project.repositories.ArtistRepository;
 import org.ironhack.project.repositories.CustomerRepository;
 import org.ironhack.project.repositories.VenueRepository;
+import org.ironhack.project.services.AdminService;
+import org.ironhack.project.services.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/register")
@@ -26,9 +32,12 @@ public class UserController {
     private final ArtistRepository artistRepository;
     private final VenueRepository venueRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AdminService adminService;
+    private final UserService userService;
+
 
     @PostMapping("/customer")
-    public String registerCustomer(@RequestBody RegistrationRequest request) {
+    public String registerCustomer(@Validated @RequestBody CustomerCreationRequest request) {
         String hashedPassword = passwordEncoder.encode(request.getPassword());
         Customer customer = new Customer();
         customer.setName(request.getName());
@@ -41,7 +50,7 @@ public class UserController {
     }
 
     @PostMapping("/admin")
-    public String registerAdmin(@RequestBody RegistrationRequest request) {
+    public String registerAdmin(@Validated @RequestBody AdminCreationRequest request) {
         String hashedPassword = passwordEncoder.encode(request.getPassword());
         Admin admin = new Admin();
         admin.setName(request.getName());
@@ -52,7 +61,7 @@ public class UserController {
     }
 
     @PostMapping("/artist")
-    public String registerArtist(@RequestBody RegistrationRequest request) {
+    public String registerArtist(@Validated @RequestBody ArtistCreationRequest request) {
         String hashedPassword = passwordEncoder.encode(request.getPassword());
         Artist artist = new Artist();
         artist.setName(request.getName());
@@ -65,7 +74,7 @@ public class UserController {
     }
 
     @PostMapping("/venue")
-    public String registerVenue(@RequestBody RegistrationRequest request) {
+    public String registerVenue(@Validated @RequestBody VenueCreationRequest request) {
         String hashedPassword = passwordEncoder.encode(request.getPassword());
         Venue venue = new Venue();
         venue.setName(request.getName());
@@ -77,5 +86,19 @@ public class UserController {
         venue.setVenueCapacity(request.getVenueCapacity());
         venueRepository.save(venue);
         return "Venue registered successfully";
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<String> deleteUser(@PathVariable Integer userId, Principal principal) {
+        try {
+            userService.deleteUserById(userId);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("User deleted successfully");
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Access Denied: " + e.getMessage());
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete user: " + e.getMessage());
+        }
     }
 }

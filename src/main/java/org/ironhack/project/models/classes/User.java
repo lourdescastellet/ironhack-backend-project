@@ -18,8 +18,6 @@ public class User {
     @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
     private Integer userId;
 
-//    TODO validations
-//    @NotNull
     private String name;
 
     private String email;
