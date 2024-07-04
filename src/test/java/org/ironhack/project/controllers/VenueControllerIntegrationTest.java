@@ -1,7 +1,6 @@
 package org.ironhack.project.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.ironhack.project.dtos.VenueCreationRequest;
 import org.ironhack.project.dtos.VenueUpdateRequest;
 import org.ironhack.project.models.classes.Venue;
 import org.ironhack.project.repositories.VenueRepository;
@@ -52,31 +51,6 @@ public class VenueControllerIntegrationTest {
     @AfterEach
     public void tearDown() {
         venueRepository.deleteAll();
-    }
-
-    @Test
-    void createVenue_createsVenue() throws Exception {
-        VenueCreationRequest venueCreationRequest = new VenueCreationRequest();
-        venueCreationRequest.setName("New Venue");
-        venueCreationRequest.setEmail("newvenue@ironhack.com");
-        venueCreationRequest.setPassword("password");
-        venueCreationRequest.setVenueName("New Venue 1");
-        venueCreationRequest.setVenueCity("New Location");
-        venueCreationRequest.setVenueAddress("New Address 1");
-        venueCreationRequest.setVenueCapacity(2000);
-
-        String body = new ObjectMapper().writeValueAsString(venueCreationRequest);
-
-        mockMvc.perform(post("/api/venue/new")
-                        .content(body)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name").value("New Venue"))
-                .andExpect(jsonPath("$.email").value("newvenue@ironhack.com"))
-                .andExpect(jsonPath("$.venueName").value("New Venue 1"))
-                .andExpect(jsonPath("$.venueCity").value("New Location"))
-                .andExpect(jsonPath("$.venueAddress").value("New Address 1"))
-                .andExpect(jsonPath("$.venueCapacity").value(2000));
     }
 
     @Test

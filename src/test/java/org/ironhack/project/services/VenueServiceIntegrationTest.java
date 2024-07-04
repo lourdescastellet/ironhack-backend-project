@@ -1,6 +1,5 @@
 package org.ironhack.project.services;
 
-import org.ironhack.project.dtos.VenueCreationRequest;
 import org.ironhack.project.dtos.VenueUpdateRequest;
 import org.ironhack.project.models.classes.Venue;
 import org.ironhack.project.repositories.VenueRepository;
@@ -83,29 +82,6 @@ public class VenueServiceIntegrationTest {
         Optional<Venue> foundVenue = venueService.findById(999);
 
         assertFalse(foundVenue.isPresent());
-    }
-
-    @Test
-    void create_validVenueRequest_venueCreated() {
-        VenueCreationRequest venueCreationRequest = new VenueCreationRequest();
-        venueCreationRequest.setName("Venue C");
-        venueCreationRequest.setEmail("venuec@ironhack.com");
-        venueCreationRequest.setPassword("password");
-        venueCreationRequest.setVenueName("VenueC");
-        venueCreationRequest.setVenueAddress("Address C");
-        venueCreationRequest.setVenueCity("City C");
-        venueCreationRequest.setVenueCapacity(300);
-
-        Venue savedVenue = venueService.create(venueCreationRequest);
-
-        assertNotNull(savedVenue);
-        assertEquals("Venue C", savedVenue.getName());
-        assertEquals("venuec@ironhack.com", savedVenue.getEmail());
-        assertEquals("password", savedVenue.getPassword());
-        assertEquals("VenueC", savedVenue.getVenueName());
-        assertEquals("Address C", savedVenue.getVenueAddress());
-        assertEquals("City C", savedVenue.getVenueCity());
-        assertEquals(300, savedVenue.getVenueCapacity());
     }
 
     @Test

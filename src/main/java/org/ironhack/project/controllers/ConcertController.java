@@ -26,13 +26,6 @@ public class ConcertController {
     @Autowired
     private ConcertService concertService;
 
-//    // For Admin only
-//    @GetMapping("/all")
-//    public List<Concert> findAll() {
-//        return concertService.findAllConcerts();
-//    }
-
-    // Public
     @GetMapping
     public List<ConcertResponseDTO> findAll() {
         List<Concert> concerts = concertService.findAllConcerts();
@@ -68,23 +61,25 @@ public class ConcertController {
     }
 
     @GetMapping("/{concertId}")
-    public ResponseEntity<Concert> findById(@PathVariable Integer concertId) {
-        Optional<Concert> concert = concertService.findConcertById(concertId);
-        return concert.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<ConcertResponseDTO> findById(@PathVariable Integer concertId) {
+        Optional<Concert> concertOptional = concertService.findConcertById(concertId);
+
+        if (concertOptional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Concert concert = concertOptional.get();
+        ConcertResponseDTO dto = mapToDTO(concert);
+
+        return ResponseEntity.ok(dto);
     }
+
 
     @PostMapping("/new")
     public ResponseEntity<Concert> create(@Valid @RequestBody ConcertCreationRequest concertCreationRequest) {
         Concert createdConcert = concertService.createConcert(concertCreationRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdConcert);
     }
-
-    // TODO update tests
-//    @PutMapping("/{concertId}/edit")
-//    public ResponseEntity<?> update(@PathVariable Integer concertId,
-//                                    @Valid @RequestBody ConcertUpdateRequest concertUpdateRequest,
-//                                    BindingResult result) {
-//    }
 
     @DeleteMapping("/{concertId}")
     public ResponseEntity<Void> deleteById(@PathVariable Integer concertId) {

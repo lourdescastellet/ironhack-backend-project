@@ -1,9 +1,9 @@
 package org.ironhack.project.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.ironhack.project.dtos.AdminUpdateRequest;
 import org.ironhack.project.models.classes.Admin;
 import org.ironhack.project.services.AdminService;
-import org.ironhack.project.dtos.AdminCreationRequest;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -66,42 +66,21 @@ class AdminControllerUnitTest {
     }
 
     @Test
-    void create_validAdmin_adminCreated() throws Exception {
-        AdminCreationRequest adminCreationRequest = new AdminCreationRequest();
-        adminCreationRequest.setName("Admin A");
-        adminCreationRequest.setEmail("admina@ironhack.com");
-        adminCreationRequest.setPassword("password");
-
-        Admin admin = new Admin();
-        admin.setName(adminCreationRequest.getName());
-        admin.setEmail(adminCreationRequest.getEmail());
-        admin.setPassword(adminCreationRequest.getPassword());
-
-        when(adminService.create(any(AdminCreationRequest.class))).thenReturn(admin);
-
-        mockMvc.perform(post("/api/admin/new")
-                        .content(objectMapper.writeValueAsString(adminCreationRequest))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name").value("Admin A"));
-    }
-
-    @Test
     void update_existingId_adminUpdated() throws Exception {
-        AdminCreationRequest adminCreationRequest = new AdminCreationRequest();
-        adminCreationRequest.setName("Updated Admin");
-        adminCreationRequest.setEmail("updated@ironhack.com");
+        AdminUpdateRequest adminUpdateRequest = new AdminUpdateRequest();
+        adminUpdateRequest.setName("Updated Admin");
+        adminUpdateRequest.setEmail("updated@ironhack.com");
 
         Admin updatedAdmin = new Admin();
         updatedAdmin.setUserId(1);
-        updatedAdmin.setName(adminCreationRequest.getName());
-        updatedAdmin.setEmail(adminCreationRequest.getEmail());
-        updatedAdmin.setPassword(adminCreationRequest.getPassword());
+        updatedAdmin.setName(adminUpdateRequest.getName());
+        updatedAdmin.setEmail(adminUpdateRequest.getEmail());
+        updatedAdmin.setPassword(adminUpdateRequest.getPassword());
 
-        when(adminService.update(anyInt(), any(AdminCreationRequest.class))).thenReturn(updatedAdmin);
+        when(adminService.update(anyInt(), any())).thenReturn(updatedAdmin);
 
         mockMvc.perform(put("/api/admin/{userId}/edit", 1)
-                        .content(objectMapper.writeValueAsString(adminCreationRequest))
+                        .content(objectMapper.writeValueAsString(adminUpdateRequest))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }

@@ -1,7 +1,6 @@
 package org.ironhack.project.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.ironhack.project.dtos.CustomerCreationRequest;
 import org.ironhack.project.dtos.CustomerUpdateRequest;
 import org.ironhack.project.models.classes.Customer;
 import org.ironhack.project.repositories.CustomerRepository;
@@ -49,25 +48,6 @@ public class CustomerControllerIntegrationTest {
     @AfterEach
     public void tearDown() {
         customerRepository.deleteAll();
-    }
-
-    @Test
-    void createCustomer_createsCustomer() throws Exception {
-        CustomerCreationRequest customerCreationRequest = new CustomerCreationRequest();
-        customerCreationRequest.setName("New Customer");
-        customerCreationRequest.setEmail("new.customer@ironhack.com");
-        customerCreationRequest.setPassword("password");
-        customerCreationRequest.setCustomerAddress("New Address");
-        customerCreationRequest.setPaymentMethod("Visa");
-
-        String body = new ObjectMapper().writeValueAsString(customerCreationRequest);
-
-        mockMvc.perform(post("/api/customer/new")
-                        .content(body)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name").value("New Customer"))
-                .andExpect(jsonPath("$.email").value("new.customer@ironhack.com"));
     }
 
     @Test

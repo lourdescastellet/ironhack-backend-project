@@ -1,6 +1,5 @@
 package org.ironhack.project.services;
 
-import org.ironhack.project.dtos.CustomerCreationRequest;
 import org.ironhack.project.dtos.CustomerUpdateRequest;
 import org.ironhack.project.models.classes.Customer;
 import org.ironhack.project.repositories.CustomerRepository;
@@ -77,25 +76,6 @@ public class CustomerServiceIntegrationTest {
         Optional<Customer> foundCustomer = customerService.findById(0); // Assuming ID 0 does not exist
 
         assertFalse(foundCustomer.isPresent());
-    }
-
-    @Test
-    void create_validCustomerRequest_customerCreated() {
-        CustomerCreationRequest customerCreationRequest = new CustomerCreationRequest();
-        customerCreationRequest.setName("Customer C");
-        customerCreationRequest.setEmail("customerc@ironhack.com");
-        customerCreationRequest.setPassword("password");
-        customerCreationRequest.setPaymentMethod("Credit Card");
-        customerCreationRequest.setCustomerAddress("Address C");
-
-        Customer savedCustomer = customerService.create(customerCreationRequest);
-
-        assertNotNull(savedCustomer);
-        assertEquals("Customer C", savedCustomer.getName());
-        assertEquals("customerc@ironhack.com", savedCustomer.getEmail());
-        assertEquals("password", savedCustomer.getPassword());
-        assertEquals("Credit Card", savedCustomer.getPaymentMethod());
-        assertEquals("Address C", savedCustomer.getCustomerAddress());
     }
 
     @Test

@@ -1,6 +1,5 @@
 package org.ironhack.project.services;
 
-import org.ironhack.project.dtos.ArtistCreationRequest;
 import org.ironhack.project.dtos.ArtistUpdateRequest;
 import org.ironhack.project.models.classes.Artist;
 import org.ironhack.project.models.enums.Genre;
@@ -81,34 +80,6 @@ class ArtistServiceUnitTest {
         Artist foundArtist = artistService.findById(userId).orElse(null);
 
         assertNull(foundArtist);
-    }
-
-    @Test
-    void create_validArtistRequest_artistCreated() {
-        ArtistCreationRequest artistCreationRequest = new ArtistCreationRequest();
-        artistCreationRequest.setName("Artist A");
-        artistCreationRequest.setEmail("artista@ironhack.com");
-        artistCreationRequest.setPassword("password");
-        artistCreationRequest.setArtistName("Band A");
-        artistCreationRequest.setGenre(Genre.ROCK);
-
-        Artist artistToSave = new Artist();
-        artistToSave.setName(artistCreationRequest.getName());
-        artistToSave.setEmail(artistCreationRequest.getEmail());
-        artistToSave.setPassword(artistCreationRequest.getPassword());
-        artistToSave.setArtistName(artistCreationRequest.getArtistName());
-        artistToSave.setGenre(artistCreationRequest.getGenre());
-
-        when(artistRepository.save(any(Artist.class))).thenReturn(artistToSave);
-
-        Artist savedArtist = artistService.create(artistCreationRequest);
-
-        assertNotNull(savedArtist);
-        assertEquals("Artist A", savedArtist.getName());
-        assertEquals("artista@ironhack.com", savedArtist.getEmail());
-        assertEquals("password", savedArtist.getPassword());
-        assertEquals("Band A", savedArtist.getArtistName());
-        assertEquals(Genre.ROCK, savedArtist.getGenre());
     }
 
     @Test

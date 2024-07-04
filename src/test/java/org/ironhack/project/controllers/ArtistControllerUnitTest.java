@@ -1,10 +1,8 @@
 package org.ironhack.project.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.ironhack.project.dtos.ArtistCreationRequest;
 import org.ironhack.project.dtos.ArtistUpdateRequest;
 import org.ironhack.project.models.classes.Artist;
-import org.ironhack.project.models.enums.Genre;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -63,31 +61,6 @@ class ArtistControllerUnitTest {
 
         mockMvc.perform(get("/api/artist/{userId}", 0))
                 .andExpect(status().isNotFound());
-    }
-
-    @Test
-    void create_Artist_validArtist_artistCreated() throws Exception {
-        ArtistCreationRequest artistCreationRequest = new ArtistCreationRequest();
-        artistCreationRequest.setName("Artist A");
-        artistCreationRequest.setEmail("artista@ironhack.com");
-        artistCreationRequest.setPassword("password");
-        artistCreationRequest.setArtistName("Art-A");
-        artistCreationRequest.setGenre(Genre.JAZZ);
-
-        Artist artist = new Artist();
-        artist.setName(artistCreationRequest.getName());
-        artist.setEmail(artistCreationRequest.getEmail());
-        artist.setPassword(artistCreationRequest.getPassword());
-        artist.setArtistName(artistCreationRequest.getArtistName());
-        artist.setGenre(artistCreationRequest.getGenre());
-
-        when(artistService.create(any(ArtistCreationRequest.class))).thenReturn(artist);
-
-        mockMvc.perform(post("/api/artist/new")
-                        .content(objectMapper.writeValueAsString(artistCreationRequest))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name").value("Artist A"));
     }
 
     @Test

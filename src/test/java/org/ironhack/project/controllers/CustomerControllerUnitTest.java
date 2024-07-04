@@ -1,7 +1,6 @@
 package org.ironhack.project.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.ironhack.project.dtos.CustomerCreationRequest;
 import org.ironhack.project.dtos.CustomerUpdateRequest;
 import org.ironhack.project.models.classes.Customer;
 import org.ironhack.project.services.CustomerService;
@@ -77,27 +76,6 @@ class CustomerControllerUnitTest {
 
         mockMvc.perform(get("/api/customer/{userId}", 1))
                 .andExpect(status().isNotFound());
-    }
-
-    @Test
-    void create_validCustomer_customerCreated() throws Exception {
-        CustomerCreationRequest customerCreationRequest = new CustomerCreationRequest();
-        customerCreationRequest.setName("Customer A");
-        customerCreationRequest.setEmail("customera@ironhack.com");
-        customerCreationRequest.setPassword("password");
-
-        Customer customer = new Customer();
-        customer.setName(customerCreationRequest.getName());
-        customer.setEmail(customerCreationRequest.getEmail());
-        customer.setPassword(customerCreationRequest.getPassword());
-
-        when(customerService.create(any(CustomerCreationRequest.class))).thenReturn(customer);
-
-        mockMvc.perform(post("/api/customer/new")
-                        .content(objectMapper.writeValueAsString(customerCreationRequest))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name").value("Customer A"));
     }
 
     @Test

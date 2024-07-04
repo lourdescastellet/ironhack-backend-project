@@ -1,6 +1,6 @@
 package org.ironhack.project.services;
 
-import org.ironhack.project.dtos.AdminCreationRequest;
+import org.ironhack.project.dtos.AdminUpdateRequest;
 import org.ironhack.project.models.classes.Admin;
 import org.ironhack.project.repositories.AdminRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -30,22 +30,6 @@ public class AdminServiceIntegrationTest {
     }
 
     @Test
-    void create_validAdminRequest_adminCreated() {
-        AdminCreationRequest adminCreationRequest = new AdminCreationRequest();
-        adminCreationRequest.setName("Admin A");
-        adminCreationRequest.setEmail("admina@ironhack.com");
-        adminCreationRequest.setPassword("password");
-
-        Admin savedAdmin = adminService.create(adminCreationRequest);
-
-        assertNotNull(savedAdmin);
-        assertNotNull(savedAdmin.getUserId());
-        assertEquals("Admin A", savedAdmin.getName());
-        assertEquals("admina@ironhack.com", savedAdmin.getEmail());
-        assertEquals("password", savedAdmin.getPassword());
-    }
-
-    @Test
     void findById_existingAdminId_adminFound() {
         Admin adminToSave = new Admin();
         adminToSave.setName("Admin B");
@@ -68,16 +52,16 @@ public class AdminServiceIntegrationTest {
         adminToSave.setPassword("password");
         Admin savedAdmin = adminRepository.save(adminToSave);
 
-        AdminCreationRequest adminCreationRequest = new AdminCreationRequest();
-        adminCreationRequest.setName("Updated Admin");
-        adminCreationRequest.setEmail("updated@ironhack.com");
+        AdminUpdateRequest adminUpdateRequest = new AdminUpdateRequest();
+        adminUpdateRequest.setName("Updated Admin");
+        adminUpdateRequest.setEmail("updated@ironhack.com");
 
-        Admin updatedAdmin = adminService.update(savedAdmin.getUserId(), adminCreationRequest);
+        Admin updatedAdmin = adminService.update(savedAdmin.getUserId(), adminUpdateRequest);
 
         assertNotNull(updatedAdmin);
         assertEquals("Updated Admin", updatedAdmin.getName());
         assertEquals("updated@ironhack.com", updatedAdmin.getEmail());
-        assertEquals("password", updatedAdmin.getPassword()); // Password should remain unchanged
+        assertEquals("password", updatedAdmin.getPassword());
     }
 
     @Test

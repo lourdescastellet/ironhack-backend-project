@@ -1,12 +1,10 @@
 package org.ironhack.project.controllers;
 
 import jakarta.validation.Valid;
-import org.ironhack.project.dtos.VenueCreationRequest;
 import org.ironhack.project.dtos.VenueUpdateRequest;
 import org.ironhack.project.models.classes.Venue;
 import org.ironhack.project.services.VenueService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -30,12 +28,6 @@ public class VenueController {
     public ResponseEntity<Venue> findById(@PathVariable Integer userId) {
         Optional<Venue> venue =venueService.findById(userId);
         return venue.map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
-    }
-
-    @PostMapping("/new")
-    public ResponseEntity<VenueCreationRequest> createVenue(@Valid @RequestBody VenueCreationRequest venueCreationRequest) {
-        venueService.create(venueCreationRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(venueCreationRequest);
     }
 
     @PutMapping("/{userId}/edit")

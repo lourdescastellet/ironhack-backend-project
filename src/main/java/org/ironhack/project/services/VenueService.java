@@ -1,7 +1,6 @@
 package org.ironhack.project.services;
 
 import jakarta.validation.Valid;
-import org.ironhack.project.dtos.VenueCreationRequest;
 import org.ironhack.project.dtos.VenueUpdateRequest;
 import org.ironhack.project.models.classes.Venue;
 import org.ironhack.project.repositories.VenueRepository;
@@ -25,19 +24,6 @@ public class VenueService {
 
     public Optional<Venue> findById(Integer id) {
         return venueRepository.findById(id);
-    }
-
-    public Venue create(@Valid VenueCreationRequest venueCreationRequest) {
-        Venue venue = new Venue();
-        venue.setName(venueCreationRequest.getName());
-        venue.setEmail(venueCreationRequest.getEmail());
-        venue.setPassword(venueCreationRequest.getPassword());
-        venue.setVenueName(venueCreationRequest.getVenueName());
-        venue.setVenueAddress(venueCreationRequest.getVenueAddress());
-        venue.setVenueCity(venueCreationRequest.getVenueCity());
-        venue.setVenueCapacity(venueCreationRequest.getVenueCapacity());
-
-        return venueRepository.save(venue);
     }
 
     public Venue update(Integer userId,
