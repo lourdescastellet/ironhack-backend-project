@@ -78,14 +78,7 @@ public class SecurityConfig {
                         // Customer endpoints restricted to CUSTOMER role
                         .requestMatchers(HttpMethod.POST, "/api/customer/**").hasAuthority("CUSTOMER")
                         .requestMatchers(HttpMethod.PUT, "/api/customer/**").hasAuthority("CUSTOMER")
-                        .requestMatchers(HttpMethod.DELETE, "/api/customer/**").hasAuthority("CUSTOMER")
-
-                        // Booking endpoints
-                        .requestMatchers(HttpMethod.GET, "/api/booking/**").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/api/booking/**").hasAuthority("CUSTOMER")
-                        // .requestMatchers(HttpMethod.PUT, "/api/booking/**").hasAuthority("CUSTOMER")
-                        .requestMatchers(HttpMethod.DELETE, "/api/booking/**").hasAuthority("CUSTOMER")
-                        .anyRequest().authenticated()); // All other requests require authentication
+                        .requestMatchers(HttpMethod.DELETE, "/api/customer/**").hasAuthority("CUSTOMER"));
 
         // add the custom authentication filter to the http security object
         http.addFilter(customAuthenticationFilter);
