@@ -67,14 +67,17 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
         log.info("Subject (Email): " + user.getUsername());
 
+        Date expiresAt = new Date(System.currentTimeMillis() + 1000 * 60 * 1000);
+
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
+                .withExpiresAt(expiresAt)
                 .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
 
         log.info("Generated JWT Token: {}", access_token);
+        log.info("Token will expire at: {}", expiresAt);
 
         Map<String, Object> tokens = new HashMap<>();
         tokens.put("access_token", access_token);

@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -67,24 +66,20 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/admin/**").hasAuthority("ADMIN")
 
                         // Venue endpoints restricted to VENUE role
-                        .requestMatchers(HttpMethod.POST, "/api/venue/**").hasAuthority("VENUE")
                         .requestMatchers(HttpMethod.PUT, "/api/venue/**").hasAuthority("VENUE")
                         .requestMatchers(HttpMethod.DELETE, "/api/venue/**").hasAuthority("VENUE")
 
                         // Artist endpoints restricted to ARTIST role
-                        .requestMatchers(HttpMethod.POST, "/api/artist/**").hasAuthority("ARTIST")
                         .requestMatchers(HttpMethod.PUT, "/api/artist/**").hasAuthority("ARTIST")
                         .requestMatchers(HttpMethod.DELETE, "/api/artist/**").hasAuthority("ARTIST")
 
                         // Customer endpoints restricted to CUSTOMER role
-                        .requestMatchers(HttpMethod.POST, "/api/customer/**").hasAuthority("CUSTOMER")
                         .requestMatchers(HttpMethod.PUT, "/api/customer/**").hasAuthority("CUSTOMER")
                         .requestMatchers(HttpMethod.DELETE, "/api/customer/**").hasAuthority("CUSTOMER")
 
                         // Booking endpoints
                         .requestMatchers(HttpMethod.GET, "/api/booking/**").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/booking/**").hasAuthority("CUSTOMER")
-                        // .requestMatchers(HttpMethod.PUT, "/api/booking/**").hasAuthority("CUSTOMER")
                         .requestMatchers(HttpMethod.DELETE, "/api/booking/**").hasAuthority("CUSTOMER")
                         .anyRequest().authenticated()); // All other requests require authentication
 

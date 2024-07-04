@@ -1,15 +1,28 @@
 package org.ironhack.project.controllers;
 
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.ironhack.project.dtos.AdminUpdateRequest;
 import org.ironhack.project.models.classes.Admin;
+import org.ironhack.project.models.classes.User;
+import org.ironhack.project.models.enums.Role;
+import org.ironhack.project.repositories.AdminRepository;
+import org.ironhack.project.repositories.ArtistRepository;
+import org.ironhack.project.repositories.CustomerRepository;
+import org.ironhack.project.repositories.VenueRepository;
 import org.ironhack.project.services.AdminService;
+import org.ironhack.project.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +32,21 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    private AdminRepository adminRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private ArtistRepository artistRepository;
+
+    @Autowired
+    private VenueRepository venueRepository;
 
     @GetMapping
     public List<Admin> findAll() {
@@ -43,9 +71,5 @@ public class AdminController {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteById(@PathVariable Integer userId) {
-        adminService.deleteById(userId);
-        return ResponseEntity.noContent().build();
-    }
+
 }
