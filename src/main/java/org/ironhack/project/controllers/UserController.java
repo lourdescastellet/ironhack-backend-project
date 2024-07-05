@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/api/register")
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -37,56 +37,75 @@ public class UserController {
 
 
     @PostMapping("/customer")
-    public String registerCustomer(@Validated @RequestBody CustomerCreationRequest request) {
-        String hashedPassword = passwordEncoder.encode(request.getPassword());
-        Customer customer = new Customer();
-        customer.setName(request.getName());
-        customer.setEmail(request.getEmail());
-        customer.setPassword(hashedPassword);
-        customer.setCustomerAddress(request.getCustomerAddress());
-        customer.setPaymentMethod(request.getPaymentMethod());
-        customerRepository.save(customer);
-        return "Customer registered successfully";
+    public ResponseEntity<?> registerCustomer(@Validated @RequestBody CustomerCreationRequest request) {
+        try {
+            String hashedPassword = passwordEncoder.encode(request.getPassword());
+            Customer customer = new Customer();
+            customer.setName(request.getName());
+            customer.setEmail(request.getEmail());
+            customer.setPassword(hashedPassword);
+            customer.setCustomerAddress(request.getCustomerAddress());
+            customer.setPaymentMethod(request.getPaymentMethod());
+            Customer savedCustomer = customerRepository.save(customer);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedCustomer);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to register customer: " + e.getMessage());
+        }
     }
 
+
     @PostMapping("/admin")
-    public String registerAdmin(@Validated @RequestBody AdminCreationRequest request) {
-        String hashedPassword = passwordEncoder.encode(request.getPassword());
-        Admin admin = new Admin();
-        admin.setName(request.getName());
-        admin.setEmail(request.getEmail());
-        admin.setPassword(hashedPassword);
-        adminRepository.save(admin);
-        return "Admin registered successfully";
+    public ResponseEntity<?> registerAdmin(@Validated @RequestBody AdminCreationRequest request) {
+        try {
+            String hashedPassword = passwordEncoder.encode(request.getPassword());
+            Admin admin = new Admin();
+            admin.setName(request.getName());
+            admin.setEmail(request.getEmail());
+            admin.setPassword(hashedPassword);
+            Admin savedAdmin = adminRepository.save(admin);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedAdmin);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to register admin: " + e.getMessage());
+        }
     }
 
     @PostMapping("/artist")
-    public String registerArtist(@Validated @RequestBody ArtistCreationRequest request) {
-        String hashedPassword = passwordEncoder.encode(request.getPassword());
-        Artist artist = new Artist();
-        artist.setName(request.getName());
-        artist.setEmail(request.getEmail());
-        artist.setPassword(hashedPassword);
-        artist.setArtistName(request.getArtistName());
-        artist.setGenre(request.getGenre());
-        artistRepository.save(artist);
-        return "Artist registered successfully";
+    public ResponseEntity<?> registerArtist(@Validated @RequestBody ArtistCreationRequest request) {
+        try {
+            String hashedPassword = passwordEncoder.encode(request.getPassword());
+            Artist artist = new Artist();
+            artist.setName(request.getName());
+            artist.setEmail(request.getEmail());
+            artist.setPassword(hashedPassword);
+            artist.setArtistName(request.getArtistName());
+            artist.setGenre(request.getGenre());
+            Artist savedArtist = artistRepository.save(artist);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedArtist);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to register artist: " + e.getMessage());
+        }
     }
 
     @PostMapping("/venue")
-    public String registerVenue(@Validated @RequestBody VenueCreationRequest request) {
-        String hashedPassword = passwordEncoder.encode(request.getPassword());
-        Venue venue = new Venue();
-        venue.setName(request.getName());
-        venue.setEmail(request.getEmail());
-        venue.setPassword(hashedPassword);
-        venue.setVenueName(request.getVenueName());
-        venue.setVenueAddress(request.getVenueAddress());
-        venue.setVenueCity(request.getVenueCity());
-        venue.setVenueCapacity(request.getVenueCapacity());
-        venueRepository.save(venue);
-        return "Venue registered successfully";
+    public ResponseEntity<?> registerVenue(@Validated @RequestBody VenueCreationRequest request) {
+        try {
+            String hashedPassword = passwordEncoder.encode(request.getPassword());
+            Venue venue = new Venue();
+            venue.setName(request.getName());
+            venue.setEmail(request.getEmail());
+            venue.setPassword(hashedPassword);
+            venue.setVenueName(request.getVenueName());
+            venue.setVenueAddress(request.getVenueAddress());
+            venue.setVenueCity(request.getVenueCity());
+            venue.setVenueCapacity(request.getVenueCapacity());
+            Venue savedVenue = venueRepository.save(venue);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedVenue);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to register venue: " + e.getMessage());
+        }
     }
+
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<String> deleteUser(@PathVariable Integer userId, Principal principal) {

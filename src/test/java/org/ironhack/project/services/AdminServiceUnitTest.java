@@ -106,28 +106,4 @@ class AdminServiceUnitTest {
         assertEquals("updated@ironhack.com", updatedAdmin.getEmail());
         assertEquals("password", updatedAdmin.getPassword());
     }
-
-//    TODO update deleting tests
-//    @Test
-//    void delete_existingAdminId_adminDeleted() {
-//        Admin adminToDelete = new Admin();
-//        Integer userId = 1;
-//        adminToDelete.setUserId(userId);
-//
-//        when(adminRepository.findById(userId)).thenReturn(Optional.of(adminToDelete));
-//        doNothing().when(adminRepository).delete(any(Admin.class));
-//
-//        adminService.deleteById(userId);
-//
-//        verify(adminRepository, times(1)).findById(userId);
-//        verify(adminRepository, times(1)).delete(any(Admin.class));
-//    }
-//
-//    @Test
-//    void delete_nonExistingAdminId_adminNotFound() {
-//
-//        when(adminRepository.findById(anyInt())).thenReturn(Optional.empty());
-//        assertThrows(ResponseStatusException.class, () -> adminService.deleteById(1));
-//
-//    }
 }

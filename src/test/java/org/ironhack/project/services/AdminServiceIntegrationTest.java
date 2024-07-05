@@ -64,25 +64,6 @@ public class AdminServiceIntegrationTest {
         assertEquals("password", updatedAdmin.getPassword());
     }
 
-//    TODO update deleting tests
-//    @Test
-//    void delete_existingAdminId_adminDeleted() {
-//        Admin adminToSave = new Admin();
-//        adminToSave.setName("Admin to delete");
-//        adminToSave.setEmail("delete@ironhack.com");
-//        adminToSave.setPassword("password");
-//        Admin savedAdmin = adminRepository.save(adminToSave);
-//
-//        adminService.deleteById(savedAdmin.getUserId());
-//
-//        assertFalse(adminRepository.findById(savedAdmin.getUserId()).isPresent());
-//    }
-//
-//    @Test
-//    void delete_nonExistingAdminId_adminNotFound() {
-//        assertThrows(ResponseStatusException.class, () -> adminService.deleteById(0)); // Assuming ID 0 does not exist
-//    }
-
     @Test
     void findAll_multipleAdmins_foundAllAdmins() {
         Admin admin1 = new Admin();

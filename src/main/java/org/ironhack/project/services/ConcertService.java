@@ -52,11 +52,6 @@ public class ConcertService {
         return concertRepository.save(concert);
     }
 
-// TODO updateDTO - service - controller
-//    public Concert updateConcert(Integer concertId, ConcertUpdateRequest concertUpdateRequest) {
-//
-//    }
-
     public void deleteConcert(Integer concertId) {
         Concert concert = concertRepository.findById(concertId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Concert not found with id: " + concertId));
