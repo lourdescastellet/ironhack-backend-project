@@ -70,6 +70,4 @@ public class AdminController {
         Admin updatedAdmin = adminService.update(userId, adminUpdateRequest);
         return ResponseEntity.noContent().build();
     }
-
-
 }

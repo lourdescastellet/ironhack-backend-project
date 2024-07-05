@@ -92,20 +92,4 @@ public class AdminControllerIntegrationTest {
         assertEquals("admin@ironhack.com", updated.getEmail());
         assertEquals("password", updated.getPassword());
     }
-
-//    TODO update deleting tests
-//    @Test
-//    void delete_existingAdminId_adminDeleted() throws Exception {
-//        mockMvc.perform(delete("/api/admin/{userId}", admin.getUserId()))
-//                .andExpect(status().isNoContent());
-//
-//        Optional<Admin> deletedAdmin = adminRepository.findById(admin.getUserId());
-//        assertFalse(deletedAdmin.isPresent());
-//    }
-//
-//    @Test
-//    void delete_nonExistingAdminId_notFound() throws Exception {
-//        mockMvc.perform(delete("/api/admin/{userId}", 999))
-//                .andExpect(status().isNotFound());
-//    }
 }

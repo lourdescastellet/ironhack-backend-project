@@ -84,11 +84,4 @@ class AdminControllerUnitTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
-
-//    TODO update deleting tests
-//    @Test
-//    void delete_existingId_adminDeleted() throws Exception {
-//        mockMvc.perform(delete("/api/admin/{userId}", 1))
-//                .andExpect(status().isNoContent());
-//    }
 }
