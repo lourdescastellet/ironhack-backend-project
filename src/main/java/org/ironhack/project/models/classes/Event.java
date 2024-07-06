@@ -5,7 +5,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 
-
+@EqualsAndHashCode()
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 public class Event {
