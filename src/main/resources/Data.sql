@@ -1,7 +1,7 @@
 INSERT INTO venue (venue.user_id, venue_name, venue_address, venue_city, venue_capacity) VALUES
     (5, 'Venue X', 'Address X', 'City X', 500),
     (6, 'Venue Y', 'Address Y', 'City Y', 1500),
-    (7, 'Venue Z', 'Address Z', 'City Z', 200);
+    (7, 'Venue Z', 'Address Z', 'City Z', 50);
 
 INSERT INTO artist (artist.user_id, name, email, password, artist_name, genre)
 VALUES

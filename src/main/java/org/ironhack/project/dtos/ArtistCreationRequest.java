@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import org.hibernate.validator.constraints.UniqueElements;
+import org.ironhack.project.models.classes.UniqueEmail;
 import org.ironhack.project.models.enums.Genre;
 
 @Data
@@ -15,6 +17,7 @@ public class ArtistCreationRequest {
 
     @NotEmpty(message = "Email can't be empty or null.")
     @Email(message = "Email should be valid")
+    @UniqueEmail(message = "This email is already registered.")
     private String email;
 
     @NotEmpty(message = "Password can't be empty or null.")

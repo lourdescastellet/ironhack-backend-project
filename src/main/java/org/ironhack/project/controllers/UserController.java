@@ -47,7 +47,15 @@ public class UserController {
             customer.setCustomerAddress(request.getCustomerAddress());
             customer.setPaymentMethod(request.getPaymentMethod());
             Customer savedCustomer = customerRepository.save(customer);
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedCustomer);
+
+            String responseBody = "Customer registered successfully!\n" +
+                    "Here is your account information: " + "\n" +
+                    "UserID: " + savedCustomer.getUserId() + "\n" +
+                    "Name: " + savedCustomer.getName() + "\n" +
+                    "Email: " + savedCustomer.getEmail() + "\n" +
+                    "Encrypted password " + savedCustomer.getPassword();
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(responseBody);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to register customer: " + e.getMessage());
         }
@@ -64,7 +72,14 @@ public class UserController {
             admin.setPassword(hashedPassword);
             Admin savedAdmin = adminRepository.save(admin);
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedAdmin);
+            String responseBody = "Admin registered successfully!\n" +
+                    "Here is your account information: " + "\n" +
+                    "UserID: " + savedAdmin.getUserId() + "\n" +
+                    "Name: " + savedAdmin.getName() + "\n" +
+                    "Email: " + savedAdmin.getEmail() + "\n" +
+                    "Encrypted password " + savedAdmin.getPassword();
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(responseBody);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to register admin: " + e.getMessage());
         }
@@ -81,7 +96,15 @@ public class UserController {
             artist.setArtistName(request.getArtistName());
             artist.setGenre(request.getGenre());
             Artist savedArtist = artistRepository.save(artist);
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedArtist);
+
+            String responseBody = "Artist registered successfully!\n" +
+                    "Here is your account information: " + "\n" +
+                    "UserID: " + savedArtist.getUserId() + "\n" +
+                    "Name: " + savedArtist.getName() + "\n" +
+                    "Email: " + savedArtist.getEmail() + "\n" +
+                    "Encrypted password: " + savedArtist.getPassword();
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(responseBody);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to register artist: " + e.getMessage());
         }
@@ -100,7 +123,15 @@ public class UserController {
             venue.setVenueCity(request.getVenueCity());
             venue.setVenueCapacity(request.getVenueCapacity());
             Venue savedVenue = venueRepository.save(venue);
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedVenue);
+
+            String responseBody = "Venue registered successfully!\n" +
+                    "Here is your account information: " + "\n" +
+                    "UserID: " + savedVenue.getUserId() + "\n" +
+                    "Name: " + savedVenue.getName() + "\n" +
+                    "Email: " + savedVenue.getEmail() + "\n" +
+                    "Encrypted password: " + savedVenue.getPassword();
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(responseBody);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to register venue: " + e.getMessage());
         }

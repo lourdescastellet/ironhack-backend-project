@@ -65,16 +65,22 @@ public class TicketService {
         // Generate tickets for the concert
         List<Ticket> tickets = getTickets(concert);
 
+        // Log the generated tickets
+        System.out.println("Generated tickets:");
+        tickets.forEach(System.out::println);
+
         // Save generated tickets
-        ticketRepository.saveAll(tickets);
+        List<Ticket> savedTickets = ticketRepository.saveAll(tickets);
+
+        // Log the saved tickets
+        System.out.println("Saved tickets:");
+        savedTickets.forEach(System.out::println);
 
         // For each ticket, calculate the ticket price based on original price and ticket type
-        tickets.forEach(ticket -> {
-            calculateTicketPrice(ticket, originalPrice);
-        });
+        savedTickets.forEach(ticket -> calculateTicketPrice(ticket, originalPrice));
 
         // Add generated tickets to concert object
-        concert.getTickets().addAll(tickets);
+        concert.getTickets().addAll(savedTickets);
     }
 
     private static List<Ticket> getTickets(Concert concert) {
