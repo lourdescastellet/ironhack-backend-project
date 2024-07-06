@@ -30,52 +30,43 @@ public class Ticket extends Event{
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Concert concert;
 
-    public void calculateTicketPrice(BigDecimal basePrice) {
-        BigDecimal priceMultiplier = BigDecimal.valueOf(ticketType.getPriceMultiplier());
-        ticketPrice = basePrice.multiply(priceMultiplier);
+//    TODO Revenue set up
+//    private BigDecimal calculateTicketRevenue() {
+//        BigDecimal basePrice = calculateBasePrice(ticket.getTicketType());
+//        return ticketPrice.subtract(basePrice);
+//    }
 
-    }
-
-    public BigDecimal calculateArtistProfit() {
-        BigDecimal artistProfit = BigDecimal.ZERO;
-        if (concert != null && concert.getArtist() != null) {
-            BigDecimal priceMultiplier = BigDecimal.valueOf(ticketType.getPriceMultiplier());
-            BigDecimal basePrice = ticketPrice.divide(priceMultiplier, 2, RoundingMode.HALF_UP);
-            BigDecimal ticketRevenue = ticketPrice.subtract(basePrice);
-
-            BigDecimal artistPercentage = BigDecimal.valueOf(0.60); // Artist gets 60%
-            artistProfit = ticketRevenue.multiply(artistPercentage);
-        }
-        return artistProfit;
-    }
-
-    public BigDecimal calculateVenueProfit() {
-        BigDecimal venueProfit = BigDecimal.ZERO;
-        if (concert != null && concert.getVenue() != null) {
-            BigDecimal priceMultiplier = BigDecimal.valueOf(ticketType.getPriceMultiplier());
-            BigDecimal basePrice = ticketPrice.divide(priceMultiplier, 2, RoundingMode.HALF_UP);
-            BigDecimal ticketRevenue = ticketPrice.subtract(basePrice);
-
-            BigDecimal venuePercentage = BigDecimal.valueOf(0.30); // Venue gets 30%
-            venueProfit = ticketRevenue.multiply(venuePercentage);
-        }
-        return venueProfit;
-    }
-
-    public BigDecimal calculateAdminProfit() {
-        BigDecimal adminProfit = BigDecimal.ZERO;
-        if (concert != null && concert.getAdmin() != null) {
-            BigDecimal priceMultiplier = BigDecimal.valueOf(ticketType.getPriceMultiplier());
-            BigDecimal basePrice = ticketPrice.divide(priceMultiplier, 2, RoundingMode.HALF_UP);
-            BigDecimal ticketRevenue = ticketPrice.subtract(basePrice);
-
-            BigDecimal adminPercentage = BigDecimal.valueOf(0.10); // Admin gets 10%
-            adminProfit = ticketRevenue.multiply(adminPercentage);
-        }
-        return adminProfit;
-    }
+//    public BigDecimal calculateArtistProfit() {
+//        BigDecimal artistProfit = BigDecimal.ZERO;
+//        if (concert != null && concert.getArtist() != null && status == Status.CONFIRMED) {
+//            BigDecimal ticketRevenue = calculateTicketRevenue();
+//            BigDecimal artistPercentage = BigDecimal.valueOf(0.60); // Artist gets 60%
+//            artistProfit = ticketRevenue.multiply(artistPercentage);
+//        }
+//        return artistProfit;
+//    }
+//
+//    public BigDecimal calculateVenueProfit() {
+//        BigDecimal venueProfit = BigDecimal.ZERO;
+//        if (concert != null && concert.getVenue() != null && status == Status.CONFIRMED) {
+//            BigDecimal ticketRevenue = calculateTicketRevenue();
+//            BigDecimal venuePercentage = BigDecimal.valueOf(0.30); // Venue gets 30%
+//            venueProfit = ticketRevenue.multiply(venuePercentage);
+//        }
+//        return venueProfit;
+//    }
+//
+//    public BigDecimal calculateAdminProfit() {
+//        BigDecimal adminProfit = BigDecimal.ZERO;
+//        if (concert != null && concert.getAdmin() != null && status == Status.CONFIRMED) {
+//            BigDecimal ticketRevenue = calculateTicketRevenue();
+//            BigDecimal adminPercentage = BigDecimal.valueOf(0.10); // Admin gets 10%
+//            adminProfit = ticketRevenue.multiply(adminPercentage);
+//        }
+//        return adminProfit;
+//    }
 
 }

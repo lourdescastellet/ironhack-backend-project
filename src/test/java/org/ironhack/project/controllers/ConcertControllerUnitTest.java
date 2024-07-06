@@ -53,7 +53,6 @@ class ConcertControllerUnitTest {
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(concertController).build();
 
-        // Initialize artists
         artist1 = new Artist();
         artist1.setUserId(1);
         artist1.setArtistName("Artist A");
@@ -64,7 +63,6 @@ class ConcertControllerUnitTest {
         artist2.setArtistName("Artist B");
         artist2.setGenre(Genre.POP);
 
-        // Initialize venues
         venue1 = new Venue();
         venue1.setUserId(4);
         venue1.setVenueName("Venue X");
@@ -75,7 +73,6 @@ class ConcertControllerUnitTest {
         venue2.setVenueName("Venue Y");
         venue2.setVenueCapacity(1500);
 
-        // Initialize concerts
         concert1 = new Concert();
         concert1.setConcertId(1);
         concert1.setConcertName("Concert 1");
