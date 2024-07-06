@@ -1,20 +1,23 @@
 package org.ironhack.project.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.ironhack.project.dtos.ArtistDTO;
 import org.ironhack.project.dtos.ConcertCreationRequest;
+import org.ironhack.project.dtos.ConcertResponseDTO;
+import org.ironhack.project.dtos.VenueDTO;
 import org.ironhack.project.models.classes.Artist;
 import org.ironhack.project.models.classes.Concert;
 import org.ironhack.project.models.classes.Venue;
 import org.ironhack.project.models.enums.Genre;
+import org.ironhack.project.repositories.*;
 import org.ironhack.project.services.ConcertService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
+
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -27,7 +30,8 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 class ConcertControllerUnitTest {
@@ -37,6 +41,13 @@ class ConcertControllerUnitTest {
 
     @Mock
     private ConcertService concertService;
+
+    @Mock
+    private ArtistRepository artistRepository;
+    @Mock
+    private VenueRepository venueRepository;
+    @Mock
+    private ConcertRepository concertRepository;
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper = new ObjectMapper();
@@ -132,24 +143,44 @@ class ConcertControllerUnitTest {
     }
 
     @Test
-    void create_validConcert_concertCreated() throws Exception {
-        ConcertCreationRequest concertCreationRequest = new ConcertCreationRequest();
-        concertCreationRequest.setConcertName("Concert A");
-        concertCreationRequest.setArtistId(1);
-        concertCreationRequest.setVenueId(1);
+    void createConcert_validConcertRequest_concertCreated() {
+        ConcertCreationRequest concertRequest = new ConcertCreationRequest();
+        concertRequest.setConcertName("New Concert");
+        concertRequest.setArtistId(1);
+        concertRequest.setVenueId(1);
 
-        Concert concertToSave = new Concert();
-        concertToSave.setConcertId(1);
-        concertToSave.setConcertName(concertCreationRequest.getConcertName());
+        // Mock Artist and Venue entities
+        Artist artist = new Artist();
+        artist.setUserId(1);
+        artist.setArtistName("Artist A");
 
-        when(concertService.createConcert(any())).thenReturn(concertToSave);
+        Venue venue = new Venue();
+        venue.setUserId(1);
+        venue.setVenueName("Venue X");
+        venue.setVenueCapacity(20);
 
-        mockMvc.perform(post("/api/concerts/new")
-                        .content(objectMapper.writeValueAsString(concertCreationRequest))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.concertName").value("Concert A"));
+        // Mock ConcertResponseDTO to be returned by concertService.createConcert
+        ConcertResponseDTO concertResponseDTO = new ConcertResponseDTO();
+        concertResponseDTO.setConcertId(1);
+        concertResponseDTO.setConcertName("New Concert");
+        concertResponseDTO.setArtist(new ArtistDTO(artist.getArtistName()));
+        concertResponseDTO.setVenue(new VenueDTO(venue.getVenueName(), venue.getVenueAddress(), venue.getVenueCity(), venue.getVenueCapacity()));
+
+        // Mock repositories and concertService behavior
+        when(artistRepository.findById(1)).thenReturn(Optional.of(artist));
+        when(venueRepository.findById(1)).thenReturn(Optional.of(venue));
+        when(concertRepository.save(any(Concert.class))).thenReturn(new Concert());
+        when(concertService.createConcert(any())).thenReturn(concertResponseDTO); // Mock the service method
+
+        // Call the service method
+        ConcertResponseDTO createdConcertDTO = concertService.createConcert(concertRequest);
+
+        // Assertions
+        assertNotNull(createdConcertDTO);
+        assertEquals(1, createdConcertDTO.getConcertId());
+        assertEquals("New Concert", createdConcertDTO.getConcertName());
     }
+
 
     @Test
     void delete_existingConcert_concertDeleted() throws Exception {

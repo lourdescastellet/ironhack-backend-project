@@ -1,5 +1,6 @@
 package org.ironhack.project.dtos;
 
+import jakarta.persistence.GeneratedValue;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,8 +10,10 @@ import lombok.Setter;
 @Setter
 public class ConcertCreationRequest {
 
+    @GeneratedValue
     private Integer concertId;
 
+    @NotNull(message = "Concert name is mandatory.")
     private String concertName;
 
     @NotNull(message = "Artist is mandatory.")

@@ -1,13 +1,17 @@
 package org.ironhack.project.services;
 
+import org.ironhack.project.dtos.ArtistDTO;
 import org.ironhack.project.dtos.ConcertCreationRequest;
+import org.ironhack.project.dtos.ConcertResponseDTO;
+import org.ironhack.project.dtos.VenueDTO;
+import org.ironhack.project.dtos.ArtistDTO;
 import org.ironhack.project.models.classes.Artist;
 import org.ironhack.project.models.classes.Concert;
 import org.ironhack.project.models.classes.Venue;
+import org.ironhack.project.models.enums.TicketType;
 import org.ironhack.project.repositories.ArtistRepository;
 import org.ironhack.project.repositories.ConcertRepository;
 import org.ironhack.project.repositories.VenueRepository;
-import org.ironhack.project.services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -15,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -39,7 +44,7 @@ public class ConcertService {
         return concertRepository.findById(concertId);
     }
 
-    public Concert createConcert(ConcertCreationRequest concertRequest) {
+    public ConcertResponseDTO createConcert(ConcertCreationRequest concertRequest) {
         Concert concert = new Concert();
         concert.setConcertName(concertRequest.getConcertName());
 
@@ -57,7 +62,19 @@ public class ConcertService {
         BigDecimal originalPrice = BigDecimal.valueOf(75);
         ticketService.generateTicketsForConcert(concert, originalPrice); // Adjust original price as needed
 
-        return concert;
+        ArtistDTO artistDTO = new ArtistDTO(artist.getArtistName(), artist.getGenre());
+        VenueDTO venueDTO = new VenueDTO(venue.getVenueName(), venue.getVenueAddress(),
+                venue.getVenueCity(), venue.getVenueCapacity());
+
+        // Create ConcertResponseDTO to return
+        ConcertResponseDTO concertResponseDTO = new ConcertResponseDTO();
+        concertResponseDTO.setConcertId(concert.getConcertId());
+        concertResponseDTO.setConcertName(concert.getConcertName());
+        concertResponseDTO.setArtist(artistDTO);
+        concertResponseDTO.setVenue(venueDTO);
+        concertResponseDTO.setTicketAllowance(concert.getTicketAllowance());
+
+        return concertResponseDTO;
     }
 
     public void deleteConcert(Integer concertId) {

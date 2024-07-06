@@ -41,6 +41,7 @@ public class ConcertController {
         dto.setConcertName(concert.getConcertName());
         dto.setArtist(mapArtistToDTO(concert.getArtist()));
         dto.setVenue(mapVenueToDTO(concert.getVenue()));
+        dto.setTicketAllowance(concert.getTicketAllowance());
         return dto;
     }
 
@@ -76,9 +77,9 @@ public class ConcertController {
 
 
     @PostMapping("/new")
-    public ResponseEntity<Concert> create(@Valid @RequestBody ConcertCreationRequest concertCreationRequest) {
-        Concert createdConcert = concertService.createConcert(concertCreationRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdConcert);
+    public ResponseEntity<ConcertResponseDTO> create(@Valid @RequestBody ConcertCreationRequest concertCreationRequest) {
+        ConcertResponseDTO createdConcertDTO = concertService.createConcert(concertCreationRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdConcertDTO);
     }
 
     @DeleteMapping("/{concertId}")

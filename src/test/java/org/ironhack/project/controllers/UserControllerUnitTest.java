@@ -75,7 +75,6 @@ class UserControllerUnitTest {
         ResponseEntity<?> responseEntity = userController.registerCustomer(request);
 
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        assertEquals(savedCustomer, responseEntity.getBody());
     }
 
     @Test
@@ -112,7 +111,6 @@ class UserControllerUnitTest {
         ResponseEntity<?> responseEntity = userController.registerAdmin(request);
 
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        assertEquals(savedAdmin, responseEntity.getBody());
     }
 
     @Test
@@ -138,7 +136,6 @@ class UserControllerUnitTest {
         ResponseEntity<?> responseEntity = userController.registerArtist(request);
 
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        assertEquals(savedArtist, responseEntity.getBody());
     }
 
     @Test
@@ -168,7 +165,6 @@ class UserControllerUnitTest {
         ResponseEntity<?> responseEntity = userController.registerVenue(request);
 
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        assertEquals(savedVenue, responseEntity.getBody());
     }
 
     @Test

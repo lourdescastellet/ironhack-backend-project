@@ -56,7 +56,7 @@ public class SecurityConfig {
 
         // set up authorization for different request matchers and user roles
         http.authorizeHttpRequests((requests) -> requests
-                        // Public access to Concert endpoints
+                        // Public access
                         .requestMatchers(HttpMethod.GET, "/api/concerts/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/user/**").permitAll()
 
@@ -67,15 +67,15 @@ public class SecurityConfig {
 
                         // Venue endpoints restricted to VENUE role
                         .requestMatchers(HttpMethod.PUT, "/api/venue/**").hasAuthority("VENUE")
-                        .requestMatchers(HttpMethod.DELETE, "/api/venue/**").hasAuthority("VENUE")
 
                         // Artist endpoints restricted to ARTIST role
                         .requestMatchers(HttpMethod.PUT, "/api/artist/**").hasAuthority("ARTIST")
-                        .requestMatchers(HttpMethod.DELETE, "/api/artist/**").hasAuthority("ARTIST")
 
                         // Customer endpoints restricted to CUSTOMER role
                         .requestMatchers(HttpMethod.PUT, "/api/customer/**").hasAuthority("CUSTOMER")
-                        .requestMatchers(HttpMethod.DELETE, "/api/customer/**").hasAuthority("CUSTOMER")
+
+                        // Concert endpoints restricted to ARTIST role
+                        .requestMatchers(HttpMethod.PUT, "api/concerts/new").hasAuthority("ARTIST")
 
                         // Booking endpoints
                         .requestMatchers(HttpMethod.GET, "/api/booking/**").authenticated()
