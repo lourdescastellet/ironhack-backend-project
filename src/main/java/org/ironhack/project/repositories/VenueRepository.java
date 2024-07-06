@@ -9,6 +9,8 @@ import java.util.List;
 @Repository
 public interface VenueRepository extends JpaRepository<Venue, Integer> {
 
+    boolean existsByEmail(String email);
+
     Venue findByEmail(String email);
 
     Venue findByVenueName(String venueName);

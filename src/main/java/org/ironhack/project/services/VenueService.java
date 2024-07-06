@@ -53,6 +53,7 @@ public class VenueService {
                 venue.setVenueCity(venueUpdateRequest.getVenueCity());
             }
             if (venueUpdateRequest.getVenueCapacity() != null) {
+                // TODO run ticketAllowance again to adapt to new capacity
                 venue.setVenueCapacity(venueUpdateRequest.getVenueCapacity());
             }
 
