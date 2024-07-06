@@ -87,41 +87,32 @@ class ConcertServiceUnitTest {
 
     @Test
     void createConcert_validConcertRequest_concertCreated() {
-        // Create a mock ConcertCreationRequest
         ConcertCreationRequest concertRequest = new ConcertCreationRequest();
         concertRequest.setConcertName("New Concert");
         concertRequest.setArtistId(1);
         concertRequest.setVenueId(1);
 
-        // Create a mock Artist
         Artist artist = new Artist();
         artist.setUserId(1);
         artist.setArtistName("Artist A");
 
-        // Create a mock Venue
         Venue venue = new Venue();
         venue.setUserId(1);
         venue.setVenueName("Venue X");
         venue.setVenueCapacity(20);
 
-        // Create a mock Concert that will be saved
         Concert savedConcert = new Concert();
         savedConcert.setConcertId(1);
         savedConcert.setConcertName("New Concert");
         savedConcert.setArtist(artist);
         savedConcert.setVenue(venue);
 
-        // Mock behavior of artistRepository and venueRepository
         when(artistRepository.findById(1)).thenReturn(Optional.of(artist));
         when(venueRepository.findById(1)).thenReturn(Optional.of(venue));
-
-        // Mock behavior of concertRepository save method
         when(concertRepository.save(any(Concert.class))).thenReturn(savedConcert);
 
-        // Invoke the createConcert method to create a concert
         Concert createdConcert = concertService.createConcert(concertRequest);
 
-        // Check if createdConcert is not null
         assertNotNull(createdConcert);
 
         // Print out details for debugging (optional)
