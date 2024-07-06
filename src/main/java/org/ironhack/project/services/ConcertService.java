@@ -1,6 +1,5 @@
 package org.ironhack.project.services;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.ironhack.project.dtos.ConcertCreationRequest;
 import org.ironhack.project.models.classes.Artist;
 import org.ironhack.project.models.classes.Concert;
@@ -8,11 +7,13 @@ import org.ironhack.project.models.classes.Venue;
 import org.ironhack.project.repositories.ArtistRepository;
 import org.ironhack.project.repositories.ConcertRepository;
 import org.ironhack.project.repositories.VenueRepository;
+import org.ironhack.project.services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +28,8 @@ public class ConcertService {
 
     @Autowired
     private VenueRepository venueRepository;
-
+    @Autowired
+    private TicketService ticketService;
 
     public List<Concert> findAllConcerts() {
         return concertRepository.findAll();
@@ -49,7 +51,13 @@ public class ConcertService {
                 .orElseThrow(() -> new IllegalArgumentException("Venue not found"));
         concert.setVenue(venue);
 
-        return concertRepository.save(concert);
+        concert = concertRepository.save(concert);
+
+        // Generate tickets for the concert
+        BigDecimal originalPrice = BigDecimal.valueOf(75);
+        ticketService.generateTicketsForConcert(concert, originalPrice); // Adjust original price as needed
+
+        return concert;
     }
 
     public void deleteConcert(Integer concertId) {

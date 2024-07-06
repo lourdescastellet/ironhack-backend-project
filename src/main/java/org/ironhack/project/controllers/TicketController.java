@@ -18,6 +18,8 @@ public class TicketController {
     @Autowired
     private TicketService ticketService;
 
+//    TODO
+//
 //    @GetMapping
 //    public List<Ticket> findAll() {
 //        return ticketService.findAll();
