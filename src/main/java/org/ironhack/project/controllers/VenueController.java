@@ -1,6 +1,7 @@
 package org.ironhack.project.controllers;
 
 import jakarta.validation.Valid;
+import org.ironhack.project.dtos.VenueDTO;
 import org.ironhack.project.dtos.VenueUpdateRequest;
 import org.ironhack.project.models.classes.Venue;
 import org.ironhack.project.services.VenueService;
@@ -20,7 +21,7 @@ public class VenueController {
     private VenueService venueService;
 
     @GetMapping
-    public List<Venue> findAll() {
+    public List<VenueDTO> findAll() {
         return venueService.findAll();
     }
 
