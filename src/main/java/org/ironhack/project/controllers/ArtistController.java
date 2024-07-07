@@ -26,8 +26,8 @@ public class ArtistController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<Artist> findById(@PathVariable Integer userId) {
-        Optional<Artist> artist =artistService.findById(userId);
+    public ResponseEntity<ArtistDTO> findById(@PathVariable Integer userId) {
+        Optional<ArtistDTO> artist = artistService.findById(userId);
         return artist.map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
     }
 

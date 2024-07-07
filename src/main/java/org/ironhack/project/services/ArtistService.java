@@ -35,8 +35,13 @@ public class ArtistService {
         }).collect(Collectors.toList());
     }
 
-    public Optional<Artist> findById(Integer id) {
-        return artistRepository.findById(id);
+    public Optional<ArtistDTO> findById(Integer id) {
+        return artistRepository.findById(id).map(artist -> {
+            ArtistDTO artistDTO = new ArtistDTO();
+            artistDTO.setArtistName(artist.getArtistName());
+            artistDTO.setGenre(artist.getGenre());
+            return artistDTO;
+        });
     }
 
     public Artist update(Integer userId, @Valid ArtistUpdateRequest artistUpdateRequest) {
