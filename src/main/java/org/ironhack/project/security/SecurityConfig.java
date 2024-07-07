@@ -51,7 +51,7 @@ public class SecurityConfig {
         // disable CSRF protection because we are using tokens, not session
         http.csrf().disable();
 
-        // set the session creation policy to stateless, to not maintain sessions in the server
+        // set the session creation policy too stateless to not maintain sessions in the server
         http.sessionManagement().sessionCreationPolicy(STATELESS);
 
         // set up authorization for different request matchers and user roles
@@ -64,30 +64,27 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/venue/**").permitAll()
 
                 // Admin
-                .requestMatchers(HttpMethod.GET, "/api/**").hasAuthority("ADMIN")
-                .requestMatchers(HttpMethod.POST, "/api/**").hasAuthority("ADMIN")
-                .requestMatchers(HttpMethod.PUT, "/api/**").hasAuthority("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/api/**").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/admin/**").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/admin/**").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/admin/**").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/user/**").hasAuthority("ADMIN")
 
                 // Venue
-                .requestMatchers(HttpMethod.PUT, "/api/venue/**").hasAuthority("VENUE")
-                .requestMatchers(HttpMethod.DELETE, "/api/venue/**").hasAuthority("VENUE")
-                .requestMatchers(HttpMethod.PUT, "api/concerts/new").hasAuthority("VENUE")
+                .requestMatchers(HttpMethod.PUT, "/api/venue/**").hasAnyAuthority("VENUE", "ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/venue/**").hasAnyAuthority("VENUE","ADMIN")
 
                 // Artist
-                .requestMatchers(HttpMethod.PUT, "/api/artist/**").hasAuthority("ARTIST")
-                .requestMatchers(HttpMethod.DELETE, "/api/artist/**").hasAuthority("ARTIST")
-                .requestMatchers(HttpMethod.PUT, "api/concerts/new").hasAuthority("ARTIST")
+                .requestMatchers(HttpMethod.PUT, "/api/artist/**").hasAnyAuthority("ARTIST","ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/artist/**").hasAnyAuthority("ARTIST","ADMIN")
 
                 // Customer
-                .requestMatchers(HttpMethod.PUT, "/api/customer/**").hasAuthority("CUSTOMER")
-                .requestMatchers(HttpMethod.DELETE, "/api/customer/**").hasAuthority("CUSTOMER")
+                .requestMatchers(HttpMethod.PUT, "/api/customer/**").hasAnyAuthority("CUSTOMER", "ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/customer/**").hasAnyAuthority("CUSTOMER", "ADMIN")
 
-                // Booking endpoints
-//                .requestMatchers(HttpMethod.GET, "/api/booking/**").authenticated()
-//                .requestMatchers(HttpMethod.PUT, "/api/booking/**").hasAuthority("CUSTOMER")
-//                .requestMatchers(HttpMethod.DELETE, "/api/booking/**").hasAuthority("CUSTOMER")
-                .anyRequest().authenticated()); // All other requests require authentication
+                // Concert
+                .requestMatchers(HttpMethod.PUT, "/api/concerts/**").hasAnyAuthority("ADMIN", "ARTIST","VENUE")
+
+                .anyRequest().hasAuthority("ADMIN"));
 
         // add the custom authentication filter to the http security object
         http.addFilter(customAuthenticationFilter);
