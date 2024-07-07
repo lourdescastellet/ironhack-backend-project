@@ -26,8 +26,8 @@ public class VenueController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<Venue> findById(@PathVariable Integer userId) {
-        Optional<Venue> venue =venueService.findById(userId);
+    public ResponseEntity<VenueDTO> findById(@PathVariable Integer userId) {
+        Optional<VenueDTO> venue =venueService.findById(userId);
         return venue.map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
     }
 

@@ -36,8 +36,16 @@ public class VenueService {
                 }).collect(Collectors.toList());
     }
 
-    public Optional<Venue> findById(Integer id) {
-        return venueRepository.findById(id);
+    public Optional<VenueDTO> findById(Integer id) {
+        return venueRepository.findById(id).map(venue -> {
+            VenueDTO venueDTO = new VenueDTO();
+            venueDTO.setVenueName(venue.getVenueName());
+            venueDTO.setVenueAddress(venue.getVenueAddress());
+            venueDTO.setVenueCity(venue.getVenueCity());
+            venueDTO.setVenueCapacity(venue.getVenueCapacity());
+            return venueDTO;
+        });
+
     }
 
     public Venue update(Integer userId,
