@@ -1,13 +1,18 @@
 package org.ironhack.project.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.ironhack.project.dtos.ArtistDTO;
 import org.ironhack.project.dtos.ArtistUpdateRequest;
 import org.ironhack.project.models.classes.Artist;
+import org.ironhack.project.models.enums.Genre;
+import org.ironhack.project.repositories.ArtistRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.ironhack.project.services.ArtistService;
 import org.springframework.http.MediaType;
@@ -36,23 +41,31 @@ class ArtistControllerUnitTest {
     private MockMvc mockMvc;
     private ObjectMapper objectMapper = new ObjectMapper();
 
+    @Autowired
+    private ArtistRepository artistRepository;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(artistController).build();
     }
 
+    @AfterEach
+    void tearDown() {
+        artistRepository.deleteAll();
+    }
+
     @Test
     void findById_existingId_artistReturned() throws Exception {
-        Artist artist = new Artist();
-        artist.setUserId(1);
-        artist.setName("Artist A");
+        ArtistDTO artist = new ArtistDTO();
+        artist.setArtistName("Artist A");
+        artist.setGenre(Genre.COUNTRY);
 
         when(artistService.findById(1)).thenReturn(Optional.of(artist));
 
         mockMvc.perform(get("/api/artist/{userId}", 1))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Artist A"));
+                .andExpect(jsonPath("$.artistName").value("Artist A"));
     }
 
     @Test

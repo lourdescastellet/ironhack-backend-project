@@ -1,5 +1,6 @@
 package org.ironhack.project.services;
 
+import org.ironhack.project.dtos.ArtistDTO;
 import org.ironhack.project.dtos.ArtistUpdateRequest;
 import org.ironhack.project.models.classes.Artist;
 import org.ironhack.project.models.enums.Genre;
@@ -48,34 +49,31 @@ public class ArtistServiceIntegrationTest {
         artist2.setGenre(Genre.POP);
         artistRepository.save(artist2);
 
-        List<Artist> foundArtists = artistService.findAll();
+        List<ArtistDTO> foundArtists = artistService.findAll();
 
         assertEquals(2, foundArtists.size());
-        assertEquals("Artist A", foundArtists.get(0).getName());
-        assertEquals("artista@ironhack.com", foundArtists.get(0).getEmail());
-        assertEquals("Artist B", foundArtists.get(1).getName());
-        assertEquals("artistb@ironhack.com", foundArtists.get(1).getEmail());
+        assertEquals("ArtistA", foundArtists.get(0).getArtistName());
+        assertEquals(Genre.ROCK, foundArtists.get(0).getGenre());
+        assertEquals("ArtistB", foundArtists.get(1).getArtistName());
+        assertEquals(Genre.POP, foundArtists.get(1).getGenre());
     }
 
     @Test
     void findById_existingArtistId_artistFound() {
         Artist artistToSave = new Artist();
-        artistToSave.setName("Found Artist");
-        artistToSave.setEmail("found@ironhack.com");
-        artistToSave.setPassword("password");
         artistToSave.setArtistName("FoundArtist");
         artistToSave.setGenre(Genre.COUNTRY);
         Artist savedArtist = artistRepository.save(artistToSave);
 
-        Optional<Artist> foundArtist = artistService.findById(savedArtist.getUserId());
+        Optional<ArtistDTO> foundArtist = artistService.findById(savedArtist.getUserId());
 
         assertTrue(foundArtist.isPresent());
-        assertEquals("Found Artist", foundArtist.get().getName());
+        assertEquals("FoundArtist", foundArtist.get().getArtistName());
     }
 
     @Test
     void findById_nonExistingArtistId_artistNotFound() {
-        Optional<Artist> foundArtist = artistService.findById(0); // Assuming ID 0 does not exist
+        Optional<ArtistDTO> foundArtist = artistService.findById(0); // Assuming ID 0 does not exist
 
         assertFalse(foundArtist.isPresent());
     }

@@ -1,8 +1,10 @@
 package org.ironhack.project.services;
 
+import org.ironhack.project.dtos.VenueDTO;
 import org.ironhack.project.dtos.VenueUpdateRequest;
 import org.ironhack.project.models.classes.Venue;
 import org.ironhack.project.repositories.VenueRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -32,19 +34,26 @@ class VenueServiceUnitTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    @AfterEach
+    void tearDown() {
+        venueRepository.deleteAll();
+    }
+
     @Test
     void findById_existingVenueId_venueFound() {
         Integer userId = 1;
         Venue existingVenue = new Venue();
         existingVenue.setUserId(userId);
-        existingVenue.setName("Found Venue");
+        existingVenue.setVenueName("Found Venue");
+        existingVenue.setVenueCity("City A");
 
         when(venueRepository.findById(userId)).thenReturn(Optional.of(existingVenue));
 
-        Venue foundVenue = venueService.findById(userId).orElse(null);
+        VenueDTO foundVenue = venueService.findById(userId).orElse(null);
 
         assertNotNull(foundVenue);
-        assertEquals("Found Venue", foundVenue.getName());
+        assertEquals("Found Venue", foundVenue.getVenueName());
+        assertEquals("City A", foundVenue.getVenueCity());
     }
 
     @Test
@@ -53,7 +62,7 @@ class VenueServiceUnitTest {
 
         when(venueRepository.findById(userId)).thenReturn(Optional.empty());
 
-        Venue foundVenue = venueService.findById(userId).orElse(null);
+        VenueDTO foundVenue = venueService.findById(userId).orElse(null);
 
         assertNull(foundVenue);
     }

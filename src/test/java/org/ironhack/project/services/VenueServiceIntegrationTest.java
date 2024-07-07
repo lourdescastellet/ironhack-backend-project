@@ -1,5 +1,6 @@
 package org.ironhack.project.services;
 
+import org.ironhack.project.dtos.VenueDTO;
 import org.ironhack.project.dtos.VenueUpdateRequest;
 import org.ironhack.project.models.classes.Venue;
 import org.ironhack.project.repositories.VenueRepository;
@@ -50,14 +51,15 @@ public class VenueServiceIntegrationTest {
         venue2.setVenueCapacity(200);
         venueRepository.save(venue2);
 
-        List<Venue> foundVenues = venueService.findAll();
+        List<VenueDTO> foundVenues = venueService.findAll();
 
         assertEquals(2, foundVenues.size());
-        assertEquals("Venue A", foundVenues.get(0).getName());
-        assertEquals("venuea@ironhack.com", foundVenues.get(0).getEmail());
-        assertEquals("Venue B", foundVenues.get(1).getName());
-        assertEquals("venueb@ironhack.com", foundVenues.get(1).getEmail());
+        assertEquals("VenueA", foundVenues.get(0).getVenueName());
+        assertEquals("City A", foundVenues.get(0).getVenueCity());
+        assertEquals("VenueB", foundVenues.get(1).getVenueName());
+        assertEquals("City B", foundVenues.get(1).getVenueCity());
     }
+
 
     @Test
     void findById_existingVenueId_venueFound() {
@@ -71,15 +73,15 @@ public class VenueServiceIntegrationTest {
         venueToSave.setVenueCapacity(150);
         Venue savedVenue = venueRepository.save(venueToSave);
 
-        Optional<Venue> foundVenue = venueService.findById(savedVenue.getUserId());
+        Optional<VenueDTO> foundVenue = venueService.findById(savedVenue.getUserId());
 
         assertTrue(foundVenue.isPresent());
-        assertEquals("Found Venue", foundVenue.get().getName());
+        assertEquals("FoundVenue", foundVenue.get().getVenueName());
     }
 
     @Test
     void findById_nonExistingVenueId_venueNotFound() {
-        Optional<Venue> foundVenue = venueService.findById(999);
+        Optional<VenueDTO> foundVenue = venueService.findById(999);
 
         assertFalse(foundVenue.isPresent());
     }

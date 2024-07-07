@@ -1,5 +1,6 @@
 package org.ironhack.project.services;
 
+import org.ironhack.project.dtos.ArtistDTO;
 import org.ironhack.project.dtos.ArtistUpdateRequest;
 import org.ironhack.project.models.classes.Artist;
 import org.ironhack.project.models.enums.Genre;
@@ -36,24 +37,24 @@ class ArtistServiceUnitTest {
     @Test
     void findAll_multipleArtists_foundAllArtists() {
         Artist artist1 = new Artist();
-        artist1.setName("Artist A");
-        artist1.setEmail("artista@ironhack.com");
-        artist1.setPassword("password");
+        artist1.setArtistName("Artist A");
+        artist1.setGenre(Genre.EDM);
+
 
         Artist artist2 = new Artist();
-        artist2.setName("Artist B");
-        artist2.setEmail("artistb@ironhack.com");
-        artist2.setPassword("password");
+        artist2.setArtistName("Artist B");
+        artist2.setGenre(Genre.JAZZ);
+
 
         when(artistRepository.findAll()).thenReturn(List.of(artist1, artist2));
 
-        List<Artist> foundArtists = artistService.findAll();
+        List<ArtistDTO> foundArtists = artistService.findAll();
 
         assertEquals(2, foundArtists.size());
-        assertEquals("Artist A", foundArtists.get(0).getName());
-        assertEquals("artista@ironhack.com", foundArtists.get(0).getEmail());
-        assertEquals("Artist B", foundArtists.get(1).getName());
-        assertEquals("artistb@ironhack.com", foundArtists.get(1).getEmail());
+        assertEquals("Artist A", foundArtists.get(0).getArtistName());
+        assertEquals(Genre.EDM, foundArtists.get(0).getGenre());
+        assertEquals("Artist B", foundArtists.get(1).getArtistName());
+        assertEquals(Genre.JAZZ, foundArtists.get(1).getGenre());
     }
 
     @Test
@@ -61,14 +62,14 @@ class ArtistServiceUnitTest {
         Integer userId = 1;
         Artist existingArtist = new Artist();
         existingArtist.setUserId(userId);
-        existingArtist.setName("Found Artist");
+        existingArtist.setArtistName("Found Artist");
 
         when(artistRepository.findById(userId)).thenReturn(Optional.of(existingArtist));
 
-        Artist foundArtist = artistService.findById(userId).orElse(null);
+        ArtistDTO foundArtist = artistService.findById(userId).orElse(null);
 
         assertNotNull(foundArtist);
-        assertEquals("Found Artist", foundArtist.getName());
+        assertEquals("Found Artist", foundArtist.getArtistName());
     }
 
     @Test
@@ -77,7 +78,7 @@ class ArtistServiceUnitTest {
 
         when(artistRepository.findById(userId)).thenReturn(Optional.empty());
 
-        Artist foundArtist = artistService.findById(userId).orElse(null);
+        ArtistDTO foundArtist = artistService.findById(userId).orElse(null);
 
         assertNull(foundArtist);
     }
