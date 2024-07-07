@@ -21,6 +21,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -152,6 +153,19 @@ public class UserController {
         }
     }
 
-    // TODO FindAll and FindById with /user/
+    @GetMapping("/user")
+    public List<Object> findAllUsers() {
+        return userService.findAll();
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<Object> findById(@PathVariable Integer userId) {
+        try {
+            Object user = userService.findById(userId);
+            return ResponseEntity.ok(user);
+        } catch (EntityNotFoundException ex) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 }

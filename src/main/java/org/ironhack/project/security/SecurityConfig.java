@@ -64,9 +64,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/venue/**").permitAll()
 
                 // Admin
-                .requestMatchers(HttpMethod.POST, "/api/admin/**").hasAuthority("ADMIN")
-                .requestMatchers(HttpMethod.PUT, "/api/admin/**").hasAuthority("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/api/user/**").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/**").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/api/**").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/**").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/**").hasAuthority("ADMIN")
@@ -85,11 +83,10 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.PUT, "/api/customer/**").hasAuthority("CUSTOMER")
                 .requestMatchers(HttpMethod.DELETE, "/api/customer/**").hasAuthority("CUSTOMER")
 
-
                 // Booking endpoints
-                .requestMatchers(HttpMethod.GET, "/api/booking/**").authenticated()
-                .requestMatchers(HttpMethod.PUT, "/api/booking/**").hasAuthority("CUSTOMER")
-                .requestMatchers(HttpMethod.DELETE, "/api/booking/**").hasAuthority("CUSTOMER")
+//                .requestMatchers(HttpMethod.GET, "/api/booking/**").authenticated()
+//                .requestMatchers(HttpMethod.PUT, "/api/booking/**").hasAuthority("CUSTOMER")
+//                .requestMatchers(HttpMethod.DELETE, "/api/booking/**").hasAuthority("CUSTOMER")
                 .anyRequest().authenticated()); // All other requests require authentication
 
         // add the custom authentication filter to the http security object
