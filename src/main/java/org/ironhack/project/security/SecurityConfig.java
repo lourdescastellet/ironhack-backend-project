@@ -57,28 +57,34 @@ public class SecurityConfig {
         // set up authorization for different request matchers and user roles
         http.authorizeHttpRequests((requests) -> requests
 
-                // Public endpoints TODO DTos
+                // Public endpoints
                 .requestMatchers(HttpMethod.GET, "/api/concerts/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/register/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/artist/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/api/venue/**").permitAll()
 
-                // Admin endpoints
+                // Admin
                 .requestMatchers(HttpMethod.POST, "/api/admin/**").hasAuthority("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/admin/**").hasAuthority("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/api/admin/**").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/user/**").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/**").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/**").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/**").hasAuthority("ADMIN")
 
-                // Venue endpoints
+                // Venue
                 .requestMatchers(HttpMethod.PUT, "/api/venue/**").hasAuthority("VENUE")
+                .requestMatchers(HttpMethod.DELETE, "/api/venue/**").hasAuthority("VENUE")
+                .requestMatchers(HttpMethod.PUT, "api/concerts/new").hasAuthority("VENUE")
 
-                // Artist endpoints
+                // Artist
                 .requestMatchers(HttpMethod.PUT, "/api/artist/**").hasAuthority("ARTIST")
-
-                // Customer endpoints
-                .requestMatchers(HttpMethod.PUT, "/api/customer/**").hasAuthority("CUSTOMER")
-
-                // Concert endpoints
+                .requestMatchers(HttpMethod.DELETE, "/api/artist/**").hasAuthority("ARTIST")
                 .requestMatchers(HttpMethod.PUT, "api/concerts/new").hasAuthority("ARTIST")
+
+                // Customer
+                .requestMatchers(HttpMethod.PUT, "/api/customer/**").hasAuthority("CUSTOMER")
+                .requestMatchers(HttpMethod.DELETE, "/api/customer/**").hasAuthority("CUSTOMER")
+
 
                 // Booking endpoints
                 .requestMatchers(HttpMethod.GET, "/api/booking/**").authenticated()

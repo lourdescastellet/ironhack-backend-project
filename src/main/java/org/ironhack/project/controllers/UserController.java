@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/api/register")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -37,7 +37,7 @@ public class UserController {
 
 
     // TODO show validation errors in Postman - 403 Forbidden correct?
-    @PostMapping("/customer")
+    @PostMapping("/register/customer")
     public ResponseEntity<?> registerCustomer(@Validated @RequestBody CustomerCreationRequest request) {
         try {
             String hashedPassword = passwordEncoder.encode(request.getPassword());
@@ -63,7 +63,7 @@ public class UserController {
     }
 
 
-    @PostMapping("/admin")
+    @PostMapping("/register/admin")
     public ResponseEntity<?> registerAdmin(@Validated @RequestBody AdminCreationRequest request) {
         try {
             String hashedPassword = passwordEncoder.encode(request.getPassword());
@@ -86,7 +86,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/artist")
+    @PostMapping("/register/artist")
     public ResponseEntity<?> registerArtist(@Validated @RequestBody ArtistCreationRequest request) {
         try {
             String hashedPassword = passwordEncoder.encode(request.getPassword());
@@ -111,7 +111,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/venue")
+    @PostMapping("/register/venue")
     public ResponseEntity<?> registerVenue(@Validated @RequestBody VenueCreationRequest request) {
         try {
             String hashedPassword = passwordEncoder.encode(request.getPassword());
@@ -138,8 +138,7 @@ public class UserController {
         }
     }
 
-
-    @DeleteMapping("/{userId}")
+    @DeleteMapping("/user/{userId}")
     public ResponseEntity<String> deleteUser(@PathVariable Integer userId, Principal principal) {
         try {
             userService.deleteUserById(userId);
@@ -152,4 +151,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to delete user: " + e.getMessage());
         }
     }
+
+    // TODO FindAll and FindById with /user/
+
 }

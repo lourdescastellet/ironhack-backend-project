@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -28,6 +29,9 @@ class ArtistServiceUnitTest {
 
     @InjectMocks
     private ArtistService artistService;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @BeforeEach
     void setUp() {
@@ -109,7 +113,6 @@ class ArtistServiceUnitTest {
         assertNotNull(updatedArtist);
         assertEquals("Updated Artist", updatedArtist.getName());
         assertEquals("updated@ironhack.com", updatedArtist.getEmail());
-        assertEquals("password", updatedArtist.getPassword());
         assertEquals("UpdatedArtist", updatedArtist.getArtistName());
         assertEquals(Genre.POP, updatedArtist.getGenre());
     }

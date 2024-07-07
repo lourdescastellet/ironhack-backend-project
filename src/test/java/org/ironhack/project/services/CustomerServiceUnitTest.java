@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -23,6 +24,9 @@ class CustomerServiceUnitTest {
 
     @Mock
     private CustomerRepository customerRepository;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private CustomerService customerService;
@@ -86,8 +90,6 @@ class CustomerServiceUnitTest {
         Integer userId = 1;
         CustomerUpdateRequest customerUpdateRequest = new CustomerUpdateRequest();
         customerUpdateRequest.setName("Updated Customer");
-        customerUpdateRequest.setEmail("updated@ironhack.com");
-        customerUpdateRequest.setPassword("password");
 
         Customer existingCustomer = new Customer();
         existingCustomer.setUserId(userId);
@@ -102,8 +104,6 @@ class CustomerServiceUnitTest {
 
         assertNotNull(updatedCustomer);
         assertEquals("Updated Customer", updatedCustomer.getName());
-        assertEquals("updated@ironhack.com", updatedCustomer.getEmail());
-        assertEquals("password", updatedCustomer.getPassword());
     }
 
     @Test

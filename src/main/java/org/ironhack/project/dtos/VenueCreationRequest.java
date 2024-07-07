@@ -2,6 +2,7 @@ package org.ironhack.project.dtos;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import org.ironhack.project.validators.UniqueEmail;
 
 @Data
 public class VenueCreationRequest {
