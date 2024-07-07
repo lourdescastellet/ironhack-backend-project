@@ -81,7 +81,7 @@ class UserControllerIntegrationTest {
         request.setCustomerAddress("Address 1");
         request.setPaymentMethod("Visa");
 
-        mockMvc.perform(post("/api/user/customer")
+        mockMvc.perform(post("/api/register/customer")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated());
@@ -94,7 +94,7 @@ class UserControllerIntegrationTest {
         request.setEmail("admin1@example.com");
         request.setPassword("password");
 
-        mockMvc.perform(post("/api/user/admin")
+        mockMvc.perform(post("/api/register/admin")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated());
@@ -109,7 +109,7 @@ class UserControllerIntegrationTest {
         request.setArtistName("ArtistName");
         request.setGenre(Genre.POP);
 
-        mockMvc.perform(post("/api/user/artist")
+        mockMvc.perform(post("/api/register/artist")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated());
@@ -126,7 +126,7 @@ class UserControllerIntegrationTest {
         request.setVenueCity("VenueCity");
         request.setVenueCapacity(100);
 
-        mockMvc.perform(post("/api/user/venue")
+        mockMvc.perform(post("/api/register/venue")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated());

@@ -1,4 +1,4 @@
-package org.ironhack.project.dtos;
+package org.ironhack.project.validators;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

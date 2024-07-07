@@ -15,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -98,5 +100,50 @@ public class UserService implements UserDetailsService {
 
         throw new EntityNotFoundException("User not found with id: " + userId);
     }
+
+    public List<Object> findAll() {
+        List<Object> allEntities = new ArrayList<>();
+
+        List<Admin> admins = adminRepository.findAll();
+        allEntities.addAll(admins);
+
+        List<Artist> artists = artistRepository.findAll();
+        allEntities.addAll(artists);
+
+        List<Customer> customers = customerRepository.findAll();
+        allEntities.addAll(customers);
+
+        List<Venue> venues = venueRepository.findAll();
+        allEntities.addAll(venues);
+
+        return allEntities;
+    }
+
+    public Object findById(Integer userId) {
+        Object foundEntity = null;
+
+        foundEntity = adminRepository.findById(userId).orElse(null);
+        if (foundEntity != null) {
+            return foundEntity;
+        }
+
+        foundEntity = artistRepository.findById(userId).orElse(null);
+        if (foundEntity != null) {
+            return foundEntity;
+        }
+
+        foundEntity = customerRepository.findById(userId).orElse(null);
+        if (foundEntity != null) {
+            return foundEntity;
+        }
+
+        foundEntity = venueRepository.findById(userId).orElse(null);
+        if (foundEntity != null) {
+            return foundEntity;
+        }
+
+        throw new EntityNotFoundException("User not found with id: " + userId);
+    }
+
 }
 

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.ironhack.project.models.enums.Genre;
+import org.ironhack.project.validators.UniqueEmail;
 
 @Data
 public class ArtistCreationRequest {
