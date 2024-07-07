@@ -1,9 +1,12 @@
 package org.ironhack.project.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.ironhack.project.dtos.VenueDTO;
 import org.ironhack.project.dtos.VenueUpdateRequest;
 import org.ironhack.project.models.classes.Venue;
+import org.ironhack.project.repositories.VenueRepository;
 import org.ironhack.project.services.VenueService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -44,41 +47,32 @@ class VenueControllerUnitTest {
 
     @Test
     void findAll_venuesReturned() throws Exception {
-        Venue venue = new Venue();
-        venue.setUserId(1);
-        venue.setName("Venue A");
-        venue.setEmail("venuea@example.com");
-        venue.setPassword("password");
-        venue.setVenueName("VENUE_A");
-        venue.setVenueAddress("Address A");
-        venue.setVenueCity("City A");
-        venue.setVenueCapacity(100);
+        VenueDTO venueDTO = new VenueDTO();
+        venueDTO.setVenueName("VENUE_A");
+        venueDTO.setVenueCity("City A");
 
-        when(venueService.findAll()).thenReturn(Arrays.asList(venue));
+        when(venueService.findAll()).thenReturn(Arrays.asList(venueDTO));
 
         mockMvc.perform(get("/api/venue"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value("Venue A"));
+                .andExpect(jsonPath("$[0].venueName").value("VENUE_A"))
+                .andExpect(jsonPath("$[0].venueCity").value("City A"));
     }
 
     @Test
     void findById_existingId_venueReturned() throws Exception {
-        Venue venue = new Venue();
-        venue.setUserId(1);
-        venue.setName("Venue A");
-        venue.setEmail("venuea@example.com");
-        venue.setPassword("password");
-        venue.setVenueName("VENUE_A");
-        venue.setVenueAddress("Address A");
-        venue.setVenueCity("City A");
-        venue.setVenueCapacity(100);
+        VenueDTO venueDTO = new VenueDTO();
+        venueDTO.setVenueName("VENUE_A");
+        venueDTO.setVenueCity("City A");
 
-        when(venueService.findById(1)).thenReturn(Optional.of(venue));
+        when(venueService.findById(1)).thenReturn(Optional.of(venueDTO));
 
         mockMvc.perform(get("/api/venue/{venueId}", 1))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Venue A"));
+                .andExpect(jsonPath("$.venueName").value("VENUE_A"))
+                .andExpect(jsonPath("$.venueCity").value("City A"));
     }
+
 
     @Test
     void findById_nonExistingId_notFound() throws Exception {

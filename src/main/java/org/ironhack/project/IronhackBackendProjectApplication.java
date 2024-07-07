@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class IronhackBackendProjectApplication {
@@ -26,12 +27,15 @@ public class IronhackBackendProjectApplication {
     @Autowired
     private ConcertRepository concertRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(IronhackBackendProjectApplication.class, args);
         IronhackBackendProjectApplication app = context.getBean(IronhackBackendProjectApplication.class);
         app.initializeData();
     }
- // TODO Add password encryption
+
     private void initializeData() {
         createAdmins();
         createVenues();
@@ -43,7 +47,7 @@ public class IronhackBackendProjectApplication {
         Admin admin1 = new Admin();
         admin1.setName("Admin A");
         admin1.setEmail("admina@ironhack.com");
-        admin1.setPassword("password");
+        admin1.setPassword(passwordEncoder.encode("password"));
         adminRepository.save(admin1);
     }
 
@@ -51,7 +55,7 @@ public class IronhackBackendProjectApplication {
         Venue venue1 = new Venue();
         venue1.setName("Venue A");
         venue1.setEmail("venuea@ironhack.com");
-        venue1.setPassword("password");
+        venue1.setPassword(passwordEncoder.encode("password"));
         venue1.setVenueName("Venue X");
         venue1.setVenueAddress("Address X");
         venue1.setVenueCity("City X");
@@ -61,7 +65,7 @@ public class IronhackBackendProjectApplication {
         Venue venue2 = new Venue();
         venue2.setName("Venue B");
         venue2.setEmail("venueb@ironhack.com");
-        venue2.setPassword("password");
+        venue2.setPassword(passwordEncoder.encode("password"));
         venue2.setVenueName("Venue Y");
         venue2.setVenueAddress("Address Y");
         venue2.setVenueCity("City Y");
@@ -71,7 +75,7 @@ public class IronhackBackendProjectApplication {
         Venue venue3 = new Venue();
         venue3.setName("Venue C");
         venue3.setEmail("venuec@ironhack.com");
-        venue3.setPassword("password");
+        venue3.setPassword(passwordEncoder.encode("password"));
         venue3.setVenueName("Venue Z");
         venue3.setVenueAddress("Address Z");
         venue3.setVenueCity("City Z");
@@ -79,11 +83,12 @@ public class IronhackBackendProjectApplication {
         venueRepository.save(venue3);
     }
 
+
     private void createArtists() {
         Artist artist1 = new Artist();
         artist1.setName("Artist A");
         artist1.setEmail("artistA@example.com");
-        artist1.setPassword("password");
+        artist1.setPassword(passwordEncoder.encode("password"));
         artist1.setArtistName("Artist A");
         artist1.setGenre(Genre.ROCK);
         artistRepository.save(artist1);
@@ -91,7 +96,7 @@ public class IronhackBackendProjectApplication {
         Artist artist2 = new Artist();
         artist2.setName("Artist B");
         artist2.setEmail("artistB@example.com");
-        artist2.setPassword("password");
+        artist2.setPassword(passwordEncoder.encode("password"));
         artist2.setArtistName("Artist B");
         artist2.setGenre(Genre.POP);
         artistRepository.save(artist2);
@@ -99,12 +104,11 @@ public class IronhackBackendProjectApplication {
         Artist artist3 = new Artist();
         artist3.setName("Artist C");
         artist3.setEmail("artistC@example.com");
-        artist3.setPassword("password");
+        artist3.setPassword(passwordEncoder.encode("password"));
         artist3.setArtistName("Artist C");
         artist3.setGenre(Genre.JAZZ);
         artistRepository.save(artist3);
     }
-
 
     private void createConcerts() {
         Concert concert1 = new Concert();

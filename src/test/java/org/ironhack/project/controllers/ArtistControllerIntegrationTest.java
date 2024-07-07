@@ -79,7 +79,6 @@ public class ArtistControllerIntegrationTest {
 
         mockMvc.perform(get("/api/artist/{userId}", artist.getUserId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Artist"))
                 .andExpect(jsonPath("$.genre").value(Genre.ROCK.toString()));
     }
 

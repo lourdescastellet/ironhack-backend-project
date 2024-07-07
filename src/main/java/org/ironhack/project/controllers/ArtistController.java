@@ -1,6 +1,7 @@
 package org.ironhack.project.controllers;
 
 import jakarta.validation.Valid;
+import org.ironhack.project.dtos.ArtistDTO;
 import org.ironhack.project.dtos.ArtistUpdateRequest;
 import org.ironhack.project.models.classes.Artist;
 import org.ironhack.project.services.ArtistService;
@@ -19,16 +20,14 @@ public class ArtistController {
     @Autowired
     private ArtistService artistService;
 
-    // TODO add ArtistDTO
     @GetMapping
-    public List<Artist> findAll() {
+    public List<ArtistDTO> findAll() {
         return artistService.findAll();
     }
 
-    // TODO add ArtistDTO
     @GetMapping("/{userId}")
-    public ResponseEntity<Artist> findById(@PathVariable Integer userId) {
-        Optional<Artist> artist =artistService.findById(userId);
+    public ResponseEntity<ArtistDTO> findById(@PathVariable Integer userId) {
+        Optional<ArtistDTO> artist = artistService.findById(userId);
         return artist.map(ResponseEntity::ok).orElseGet(()-> ResponseEntity.notFound().build());
     }
 

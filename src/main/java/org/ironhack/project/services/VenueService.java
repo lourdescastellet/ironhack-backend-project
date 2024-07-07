@@ -1,6 +1,7 @@
 package org.ironhack.project.services;
 
 import jakarta.validation.Valid;
+import org.ironhack.project.dtos.VenueDTO;
 import org.ironhack.project.dtos.VenueUpdateRequest;
 import org.ironhack.project.models.classes.Venue;
 import org.ironhack.project.repositories.VenueRepository;
@@ -12,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class VenueService {
@@ -22,12 +24,28 @@ public class VenueService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public List<Venue> findAll() {
-        return venueRepository.findAll();
+    public List<VenueDTO> findAll() {
+        return venueRepository.findAll().stream()
+                .map(venue -> {
+                    VenueDTO venueDTO = new VenueDTO();
+                    venueDTO.setVenueName(venue.getVenueName());
+                    venueDTO.setVenueAddress(venue.getVenueAddress());
+                    venueDTO.setVenueCity(venue.getVenueCity());
+                    venueDTO.setVenueCapacity(venue.getVenueCapacity());
+                    return venueDTO;
+                }).collect(Collectors.toList());
     }
 
-    public Optional<Venue> findById(Integer id) {
-        return venueRepository.findById(id);
+    public Optional<VenueDTO> findById(Integer id) {
+        return venueRepository.findById(id).map(venue -> {
+            VenueDTO venueDTO = new VenueDTO();
+            venueDTO.setVenueName(venue.getVenueName());
+            venueDTO.setVenueAddress(venue.getVenueAddress());
+            venueDTO.setVenueCity(venue.getVenueCity());
+            venueDTO.setVenueCapacity(venue.getVenueCapacity());
+            return venueDTO;
+        });
+
     }
 
     public Venue update(Integer userId,

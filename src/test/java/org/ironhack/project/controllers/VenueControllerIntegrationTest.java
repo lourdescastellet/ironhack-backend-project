@@ -85,8 +85,7 @@ public class VenueControllerIntegrationTest {
 
         mockMvc.perform(get("/api/venue/{userId}", venue.getUserId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Venue 1"))
-                .andExpect(jsonPath("$.email").value("venue@ironhack.com"));
+                .andExpect(jsonPath("$.venueName").value("Venue1"));
     }
 
     @Test
