@@ -66,8 +66,12 @@ public class AdminController {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body("Validation errors: " + result.getAllErrors());
         }
-
-        Admin updatedAdmin = adminService.update(userId, adminUpdateRequest);
-        return ResponseEntity.noContent().build();
+        try {
+            Admin updatedAdmin = adminService.update(userId, adminUpdateRequest);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Error updating admin: " + e.getMessage());
+        }
     }
+
 }

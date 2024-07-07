@@ -6,6 +6,7 @@ import org.ironhack.project.models.classes.Customer;
 import org.ironhack.project.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -17,6 +18,9 @@ public class CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<Customer> findAll() {
         return customerRepository.findAll();
@@ -41,7 +45,7 @@ public class CustomerService {
                 customer.setEmail(customerUpdateRequest.getEmail());
             }
             if (customerUpdateRequest.getPassword() != null) {
-                customer.setPassword(customerUpdateRequest.getPassword());
+                customer.setPassword(passwordEncoder.encode(customerUpdateRequest.getPassword()));
             }
             if (customerUpdateRequest.getPaymentMethod() != null) {
                 customer.setPaymentMethod(customerUpdateRequest.getPaymentMethod());
@@ -49,9 +53,9 @@ public class CustomerService {
             if (customerUpdateRequest.getCustomerAddress() != null) {
                 customer.setCustomerAddress(customerUpdateRequest.getCustomerAddress());
             }
-
             Customer updatedCustomer = customerRepository.save(customer);
             return updatedCustomer;
+
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer not found with this User Id.");
         }

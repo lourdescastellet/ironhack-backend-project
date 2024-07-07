@@ -3,6 +3,10 @@ package org.ironhack.project.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.ironhack.project.dtos.AdminUpdateRequest;
 import org.ironhack.project.models.classes.Admin;
+import org.ironhack.project.repositories.AdminRepository;
+import org.ironhack.project.repositories.ArtistRepository;
+import org.ironhack.project.repositories.CustomerRepository;
+import org.ironhack.project.repositories.VenueRepository;
 import org.ironhack.project.services.AdminService;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -21,8 +25,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @SpringBootTest
@@ -33,6 +36,20 @@ class AdminControllerUnitTest {
 
     @Mock
     private AdminService adminService;
+
+    @Mock
+    private AdminRepository adminRepository;
+
+    @Mock
+    private CustomerRepository customerRepository;
+
+    @Mock
+    private ArtistRepository artistRepository;
+
+    @Mock
+    private VenueRepository venueRepository;
+
+
 
     private MockMvc mockMvc;
     private ObjectMapper objectMapper = new ObjectMapper();
@@ -70,6 +87,7 @@ class AdminControllerUnitTest {
         AdminUpdateRequest adminUpdateRequest = new AdminUpdateRequest();
         adminUpdateRequest.setName("Updated Admin");
         adminUpdateRequest.setEmail("updated@ironhack.com");
+        adminUpdateRequest.setPassword("new-password");
 
         Admin updatedAdmin = new Admin();
         updatedAdmin.setUserId(1);
@@ -78,10 +96,34 @@ class AdminControllerUnitTest {
         updatedAdmin.setPassword(adminUpdateRequest.getPassword());
 
         when(adminService.update(anyInt(), any())).thenReturn(updatedAdmin);
+        when(adminRepository.existsByEmail(adminUpdateRequest.getEmail())).thenReturn(false);
+        when(customerRepository.existsByEmail(adminUpdateRequest.getEmail())).thenReturn(false);
+        when(artistRepository.existsByEmail(adminUpdateRequest.getEmail())).thenReturn(false);
+        when(venueRepository.existsByEmail(adminUpdateRequest.getEmail())).thenReturn(false);
 
         mockMvc.perform(put("/api/admin/{userId}/edit", 1)
                         .content(objectMapper.writeValueAsString(adminUpdateRequest))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void update_existingId_emailAlreadyExists() throws Exception {
+        AdminUpdateRequest adminUpdateRequest = new AdminUpdateRequest();
+        adminUpdateRequest.setName("Updated Admin");
+        adminUpdateRequest.setEmail("existing@ironhack.com"); // Email that already exists
+        adminUpdateRequest.setPassword("new-password");
+
+        // Mock the existence of the email in one of the repositories
+        when(adminRepository.existsByEmail(adminUpdateRequest.getEmail())).thenReturn(true);
+        when(customerRepository.existsByEmail(adminUpdateRequest.getEmail())).thenReturn(false);
+        when(artistRepository.existsByEmail(adminUpdateRequest.getEmail())).thenReturn(false);
+        when(venueRepository.existsByEmail(adminUpdateRequest.getEmail())).thenReturn(false);
+
+        mockMvc.perform(put("/api/admin/{userId}/edit", 1)
+                        .content(objectMapper.writeValueAsString(adminUpdateRequest))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("Validation errors: [Field error in object 'adminUpdateRequest' on field 'email': rejected value [existing@ironhack.com];]")); // Adjust the expected error message as needed
     }
 }

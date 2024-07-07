@@ -6,6 +6,7 @@ import org.ironhack.project.models.classes.Artist;
 import org.ironhack.project.repositories.ArtistRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -17,6 +18,10 @@ public class ArtistService {
 
     @Autowired
     private ArtistRepository artistRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     public List<Artist> findAll() {
         return artistRepository.findAll();
@@ -40,7 +45,7 @@ public class ArtistService {
                 artist.setEmail(artistUpdateRequest.getEmail());
             }
             if (artistUpdateRequest.getPassword() != null) {
-                artist.setPassword(artistUpdateRequest.getPassword());
+                artist.setPassword(passwordEncoder.encode(artistUpdateRequest.getPassword()));
             }
             if (artistUpdateRequest.getArtistName() != null) {
                 artist.setArtistName(artistUpdateRequest.getArtistName());
@@ -50,6 +55,7 @@ public class ArtistService {
             }
 
             Artist updatedArtist = artistRepository.save(artist);
+            System.out.println("updated artist: " + updatedArtist);
             return updatedArtist;
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Artist not found with this User Id.");

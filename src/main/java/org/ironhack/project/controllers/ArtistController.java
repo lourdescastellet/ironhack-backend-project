@@ -19,11 +19,13 @@ public class ArtistController {
     @Autowired
     private ArtistService artistService;
 
+    // TODO add ArtistDTO
     @GetMapping
     public List<Artist> findAll() {
         return artistService.findAll();
     }
 
+    // TODO add ArtistDTO
     @GetMapping("/{userId}")
     public ResponseEntity<Artist> findById(@PathVariable Integer userId) {
         Optional<Artist> artist =artistService.findById(userId);
@@ -38,8 +40,12 @@ public class ArtistController {
             return ResponseEntity.badRequest().body("Validation errors: " + result.getAllErrors());
         }
 
-        Artist updatedArtist = artistService.update(userId, artistUpdateRequest);
-        return ResponseEntity.noContent().build();
+        try {
+            Artist updatedArtist = artistService.update(userId, artistUpdateRequest);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Error updating artist: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{userId}")

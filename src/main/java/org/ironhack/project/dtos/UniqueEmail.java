@@ -1,4 +1,4 @@
-package org.ironhack.project.models.classes;
+package org.ironhack.project.dtos;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
