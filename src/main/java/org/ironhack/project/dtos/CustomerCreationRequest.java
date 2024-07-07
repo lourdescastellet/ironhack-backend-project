@@ -4,8 +4,6 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.hibernate.validator.constraints.UniqueElements;
-import org.ironhack.project.models.classes.UniqueEmail;
 
 @Data
 public class CustomerCreationRequest {

@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/register")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -36,6 +36,7 @@ public class UserController {
     private final UserService userService;
 
 
+    // TODO show validation errors in Postman - 403 Forbidden correct?
     @PostMapping("/customer")
     public ResponseEntity<?> registerCustomer(@Validated @RequestBody CustomerCreationRequest request) {
         try {
@@ -106,7 +107,7 @@ public class UserController {
 
             return ResponseEntity.status(HttpStatus.CREATED).body(responseBody);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to register artist: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Validation errors");
         }
     }
 

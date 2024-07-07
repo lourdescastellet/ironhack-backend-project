@@ -56,32 +56,35 @@ public class SecurityConfig {
 
         // set up authorization for different request matchers and user roles
         http.authorizeHttpRequests((requests) -> requests
-                        // Public access
-                        .requestMatchers(HttpMethod.GET, "/api/concerts/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/user/**").permitAll()
 
-                        // Admin endpoints restricted to ADMIN role
-                        .requestMatchers(HttpMethod.POST, "/api/admin/**").hasAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/admin/**").hasAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/admin/**").hasAuthority("ADMIN")
+                // Public endpoints TODO DTos
+                .requestMatchers(HttpMethod.GET, "/api/concerts/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/register/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/artist/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/venue/**").permitAll()
 
-                        // Venue endpoints restricted to VENUE role
-                        .requestMatchers(HttpMethod.PUT, "/api/venue/**").hasAuthority("VENUE")
+                // Admin endpoints
+                .requestMatchers(HttpMethod.POST, "/api/admin/**").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/admin/**").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/admin/**").hasAuthority("ADMIN")
 
-                        // Artist endpoints restricted to ARTIST role
-                        .requestMatchers(HttpMethod.PUT, "/api/artist/**").hasAuthority("ARTIST")
+                // Venue endpoints
+                .requestMatchers(HttpMethod.PUT, "/api/venue/**").hasAuthority("VENUE")
 
-                        // Customer endpoints restricted to CUSTOMER role
-                        .requestMatchers(HttpMethod.PUT, "/api/customer/**").hasAuthority("CUSTOMER")
+                // Artist endpoints
+                .requestMatchers(HttpMethod.PUT, "/api/artist/**").hasAuthority("ARTIST")
 
-                        // Concert endpoints restricted to ARTIST role
-                        .requestMatchers(HttpMethod.PUT, "api/concerts/new").hasAuthority("ARTIST")
+                // Customer endpoints
+                .requestMatchers(HttpMethod.PUT, "/api/customer/**").hasAuthority("CUSTOMER")
 
-                        // Booking endpoints
-                        .requestMatchers(HttpMethod.GET, "/api/booking/**").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/api/booking/**").hasAuthority("CUSTOMER")
-                        .requestMatchers(HttpMethod.DELETE, "/api/booking/**").hasAuthority("CUSTOMER")
-                        .anyRequest().authenticated()); // All other requests require authentication
+                // Concert endpoints
+                .requestMatchers(HttpMethod.PUT, "api/concerts/new").hasAuthority("ARTIST")
+
+                // Booking endpoints
+                .requestMatchers(HttpMethod.GET, "/api/booking/**").authenticated()
+                .requestMatchers(HttpMethod.PUT, "/api/booking/**").hasAuthority("CUSTOMER")
+                .requestMatchers(HttpMethod.DELETE, "/api/booking/**").hasAuthority("CUSTOMER")
+                .anyRequest().authenticated()); // All other requests require authentication
 
         // add the custom authentication filter to the http security object
         http.addFilter(customAuthenticationFilter);

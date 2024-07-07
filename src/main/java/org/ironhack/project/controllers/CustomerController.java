@@ -33,14 +33,20 @@ public class CustomerController {
 
     @PutMapping("/{userId}/edit")
     public ResponseEntity<?> update(@PathVariable Integer userId,
-                                       @Valid @RequestBody CustomerUpdateRequest customerUpdateRequest,
-                                       BindingResult result) {
+                                    @Valid @RequestBody CustomerUpdateRequest customerUpdateRequest,
+                                    BindingResult result) {
         if (result.hasErrors()) {
             return ResponseEntity.badRequest().body("Validation errors: " + result.getAllErrors());
         }
-        Customer updatedCustomer = customerService.update(userId, customerUpdateRequest);
-        return ResponseEntity.noContent().build();
+
+        try {
+            Customer updatedCustomer = customerService.update(userId, customerUpdateRequest);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Email already exists");
+        }
     }
+
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<Void> deleteById(@PathVariable Integer userId) {

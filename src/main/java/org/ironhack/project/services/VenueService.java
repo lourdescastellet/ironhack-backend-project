@@ -6,6 +6,7 @@ import org.ironhack.project.models.classes.Venue;
 import org.ironhack.project.repositories.VenueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -17,6 +18,9 @@ public class VenueService {
 
     @Autowired
     private VenueRepository venueRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<Venue> findAll() {
         return venueRepository.findAll();
@@ -41,7 +45,7 @@ public class VenueService {
                 venue.setEmail(venueUpdateRequest.getEmail());
             }
             if (venueUpdateRequest.getPassword() != null) {
-                venue.setPassword(venueUpdateRequest.getPassword());
+                venue.setPassword(passwordEncoder.encode(venueUpdateRequest.getPassword()));
             }
             if (venueUpdateRequest.getVenueName() != null) {
                 venue.setVenueName(venueUpdateRequest.getVenueName());
@@ -58,6 +62,7 @@ public class VenueService {
             }
 
             Venue updatedVenue = venueRepository.save(venue);
+            System.out.println("Updated venue: " + updatedVenue);
             return updatedVenue;
 
         } else {

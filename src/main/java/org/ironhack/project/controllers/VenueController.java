@@ -38,8 +38,12 @@ public class VenueController {
             return ResponseEntity.badRequest().body("Validation errors: " + result.getAllErrors());
         }
 
-        Venue updatesVenue = venueService.update(userId, venueUpdateRequest);
-        return ResponseEntity.noContent().build();
+        try {
+            Venue updatedVenue = venueService.update(userId, venueUpdateRequest);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Error updating venue: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{userId}")

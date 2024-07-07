@@ -64,7 +64,6 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void deleteUserById(Integer userId) {
-        // Check and delete from AdminRepository
         Admin admin = adminRepository.findById(userId)
                 .orElse(null);
         if (admin != null) {
@@ -73,7 +72,6 @@ public class UserService implements UserDetailsService {
             return;
         }
 
-        // Check and delete from ArtistRepository
         Artist artist = artistRepository.findById(userId)
                 .orElse(null);
         if (artist != null) {
@@ -82,7 +80,6 @@ public class UserService implements UserDetailsService {
             return;
         }
 
-        // Check and delete from CustomerRepository
         Customer customer = customerRepository.findById(userId)
                 .orElse(null);
         if (customer != null) {
@@ -91,7 +88,6 @@ public class UserService implements UserDetailsService {
             return;
         }
 
-        // Check and delete from VenueRepository
         Venue venue = venueRepository.findById(userId)
                 .orElse(null);
         if (venue != null) {
@@ -100,7 +96,6 @@ public class UserService implements UserDetailsService {
             return;
         }
 
-        // If user not found in any repository
         throw new EntityNotFoundException("User not found with id: " + userId);
     }
 }

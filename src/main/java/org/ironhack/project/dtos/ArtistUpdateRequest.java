@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.ironhack.project.models.classes.UniqueEmail;
 import org.ironhack.project.models.enums.Genre;
 
 @Getter
