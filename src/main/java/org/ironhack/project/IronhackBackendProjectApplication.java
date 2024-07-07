@@ -35,7 +35,7 @@ public class IronhackBackendProjectApplication {
         IronhackBackendProjectApplication app = context.getBean(IronhackBackendProjectApplication.class);
         app.initializeData();
     }
- // TODO Add password encryption
+
     private void initializeData() {
         createAdmins();
         createVenues();
@@ -52,7 +52,6 @@ public class IronhackBackendProjectApplication {
     }
 
     private void createVenues() {
-
         Venue venue1 = new Venue();
         venue1.setName("Venue A");
         venue1.setEmail("venuea@ironhack.com");
